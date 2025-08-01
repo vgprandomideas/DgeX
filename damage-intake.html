@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DamageEx - Damage Intake System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            color: #666;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: 2px solid #e1e5e9;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e1e5e9;
+            z-index: 1;
+        }
+
+        .form-steps::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            z-index: 2;
+        }
+
+        .form-steps.step-1::after { width: 25%; }
+        .form-steps.step-2::after { width: 50%; }
+        .form-steps.step-3::after { width: 75%; }
+        .form-steps.step-4::after { width: 100%; }
+
+        .step {
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 3;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .step.completed {
+            background: #22c55e;
+            color: white;
+            border-color: #22c55e;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed #e1e5e9;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .file-upload:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-upload.dragover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .uploaded-files {
+            margin-top: 15px;
+        }
+
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .remove-file {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .grade-selector {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .grade-option {
+            padding: 20px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .grade-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .grade-option.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .grade-letter {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .grade-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .grade-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .step-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #333;
+            border: 2px solid #e1e5e9;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .reports-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .reports-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 10px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            width: 200px;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .report-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .report-id {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .report-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-reported {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-surveying {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-assessed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-auction-ready {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .report-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .action-btn.secondary {
+            background: #f8fafc;
+            color: #333;
+            border: 1px solid #e1e5e9;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .grade-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>🔧 Damage Intake System</h1>
+                <p>Report and assess damaged goods for auction processing</p>
+            </div>
+            <div class="nav-buttons">
+                <a href="#" class="nav-btn secondary" onclick="goBack()">← Back to Dashboard</a>
+                <a href="#" class="nav-btn primary" onclick="showQuickReport()">Quick Report</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <div class="section-title">
+                    <span>📝</span> New Damage Report
+                </div>
+                
+                <div class="form-steps" id="formSteps">
+                    <div class="step active" data-step="1">1</div>
+                    <div class="step" data-step="2">2</div>
+                    <div class="step" data-step="3">3</div>
+                    <div class="step" data-step="4">4</div>
+                </div>
+
+                <form id="damageReportForm">
+                    <!-- Step 1: Basic Information -->
+                    <div class="form-step active" data-step="1">
+                        <h3 style="margin-bottom: 20px; color: #333;">📋 Basic Information</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Container Number <span class="required">*</span></label>
+                                <input type="text" name="containerNumber" placeholder="e.g., TGHU1234567" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Bill of Lading <span class="required">*</span></label>
+                                <input type="text" name="billOfLading" placeholder="e.g., MAEU123456789" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Vessel Name</label>
+                                <input type="text" name="vesselName" placeholder="e.g., MSC ISTANBUL">
+                            </div>
+                            <div class="form-group">
+                                <label>Port of Origin</label>
+                                <select name="portOfOrigin">
+                                    <option value="">Select Port</option>
+                                    <option value="shanghai">Shanghai, China</option>
+                                    <option value="singapore">Singapore</option>
+                                    <option value="dubai">Dubai, UAE</option>
+                                    <option value="hamburg">Hamburg, Germany</option>
+                                    <option value="rotterdam">Rotterdam, Netherlands</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Consignee Name <span class="required">*</span></label>
+                                <input type="text" name="consigneeName" placeholder="e.g., ABC Trading Company" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Importer Details</label>
+                                <input type="text" name="importerDetails" placeholder="Company registration details">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Goods Description <span class="required">*</span></label>
+                            <textarea name="goodsDescription" placeholder="Detailed description of the goods..." required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Damage Assessment -->
+                    <div class="form-step" data-step="2">
+                        <h3 style="margin-bottom: 20px; color: #333;">🔍 Damage Assessment</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Damage Type <span class="required">*</span></label>
+                                <select name="damageType" required onchange="handleOtherOption(this, 'otherDamageGroup')">
+                                    <option value="">Select damage type</option>
+                                    <option value="physical">Physical Damage</option>
+                                    <option value="water">Water Damage</option>
+                                    <option value="fire">Fire Damage</option>
+                                    <option value="theft">Theft/Pilferage</option>
+                                    <option value="contamination">Contamination</option>
+                                    <option value="packaging">Packaging Issues</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="otherDamageGroup" style="display: none;">
+                                <label>Specify Damage Type <span class="required">*</span></label>
+                                <input type="text" name="otherDamageType" placeholder="Please specify...">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Category <span class="required">*</span></label>
+                                <select name="category" required onchange="handleOtherOption(this, 'otherCategoryGroup')">
+                                    <option value="">Select category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="textiles">Textiles & Garments</option>
+                                    <option value="machinery">Machinery & Equipment</option>
+                                    <option value="food">Food & Beverages</option>
+                                    <option value="chemicals">Chemicals</option>
+                                    <option value="automotive">Automotive Parts</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="otherCategoryGroup" style="display: none;">
+                                <label>Specify Category <span class="required">*</span></label>
+                                <input type="text" name="otherCategory" placeholder="Please specify...">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quality Grade <span class="required">*</span></label>
+                            <div class="grade-selector">
+                                <div class="grade-option" data-grade="A">
+                                    <div class="grade-letter">A</div>
+                                    <div class="grade-desc">Minor cosmetic</div>
+                                    <div class="grade-value">80-90%</div>
+                                </div>
+                                <div class="grade-option" data-grade="B">
+                                    <div class="grade-letter">B</div>
+                                    <div class="grade-desc">Functional issues</div>
+                                    <div class="grade-value">60-80%</div>
+                                </div>
+                                <div class="grade-option" data-grade="C">
+                                    <div class="grade-letter">C</div>
+                                    <div class="grade-desc">Major damage</div>
+                                    <div class="grade-value">40-60%</div>
+                                </div>
+                                <div class="grade-option" data-grade="D">
+                                    <div class="grade-letter">D</div>
+                                    <div class="grade-desc">Parts only</div>
+                                    <div class="grade-value">10-40%</div>
+                                </div>
+                                <div class="grade-option" data-grade="E">
+                                    <div class="grade-letter">E</div>
+                                    <div class="grade-desc">Scrap value</div>
+                                    <div class="grade-value">&lt;10%</div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="qualityGrade" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Original Value (₹) <span class="required">*</span></label>
+                                <input type="number" name="originalValue" placeholder="e.g., 500000" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Estimated Salvage Value (₹)</label>
+                                <input type="number" name="salvageValue" placeholder="Auto-calculated based on grade" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Documentation -->
+                    <div class="form-step" data-step="3">
+                        <h3 style="margin-bottom: 20px; color: #333;">📄 Documentation & Evidence</h3>
+                        
+                        <div class="form-group">
+                            <label>Damage Photos <span class="required">*</span></label>
+                            <div class="file-upload" onclick="document.getElementById('damagePhotos').click()">
+                                <div class="file-upload-icon">📸</div>
+                                <div>Click to upload damage photos or drag & drop</div>
+                                <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Supports: JPG, PNG, HEIC (Max 10MB each)</div>
+                            </div>
+                            <input type="file" id="damagePhotos" multiple accept="image/*" style="display: none;">
+                            <div class="uploaded-files" id="photosList"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Supporting Documents</label>
+                            <div class="file-upload" onclick="document.getElementById('documents').click()">
+                                <div class="file-upload-icon">📋</div>
+                                <div>Upload invoice, packing list, survey reports, etc.</div>
+                                <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Supports: PDF, DOC, XLS (Max 25MB each)</div>
+                            </div>
+                            <input type="file" id="documents" multiple accept=".pdf,.doc,.docx,.xls,.xlsx" style="display: none;">
+                            <div class="uploaded-files" id="documentsList"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Survey Required?</label>
+                                <select name="surveyRequired">
+                                    <option value="yes">Yes - Schedule surveyor</option>
+                                    <option value="no">No - Internal assessment only</option>
+                                    <option value="completed">Already completed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Insurance Claim Number</label>
+                                <input type="text" name="insuranceClaim" placeholder="e.g., IC/2024/12345">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Detailed Damage Description <span class="required">*</span></label>
+                            <textarea name="damageDescription" placeholder="Provide detailed description of damage, cause, extent, and impact..." required style="min-height: 150px;"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Review & Submit -->
+                    <div class="form-step" data-step="4">
+                        <h3 style="margin-bottom: 20px; color: #333;">✅ Review & Submit</h3>
+                        
+                        <div style="background: #f8fafc; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Report Summary</h4>
+                            <div id="reviewSummary">
+                                <!-- Summary will be populated here -->
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Priority Level</label>
+                                <select name="priority">
+                                    <option value="normal">Normal</option>
+                                    <option value="high">High - Perishable goods</option>
+                                    <option value="urgent">Urgent - Safety hazard</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Next Action</label>
+                                <select name="nextAction">
+                                    <option value="survey">Schedule survey</option>
+                                    <option value="auction">Proceed to auction</option>
+                                    <option value="disposal">Arrange disposal</option>
+                                    <option value="repair">Assess repair costs</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="background: #fef3c7; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span style="font-size: 1.5rem;">⚠️</span>
+                                <strong>Important Legal Notice</strong>
+                            </div>
+                            <p style="font-size: 0.9rem; line-height: 1.5;">
+                                By submitting this report, you confirm that all information provided is accurate to the best of your knowledge. 
+                                This report will be used for insurance claims, legal proceedings, and auction processes. 
+                                False or misleading information may result in legal consequences.
+                            </p>
+                            <label style="margin-top: 15px; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="legalConfirmation" required>
+                                <span>I confirm the accuracy of the information provided</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="step-buttons">
+                        <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>Previous</button>
+                        <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">Submit Report</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="reports-section">
+                <div class="reports-header">
+                    <div class="section-title">
+                        <span>📊</span> Damage Reports
+                    </div>
+                    <div class="filter-controls">
+                        <input type="text" class="search-box" placeholder="Search reports..." id="searchBox">
+                        <select class="filter-select" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="reported">Reported</option>
+                            <option value="surveying">Surveying</option>
+                            <option value="assessed">Assessed</option>
+                            <option value="auction-ready">Auction Ready</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalReports">24</div>
+                        <div class="stat-label">Total Reports</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pendingReports">8</div>
+                        <div class="stat-label">Pending Survey</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="readyAuction">12</div>
+                        <div class="stat-label">Auction Ready</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalValue">₹45.2L</div>
+                        <div class="stat-label">Total Value</div>
+                    </div>
+                </div>
+
+                <div id="reportsList">
+                    <!-- Reports will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class DamageIntakeSystem {
+            constructor() {
+                this.currentStep = 1;
+                this.maxSteps = 4;
+                this.reports = this.loadSampleReports();
+                this.uploadedFiles = {
+                    photos: [],
+                    documents: []
+                };
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.renderReports();
+                this.updateStepButtons();
+            }
+
+            bindEvents() {
+                // File upload events
+                document.getElementById('damagePhotos').addEventListener('change', (e) => {
+                    this.handleFileUpload(e, 'photos');
+                });
+                
+                document.getElementById('documents').addEventListener('change', (e) => {
+                    this.handleFileUpload(e, 'documents');
+                });
+
+                // Grade selection
+                document.querySelectorAll('.grade-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        this.selectGrade(e.currentTarget);
+                    });
+                });
+
+                // Form submission
+                document.getElementById('damageReportForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.submitReport();
+                });
+
+                // Search and filter
+                document.getElementById('searchBox').addEventListener('input', () => {
+                    this.filterReports();
+                });
+                
+                document.getElementById('statusFilter').addEventListener('change', () => {
+                    this.filterReports();
+                });
+
+                // Original value change for auto-calculation
+                document.querySelector('input[name="originalValue"]').addEventListener('input', () => {
+                    this.calculateSalvageValue();
+                });
+
+                // Drag and drop for file uploads
+                this.setupDragAndDrop();
+            }
+
+            setupDragAndDrop() {
+                const fileUploads = document.querySelectorAll('.file-upload');
+                fileUploads.forEach(upload => {
+                    upload.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        upload.classList.add('dragover');
+                    });
+                    
+                    upload.addEventListener('dragleave', () => {
+                        upload.classList.remove('dragover');
+                    });
+                    
+                    upload.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        upload.classList.remove('dragover');
+                        const files = e.dataTransfer.files;
+                        const input = upload.nextElementSibling;
+                        input.files = files;
+                        
+                        if (input.id === 'damagePhotos') {
+                            this.handleFileUpload({ target: input }, 'photos');
+                        } else {
+                            this.handleFileUpload({ target: input }, 'documents');
+                        }
+                    });
+                });
+            }
+
+            handleFileUpload(event, type) {
+                const files = event.target.files;
+                const listContainer = type === 'photos' ? 'photosList' : 'documentsList';
+                
+                for (let file of files) {
+                    this.uploadedFiles[type].push({
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        file: file
+                    });
+                }
+                
+                this.renderFileList(type, listContainer);
+            }
+
+            renderFileList(type, containerId) {
+                const container = document.getElementById(containerId);
+                const files = this.uploadedFiles[type];
+                
+                container.innerHTML = files.map((file, index) => `
+                    <div class="uploaded-file">
+                        <div class="file-info">
+                            <span>${this.getFileIcon(file.type)}</span>
+                            <div>
+                                <strong>${file.name}</strong>
+                                <div style="font-size: 0.8rem; color: #666;">${this.formatFileSize(file.size)}</div>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-file" onclick="damageIntake.removeFile('${type}', ${index})">
+                            Remove
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            removeFile(type, index) {
+                this.uploadedFiles[type].splice(index, 1);
+                const containerId = type === 'photos' ? 'photosList' : 'documentsList';
+                this.renderFileList(type, containerId);
+            }
+
+            getFileIcon(type) {
+                if (type.startsWith('image/')) return '📸';
+                if (type.includes('pdf')) return '📄';
+                if (type.includes('word') || type.includes('doc')) return '📝';
+                if (type.includes('excel') || type.includes('sheet')) return '📊';
+                return '📋';
+            }
+
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            selectGrade(element) {
+                document.querySelectorAll('.grade-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                element.classList.add('selected');
+                
+                const grade = element.dataset.grade;
+                document.querySelector('input[name="qualityGrade"]').value = grade;
+                
+                this.calculateSalvageValue();
+            }
+
+            calculateSalvageValue() {
+                const originalValue = parseFloat(document.querySelector('input[name="originalValue"]').value || 0);
+                const grade = document.querySelector('input[name="qualityGrade"]').value;
+                
+                let percentage = 0;
+                switch(grade) {
+                    case 'A': percentage = 0.85; break;
+                    case 'B': percentage = 0.70; break;
+                    case 'C': percentage = 0.50; break;
+                    case 'D': percentage = 0.25; break;
+                    case 'E': percentage = 0.05; break;
+                }
+                
+                const salvageValue = Math.round(originalValue * percentage);
+                document.querySelector('input[name="salvageValue"]').value = salvageValue;
+            }
+
+            nextStep() {
+                if (this.validateCurrentStep()) {
+                    if (this.currentStep < this.maxSteps) {
+                        this.currentStep++;
+                        this.updateSteps();
+                        if (this.currentStep === 4) {
+                            this.generateReviewSummary();
+                        }
+                    }
+                }
+            }
+
+            previousStep() {
+                if (this.currentStep > 1) {
+                    this.currentStep--;
+                    this.updateSteps();
+                }
+            }
+
+            updateSteps() {
+                // Update step indicators
+                document.querySelectorAll('.step').forEach((step, index) => {
+                    const stepNumber = index + 1;
+                    step.classList.remove('active', 'completed');
+                    
+                    if (stepNumber < this.currentStep) {
+                        step.classList.add('completed');
+                        step.innerHTML = '✓';
+                    } else if (stepNumber === this.currentStep) {
+                        step.classList.add('active');
+                        step.innerHTML = stepNumber;
+                    } else {
+                        step.innerHTML = stepNumber;
+                    }
+                });
+
+                // Update progress bar
+                const progressBar = document.getElementById('formSteps');
+                progressBar.className = `form-steps step-${this.currentStep}`;
+
+                // Show/hide form steps
+                document.querySelectorAll('.form-step').forEach((step, index) => {
+                    step.classList.remove('active');
+                    if (index + 1 === this.currentStep) {
+                        step.classList.add('active');
+                    }
+                });
+
+                this.updateStepButtons();
+            }
+
+            updateStepButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const submitBtn = document.getElementById('submitBtn');
+
+                prevBtn.disabled = this.currentStep === 1;
+                
+                if (this.currentStep === this.maxSteps) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = 'block';
+                } else {
+                    nextBtn.style.display = 'block';
+                    submitBtn.style.display = 'none';
+                }
+            }
+
+            validateCurrentStep() {
+                const currentStepElement = document.querySelector(`.form-step[data-step="${this.currentStep}"]`);
+                const requiredFields = currentStepElement.querySelectorAll('[required]');
+                let isValid = true;
+
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.style.borderColor = '#ef4444';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#e1e5e9';
+                    }
+                });
+
+                if (!isValid) {
+                    alert('Please fill in all required fields before proceeding.');
+                }
+
+                return isValid;
+            }
+
+            generateReviewSummary() {
+                const formData = new FormData(document.getElementById('damageReportForm'));
+                const summary = document.getElementById('reviewSummary');
+                
+                const summaryHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <strong>Container:</strong> ${formData.get('containerNumber')}<br>
+                            <strong>B/L:</strong> ${formData.get('billOfLading')}<br>
+                            <strong>Consignee:</strong> ${formData.get('consigneeName')}<br>
+                            <strong>Damage Type:</strong> ${formData.get('damageType')}<br>
+                        </div>
+                        <div>
+                            <strong>Category:</strong> ${formData.get('category')}<br>
+                            <strong>Quality Grade:</strong> ${formData.get('qualityGrade')}<br>
+                            <strong>Original Value:</strong> ₹${parseInt(formData.get('originalValue')).toLocaleString()}<br>
+                            <strong>Salvage Value:</strong> ₹${parseInt(formData.get('salvageValue')).toLocaleString()}<br>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Files Uploaded:</strong> ${this.uploadedFiles.photos.length} photos, ${this.uploadedFiles.documents.length} documents
+                    </div>
+                `;
+                
+                summary.innerHTML = summaryHTML;
+            }
+
+            submitReport() {
+                if (!this.validateCurrentStep()) return;
+                
+                const formData = new FormData(document.getElementById('damageReportForm'));
+                
+                // Generate report
+                const report = {
+                    id: `DGR-${Date.now()}`,
+                    containerNumber: formData.get('containerNumber'),
+                    billOfLading: formData.get('billOfLading'),
+                    consigneeName: formData.get('consigneeName'),
+                    damageType: formData.get('damageType'),
+                    category: formData.get('category'),
+                    qualityGrade: formData.get('qualityGrade'),
+                    originalValue: parseInt(formData.get('originalValue')),
+                    salvageValue: parseInt(formData.get('salvageValue')),
+                    status: 'reported',
+                    dateReported: new Date().toISOString(),
+                    reportedBy: 'Current User',
+                    priority: formData.get('priority'),
+                    nextAction: formData.get('nextAction'),
+                    photos: this.uploadedFiles.photos.length,
+                    documents: this.uploadedFiles.documents.length
+                };
+
+                // Add to reports
+                this.reports.unshift(report);
+                this.renderReports();
+                
+                // Reset form
+                this.resetForm();
+                
+                // Show success message
+                this.showSuccessMessage(report.id);
+            }
+
+            resetForm() {
+                document.getElementById('damageReportForm').reset();
+                this.currentStep = 1;
+                this.updateSteps();
+                this.uploadedFiles = { photos: [], documents: [] };
+                document.getElementById('photosList').innerHTML = '';
+                document.getElementById('documentsList').innerHTML = '';
+                document.querySelectorAll('.grade-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+            }
+
+            showSuccessMessage(reportId) {
+                const message = document.createElement('div');
+                message.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #22c55e, #16a34a);
+                    color: white;
+                    padding: 20px 30px;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-weight: 600;
+                `;
+                message.innerHTML = `✅ Report ${reportId} submitted successfully!`;
+                document.body.appendChild(message);
+                
+                setTimeout(() => {
+                    message.remove();
+                }, 5000);
+            }
+
+            loadSampleReports() {
+                return [
+                    {
+                        id: 'DGR-2024-001',
+                        containerNumber: 'TGHU1234567',
+                        billOfLading: 'MAEU123456789',
+                        consigneeName: 'ABC Trading Company',
+                        damageType: 'Water Damage',
+                        category: 'Electronics',
+                        qualityGrade: 'C',
+                        originalValue: 500000,
+                        salvageValue: 250000,
+                        status: 'surveying',
+                        dateReported: '2024-08-01T10:30:00Z',
+                        reportedBy: 'Mumbai CHA Services',
+                        priority: 'high',
+                        nextAction: 'survey',
+                        photos: 8,
+                        documents: 5
+                    },
+                    {
+                        id: 'DGR-2024-002',
+                        containerNumber: 'MSCU9876543',
+                        billOfLading: 'COSCO987654321',
+                        consigneeName: 'Delhi Imports Ltd',
+                        damageType: 'Physical Damage',
+                        category: 'Textiles',
+                        qualityGrade: 'B',
+                        originalValue: 300000,
+                        salvageValue: 210000,
+                        status: 'auction-ready',
+                        dateReported: '2024-07-30T14:15:00Z',
+                        reportedBy: 'Chennai CHA Services',
+                        priority: 'normal',
+                        nextAction: 'auction',
+                        photos: 12,
+                        documents: 3
+                    },
+                    {
+                        id: 'DGR-2024-003',
+                        containerNumber: 'OOLU5555555',
+                        billOfLading: 'OOCL555555555',
+                        consigneeName: 'Bangalore Tech Solutions',
+                        damageType: 'Packaging Issues',
+                        category: 'Machinery',
+                        qualityGrade: 'A',
+                        originalValue: 800000,
+                        salvageValue: 680000,
+                        status: 'assessed',
+                        dateReported: '2024-07-28T09:45:00Z',
+                        reportedBy: 'Kolkata Port Services',
+                        priority: 'normal',
+                        nextAction: 'auction',
+                        photos: 6,
+                        documents: 8
+                    }
+                ];
+            }
+
+            renderReports() {
+                const reportsList = document.getElementById('reportsList');
+                const filteredReports = this.getFilteredReports();
+                
+                if (filteredReports.length === 0) {
+                    reportsList.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📋</div>
+                            <div>No reports found matching your criteria</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                reportsList.innerHTML = filteredReports.map(report => `
+                    <div class="report-card">
+                        <div class="report-header">
+                            <div class="report-id">${report.id}</div>
+                            <div class="report-status status-${report.status}">${report.status.replace('-', ' ')}</div>
+                        </div>
+                        <div class="report-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Container</div>
+                                <div class="detail-value">${report.containerNumber}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Consignee</div>
+                                <div class="detail-value">${report.consigneeName}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Damage Type</div>
+                                <div class="detail-value">${report.damageType}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Grade / Value</div>
+                                <div class="detail-value">Grade ${report.qualityGrade} / ₹${report.salvageValue.toLocaleString()}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Reported</div>
+                                <div class="detail-value">${new Date(report.dateReported).toLocaleDateString()}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Files</div>
+                                <div class="detail-value">${report.photos} photos, ${report.documents} docs</div>
+                            </div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="action-btn primary" onclick="viewReport('${report.id}')">View Details</button>
+                            <button class="action-btn secondary" onclick="editReport('${report.id}')">Edit</button>
+                            ${report.status === 'assessed' ? 
+                                '<button class="action-btn primary" onclick="createAuction(\'' + report.id + '\')">Create Auction</button>' : 
+                                '<button class="action-btn secondary" onclick="updateStatus(\'' + report.id + '\')">Update Status</button>'
+                            }
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            getFilteredReports() {
+                const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+                const statusFilter = document.getElementById('statusFilter').value;
+                
+                return this.reports.filter(report => {
+                    const matchesSearch = !searchTerm || 
+                        report.id.toLowerCase().includes(searchTerm) ||
+                        report.containerNumber.toLowerCase().includes(searchTerm) ||
+                        report.consigneeName.toLowerCase().includes(searchTerm) ||
+                        report.damageType.toLowerCase().includes(searchTerm);
+                    
+                    const matchesStatus = !statusFilter || report.status === statusFilter;
+                    
+                    return matchesSearch && matchesStatus;
+                });
+            }
+
+            filterReports() {
+                this.renderReports();
+            }
+        }
+
+        // Global functions
+        function handleOtherOption(select, groupId) {
+            const group = document.getElementById(groupId);
+            const input = group.querySelector('input');
+            
+            if (select.value === 'other') {
+                group.style.display = 'block';
+                input.required = true;
+            } else {
+                group.style.display = 'none';
+                input.required = false;
+                input.value = '';
+            }
+        }
+
+        function nextStep() {
+            window.damageIntake.nextStep();
+        }
+
+        function previousStep() {
+            window.damageIntake.previousStep();
+        }
+
+        function viewReport(reportId) {
+            alert(`📋 View Report: ${reportId}\n\nThis will open the full report with all documentation, photos, and survey details.`);
+        }
+
+        function editReport(reportId) {
+            alert(`✏️ Edit Report: ${reportId}\n\nThis will open the report in edit mode with all current data pre-filled.`);
+        }
+
+        function createAuction(reportId) {
+            alert(`🏺 Create Auction: ${reportId}\n\nThis will redirect to the auction creation module with pre-filled damage assessment data.`);
+        }
+
+        function updateStatus(reportId) {
+            alert(`🔄 Update Status: ${reportId}\n\nThis will open the status update workflow with options for next actions.`);
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function showQuickReport() {
+            alert('⚡ Quick Report Mode\n\nThis will open a simplified damage reporting form for urgent cases with minimal required fields.');
+        }
+
+        // Initialize the system
+        window.damageIntake = new DamageIntakeSystem();
+    </script>
+</body>
+</html>

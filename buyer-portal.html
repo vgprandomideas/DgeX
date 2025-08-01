@@ -1,0 +1,1514 @@
+.tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .purchase-history {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .purchase-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .purchase-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .purchase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .purchase-id {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .purchase-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-won {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-paid {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .purchase-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            text-align: center;
+        }
+
+        .detail-amount {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .scf-info {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 2px solid #0891b2;
+        }
+
+        .scf-amount {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0891b2;
+            margin-bottom: 5px;
+        }
+
+        .scf-details {
+            font-size: 0.9rem;
+            color: #0369a1;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .action-btn.success {
+            background: #22c55e;
+            color: white;
+        }
+
+        .action-btn.secondary {
+            background: #f8fafc;
+            color: #333;
+            border: 1px solid #e1e5e9;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .credit-score-display {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px solid #e1e5e9;
+        }
+
+        .credit-score-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .credit-tier {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .tier-1 { background: #dcfce7; color: #166534; }
+        .tier-2 { background: #dbeafe; color: #1e40af; }
+        .tier-3 { background: #fef3c7; color: #92400e; }
+
+        .scf-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0891b2;
+        }
+
+        .scf-limit {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0891b2;
+            margin-bottom: 5px;
+        }
+
+        .scf-available {
+            color: #0369a1;
+            font-size: 0.9rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .quick-action-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quick-action-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .quick-action-btn.success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .quick-action-btn.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .notification-icon.auction {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .notification-icon.payment {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .notification-icon.scf {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .third-party-section {
+            display: none;
+        }
+
+        .third-party-section.active {
+            display: block;
+        }
+
+        .bulk-actions {
+            background: linear-gradient(135deg, #fef7ff, #f3e8ff);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid #9333ea;
+        }
+
+        .bulk-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .bulk-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #9333ea;
+            margin-bottom: 5px;
+        }
+
+        .bulk-subtitle {
+            color: #7c3aed;
+            font-size: 0.9rem;
+        }
+
+        .bulk-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .bulk-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: #9333ea;
+            border: 2px solid #e879f9;
+        }
+
+        .bulk-btn:hover {
+            background: #9333ea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .inventory-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #9333ea;
+        }
+
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .inventory-id {
+            font-weight: bold;
+            color: #9333ea;
+            font-size: 1.1rem;
+        }
+
+        .acquisition-type {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-type-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>🛒 Buyer Portal</h1>
+                <p>Manage purchases, SCF loans, and track deliveries</p>
+            </div>
+            <div class="header-controls">
+                <select class="currency-selector" id="currencySelector">
+                    <option value="USD">🇺🇸 USD</option>
+                    <option value="INR" selected>🇮🇳 INR</option>
+                    <option value="EUR">🇪🇺 EUR</option>
+                    <option value="GBP">🇬🇧 GBP</option>
+                    <option value="AED">🇦🇪 AED</option>
+                    <option value="SGD">🇸🇬 SGD</option>
+                    <option value="CNY">🇨🇳 CNY</option>
+                    <option value="JPY">🇯🇵 JPY</option>
+                </select>
+                <a href="#" class="nav-btn secondary" onclick="goBack()">← Dashboard</a>
+                <a href="#" class="nav-btn primary" onclick="browseAuctions()">Browse Auctions</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="user-type-tabs">
+                <button class="tab-btn active" onclick="switchTab('buyer')">🛒 Regular Buyer</button>
+                <button class="tab-btn" onclick="switchTab('thirdparty')">🤝 Third Party Services</button>
+            </div>
+
+            <!-- Regular Buyer Tab -->
+            <div id="buyerTab" class="tab-content active">
+                <div class="dashboard-grid">
+                    <div class="main-panel">
+                        <div class="stats-overview">
+                            <div class="stat-card">
+                                <div class="stat-icon">🏆</div>
+                                <div class="stat-number" id="totalWins">23</div>
+                                <div class="stat-label">Auctions Won</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">💰</div>
+                                <div class="stat-number" id="totalSpent">₹45.2L</div>
+                                <div class="stat-label">Total Spent</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">💳</div>
+                                <div class="stat-number" id="activeSCF">3</div>
+                                <div class="stat-label">Active SCF Loans</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📦</div>
+                                <div class="stat-number" id="pendingDelivery">5</div>
+                                <div class="stat-label">Pending Delivery</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="section-title">
+                                <span>📋</span> Purchase History
+                            </div>
+                            
+                            <div class="purchase-history" id="purchaseHistory">
+                                <!-- Purchase cards will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <!-- Credit Profile -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-title">
+                                <span>📊</span> Credit Profile
+                            </div>
+                            
+                            <div class="credit-score-display">
+                                <div class="credit-score-number" id="creditScore">720</div>
+                                <div style="color: #666; font-weight: 600;">Credit Score</div>
+                                <div class="credit-tier tier-2">Good (Tier 2)</div>
+                            </div>
+                            
+                            <div class="scf-summary">
+                                <div class="scf-limit" id="scfLimit">₹12.5L</div>
+                                <div class="scf-available">SCF Limit Available</div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-title">
+                                <span>⚡</span> Quick Actions
+                            </div>
+                            
+                            <div class="quick-actions">
+                                <button class="quick-action-btn primary" onclick="applyForSCF()">
+                                    <span>💳</span>
+                                    <div>
+                                        <strong>Apply for SCF</strong>
+                                        <div style="font-size: 0.8rem; opacity: 0.8;">Get instant financing</div>
+                                    </div>
+                                </button>
+                                <button class="quick-action-btn success" onclick="trackDelivery()">
+                                    <span>🚛</span>
+                                    <div>
+                                        <strong>Track Deliveries</strong>
+                                        <div style="font-size: 0.8rem; opacity: 0.8;">Monitor shipments</div>
+                                    </div>
+                                </button>
+                                <button class="quick-action-btn warning" onclick="payEMI()">
+                                    <span>💰</span>
+                                    <div>
+                                        <strong>Pay EMI</strong>
+                                        <div style="font-size: 0.8rem; opacity: 0.8;">Manage loan payments</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Notifications -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-title">
+                                <span>🔔</span> Recent Updates
+                            </div>
+                            
+                            <div id="notifications">
+                                <div class="notification-item">
+                                    <div class="notification-icon auction">🏺</div>
+                                    <div class="notification-content">
+                                        <div class="notification-text">You won AUC-2024-015!</div>
+                                        <div class="notification-time">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon scf">💳</div>
+                                    <div class="notification-content">
+                                        <div class="notification-text">SCF loan approved - ₹8.5L</div>
+                                        <div class="notification-time">1 day ago</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon payment">💰</div>
+                                    <div class="notification-content">
+                                        <div class="notification-text">EMI payment successful</div>
+                                        <div class="notification-time">3 days ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Party Tab -->
+            <div id="thirdpartyTab" class="tab-content">
+                <div class="bulk-actions">
+                    <div class="bulk-header">
+                        <div class="bulk-title">Third Party Services</div>
+                        <div class="bulk-subtitle">On-behalf purchasing and bulk acquisition services</div>
+                    </div>
+                    
+                    <div class="bulk-buttons">
+                        <button class="bulk-btn" onclick="bulkPurchase()">
+                            <span style="font-size: 1.5rem;">📦</span>
+                            Bulk Purchase
+                        </button>
+                        <button class="bulk-btn" onclick="setPricing()">
+                            <span style="font-size: 1.5rem;">💰</span>
+                            Set Pricing
+                        </button>
+                        <button class="bulk-btn" onclick="quickBuy()">
+                            <span style="font-size: 1.5rem;">⚡</span>
+                            Quick Buy
+                        </button>
+                        <button class="bulk-btn" onclick="manageInventory()">
+                            <span style="font-size: 1.5rem;">📋</span>
+                            Manage Inventory
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-number" id="totalAcquisitions">156</div>
+                        <div class="stat-label">Total Acquisitions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-number" id="portfolioValue">₹2.4Cr</div>
+                        <div class="stat-label">Portfolio Value</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-number" id="quickBuys">45</div>
+                        <div class="stat-label">Quick Purchases</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-number" id="profitMargin">18.5%</div>
+                        <div class="stat-label">Avg Margin</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="section-title">
+                        <span>📦</span> Acquired Inventory
+                    </div>
+                    
+                    <div class="inventory-grid" id="inventoryGrid">
+                        <!-- Inventory cards will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class BuyerPortal {
+            constructor() {
+                this.currentCurrency = 'INR';
+                this.currentTab = 'buyer';
+                this.exchangeRates = this.loadExchangeRates();
+                this.purchases = this.loadPurchaseHistory();
+                this.inventory = this.loadInventory();
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.renderPurchaseHistory();
+                this.renderInventory();
+                this.updateStats();
+            }
+
+            bindEvents() {
+                document.getElementById('currencySelector').addEventListener('change', (e) => {
+                    this.changeCurrency(e.target.value);
+                });
+            }
+
+            loadExchangeRates() {
+                return {
+                    USD: 1.0,
+                    INR: 83.25,
+                    EUR: 0.85,
+                    GBP: 0.73,
+                    AED: 3.67,
+                    SGD: 1.35,
+                    CNY: 7.15,
+                    JPY: 150.0
+                };
+            }
+
+            getCurrencySymbol(currency) {
+                const symbols = {
+                    USD: '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DamageEx - Buyer Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            color: #666;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .currency-selector {
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: 2px solid #e1e5e9;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-type-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background:,
+                    INR: '₹',
+                    EUR: '€',
+                    GBP: '£',
+                    AED: 'د.إ',
+                    SGD: 'S<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DamageEx - Buyer Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            color: #666;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .currency-selector {
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: 2px solid #e1e5e9;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-type-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background:,
+                    CNY: '¥',
+                    JPY: '¥'
+                };
+                return symbols[currency] || currency;
+            }
+
+            convertCurrency(amount, fromCurrency = 'USD', toCurrency = null) {
+                if (!toCurrency) toCurrency = this.currentCurrency;
+                if (fromCurrency === toCurrency) return amount;
+                
+                const usdAmount = amount / this.exchangeRates[fromCurrency];
+                return Math.round(usdAmount * this.exchangeRates[toCurrency]);
+            }
+
+            formatCurrency(amount, currency = null) {
+                if (!currency) currency = this.currentCurrency;
+                const symbol = this.getCurrencySymbol(currency);
+                const convertedAmount = this.convertCurrency(amount, 'USD', currency);
+                
+                if (currency === 'JPY') {
+                    return `${symbol}${convertedAmount.toLocaleString()}`;
+                } else if (currency === 'INR') {
+                    return `${symbol}${convertedAmount.toLocaleString('en-IN')}`;
+                } else {
+                    return `${symbol}${convertedAmount.toLocaleString()}`;
+                }
+            }
+
+            changeCurrency(newCurrency) {
+                this.currentCurrency = newCurrency;
+                this.renderPurchaseHistory();
+                this.renderInventory();
+                this.updateStats();
+            }
+
+            loadPurchaseHistory() {
+                return [
+                    {
+                        id: 'PUR-2024-001',
+                        auctionId: 'AUC-2024-012',
+                        title: 'Electronics Lot - Minor Water Damage',
+                        bidAmount: 15000, // USD base
+                        scfAmount: 9000,
+                        marginPaid: 6000,
+                        status: 'delivered',
+                        purchaseDate: '2024-07-25',
+                        deliveryDate: '2024-07-30',
+                        scfStatus: 'active',
+                        emiPaid: 2,
+                        totalEMIs: 12
+                    },
+                    {
+                        id: 'PUR-2024-002',
+                        auctionId: 'AUC-2024-018',
+                        title: 'Textile Machinery - Packaging Issues',
+                        bidAmount: 25000,
+                        scfAmount: 15000,
+                        marginPaid: 10000,
+                        status: 'paid',
+                        purchaseDate: '2024-07-28',
+                        deliveryDate: null,
+                        scfStatus: 'pending',
+                        emiPaid: 0,
+                        totalEMIs: 12
+                    },
+                    {
+                        id: 'PUR-2024-003',
+                        auctionId: 'AUC-2024-023',
+                        title: 'Automotive Parts - Fire Damage',
+                        bidAmount: 8000,
+                        scfAmount: 4800,
+                        marginPaid: 3200,
+                        status: 'won',
+                        purchaseDate: '2024-08-01',
+                        deliveryDate: null,
+                        scfStatus: 'approved',
+                        emiPaid: 0,
+                        totalEMIs: 12
+                    }
+                ];
+            }
+
+            loadInventory() {
+                return [
+                    {
+                        id: 'INV-2024-001',
+                        title: 'Electronics Bundle - Grade B',
+                        acquisitionPrice: 120000, // USD base
+                        currentValue: 140000,
+                        quantity: 50,
+                        acquisitionType: 'Bulk Purchase',
+                        acquisitionDate: '2024-07-15',
+                        status: 'available',
+                        category: 'electronics'
+                    },
+                    {
+                        id: 'INV-2024-002',
+                        title: 'Textile Lot - Grade C',
+                        acquisitionPrice: 80000,
+                        currentValue: 95000,
+                        quantity: 200,
+                        acquisitionType: 'Quick Buy',
+                        acquisitionDate: '2024-07-20',
+                        status: 'partially-sold',
+                        category: 'textiles'
+                    },
+                    {
+                        id: 'INV-2024-003',
+                        title: 'Machinery Parts - Grade A',
+                        acquisitionPrice: 200000,
+                        currentValue: 220000,
+                        quantity: 25,
+                        acquisitionType: 'On Behalf',
+                        acquisitionDate: '2024-07-25',
+                        status: 'reserved',
+                        category: 'machinery'
+                    }
+                ];
+            }
+
+            renderPurchaseHistory() {
+                const container = document.getElementById('purchaseHistory');
+                
+                if (this.purchases.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">🛒</div>
+                            <h3>No purchases yet</h3>
+                            <p>Start bidding on auctions to see your purchase history here</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.purchases.map(purchase => {
+                    return '<div class="purchase-card">' +
+                        '<div class="purchase-header">' +
+                            '<div class="purchase-id">' + purchase.id + '</div>' +
+                            '<div class="purchase-status status-' + purchase.status + '">' + purchase.status + '</div>' +
+                        '</div>' +
+                        '<div style="margin-bottom: 15px;">' +
+                            '<strong>' + purchase.title + '</strong>' +
+                            '<div style="font-size: 0.9rem; color: #666; margin-top: 3px;">' +
+                                'Auction: ' + purchase.auctionId + ' • Purchased: ' + purchase.purchaseDate +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="purchase-details">' +
+                            '<div class="detail-item">' +
+                                '<div class="detail-amount">' + this.formatCurrency(purchase.bidAmount) + '</div>' +
+                                '<div class="detail-label">Winning Bid</div>' +
+                            '</div>' +
+                            '<div class="detail-item">' +
+                                '<div class="detail-amount">' + this.formatCurrency(purchase.marginPaid) + '</div>' +
+                                '<div class="detail-label">Your Margin</div>' +
+                            '</div>' +
+                            '<div class="detail-item">' +
+                                '<div class="detail-amount">' + (purchase.deliveryDate || 'Pending') + '</div>' +
+                                '<div class="detail-label">Delivery Date</div>' +
+                            '</div>' +
+                        '</div>' +
+                        (purchase.scfAmount > 0 ? 
+                            '<div class="scf-info">' +
+                                '<div class="scf-amount">SCF Loan: ' + this.formatCurrency(purchase.scfAmount) + '</div>' +
+                                '<div class="scf-details">' +
+                                    'EMIs: ' + purchase.emiPaid + '/' + purchase.totalEMIs + ' • Status: ' + purchase.scfStatus +
+                                '</div>' +
+                            '</div>' : ''
+                        ) +
+                        '<div class="action-buttons">' +
+                            (purchase.status === 'won' ? 
+                                '<button class="action-btn primary" onclick="makePayment(\'' + purchase.id + '\')">Make Payment</button>' :
+                                purchase.status === 'paid' ?
+                                '<button class="action-btn success" onclick="trackShipment(\'' + purchase.id + '\')">Track Shipment</button>' :
+                                '<button class="action-btn secondary" onclick="viewDetails(\'' + purchase.id + '\')">View Details</button>'
+                            ) +
+                            '<button class="action-btn secondary" onclick="downloadInvoice(\'' + purchase.id + '\')">Invoice</button>' +
+                            (purchase.scfStatus === 'active' ? 
+                                '<button class="action-btn primary" onclick="payEMI(\'' + purchase.id + '\')">Pay EMI</button>' : ''
+                            ) +
+                        '</div>' +
+                    '</div>';
+                }).join('');
+            }
+
+            renderInventory() {
+                const container = document.getElementById('inventoryGrid');
+                
+                if (this.inventory.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📦</div>
+                            <h3>No inventory yet</h3>
+                            <p>Start acquiring goods through bulk purchases or quick buys</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.inventory.map(item => {
+                    const profitLoss = item.currentValue - item.acquisitionPrice;
+                    const profitPercent = ((profitLoss / item.acquisitionPrice) * 100).toFixed(1);
+                    
+                    return '<div class="inventory-card">' +
+                        '<div class="inventory-header">' +
+                            '<div class="inventory-id">' + item.id + '</div>' +
+                            '<div class="acquisition-type">' + item.acquisitionType + '</div>' +
+                        '</div>' +
+                        '<div style="margin-bottom: 15px;">' +
+                            '<strong>' + item.title + '</strong>' +
+                            '<div style="font-size: 0.9rem; color: #666; margin-top: 3px;">' +
+                                item.quantity + ' units • ' + item.category +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="purchase-details">' +
+                            '<div class="detail-item">' +
+                                '<div class="detail-amount">' + this.formatCurrency(item.acquisitionPrice) + '</div>' +
+                                '<div class="detail-label">Acquisition Cost</div>' +
+                            '</div>' +
+                            '<div class="detail-item">' +
+                                '<div class="detail-amount">' + this.formatCurrency(item.currentValue) + '</div>' +
+                                '<div class="detail-label">Current Value</div>' +
+                            '</div>' +
+                            '<div class="detail-item">' +
+                                '<div class="detail-amount" style="color: ' + (profitLoss >= 0 ? '#22c55e' : '#ef4444') + '">' +
+                                    (profitPercent >= 0 ? '+' : '') + profitPercent + '%' +
+                                '</div>' +
+                                '<div class="detail-label">P&L</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="action-buttons">' +
+                            '<button class="action-btn primary" onclick="listForSale(\'' + item.id + '\')">List for Sale</button>' +
+                            '<button class="action-btn secondary" onclick="updateValuation(\'' + item.id + '\')">Update Value</button>' +
+                        '</div>' +
+                    '</div>';
+                }).join('');
+            }
+
+            updateStats() {
+                // Update buyer stats
+                document.getElementById('totalSpent').textContent = this.formatCurrency(
+                    this.purchases.reduce((sum, p) => sum + p.bidAmount, 0)
+                );
+                
+                // Update third party stats
+                document.getElementById('portfolioValue').textContent = this.formatCurrency(
+                    this.inventory.reduce((sum, i) => sum + i.currentValue, 0)
+                );
+                
+                // Update SCF limit
+                document.getElementById('scfLimit').textContent = this.formatCurrency(150000); // Example SCF limit
+            }
+        }
+
+        // Global functions
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            window.buyerPortal.currentTab = tabName;
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function browseAuctions() {
+            alert('🏺 Browse Auctions\n\nRedirecting to auction marketplace where you can:\n• View live auctions\n• Place bids with SCF financing\n• Track your bidding activity\n• Set up watchlists');
+        }
+
+        function applyForSCF() {
+            alert('💳 Apply for SCF\n\nSupply Chain Finance Application:\n\n• Instant pre-approval based on credit score\n• Up to 60% financing of bid amount\n• Competitive interest rates (12-24% APR)\n• Flexible repayment terms\n• Goods as collateral\n\nWould you like to proceed with the application?');
+        }
+
+        function trackDelivery() {
+            alert('🚛 Track Deliveries\n\nActive Shipments:\n\n📦 PUR-2024-002: In Transit\n  └ ETA: Tomorrow 2:00 PM\n  └ Location: Delhi Hub\n\n📦 PUR-2024-003: Pickup Scheduled\n  └ Pickup: Today 4:00 PM\n  └ Location: Mumbai Port\n\nReal-time tracking available via SMS/WhatsApp');
+        }
+
+        function payEMI() {
+            alert('💰 Pay EMI\n\nActive Loans:\n\n💳 SCF-2024-001: ₹15,450 due\n  └ Due Date: Aug 15, 2024\n  └ Remaining: 10/12 EMIs\n\n💳 SCF-2024-003: ₹8,230 due\n  └ Due Date: Aug 20, 2024\n  └ Remaining: 11/12 EMIs\n\nSelect loan to pay EMI or set up auto-debit');
+        }
+
+        function makePayment(purchaseId) {
+            const purchase = window.buyerPortal.purchases.find(p => p.id === purchaseId);
+            if (purchase) {
+                alert('💳 Payment Required\n\n' +
+                      'Purchase: ' + purchase.id + '\n' +
+                      'Amount: ' + window.buyerPortal.formatCurrency(purchase.bidAmount) + '\n' +
+                      'SCF Financing: ' + window.buyerPortal.formatCurrency(purchase.scfAmount) + '\n' +
+                      'Your Payment: ' + window.buyerPortal.formatCurrency(purchase.marginPaid) + '\n\n' +
+                      'Payment Methods:\n• UPI\n• Net Banking\n• Credit/Debit Card\n• Wire Transfer');
+            }
+        }
+
+        function trackShipment(purchaseId) {
+            alert('🚛 Shipment Tracking\n\n' +
+                  'Purchase: ' + purchaseId + '\n' +
+                  'Status: In Transit\n' +
+                  'Current Location: Delhi Distribution Center\n' +
+                  'ETA: Tomorrow 2:00 PM\n' +
+                  'Tracking ID: TRK-' + purchaseId + '\n\n' +
+                  'Updates will be sent via SMS/Email');
+        }
+
+        function downloadInvoice(purchaseId) {
+            alert('📄 Download Invoice\n\n' +
+                  'Invoice for ' + purchaseId + ' will be downloaded as PDF.\n\n' +
+                  'Includes:\n• Purchase details\n• Payment breakdown\n• SCF loan information\n• Tax calculations\n• Delivery information');
+        }
+
+        function bulkPurchase() {
+            alert('📦 Bulk Purchase Service\n\nAcquire multiple lots at once:\n\n• Minimum 10 lots per purchase\n• Volume discounts available\n• Consolidated financing\n• Single delivery coordination\n• Risk diversification\n\nCurrent bulk opportunities: 15 lots available');
+        }
+
+        function setPricing() {
+            alert('💰 Set Guaranteed Pricing\n\nOffer fixed prices for specific categories:\n\n• Electronics: 60-80% of reserve price\n• Textiles: 50-70% of reserve price\n• Machinery: 70-85% of reserve price\n\nCurrent pricing commitments: $2.4M available');
+        }
+
+        function quickBuy() {
+            alert('⚡ Quick Buy Service\n\nImmediate purchase without auction:\n\n• Fixed price below market value\n• Instant acquisition\n• Immediate title transfer\n• No bidding competition\n\nAvailable for quick buy: 8 lots worth $450K');
+        }
+
+        function manageInventory() {
+            alert('📋 Inventory Management\n\nCurrent Portfolio:\n\n📦 156 total acquisitions\n💰 $2.4M total value\n📈 18.5% average margin\n🏪 Available for resale: 45 lots\n\nOptions:\n• List items for sale\n• Update valuations\n• Transfer ownership\n• Generate reports');
+        }
+
+        function listForSale(itemId) {
+            const item = window.buyerPortal.inventory.find(i => i.id === itemId);
+            if (item) {
+                alert('🏪 List for Sale\n\n' +
+                      'Item: ' + item.title + '\n' +
+                      'Current Value: ' + window.buyerPortal.formatCurrency(item.currentValue) + '\n' +
+                      'Suggested Price: ' + window.buyerPortal.formatCurrency(item.currentValue * 1.1) + '\n\n' +
+                      'Listing Options:\n• Direct sale\n• Auction format\n• Bulk sale only\n• Gradual liquidation');
+            }
+        }
+
+        function updateValuation(itemId) {
+            alert('📊 Update Valuation\n\n' +
+                  'Revaluation service includes:\n• Market analysis\n• Condition assessment\n• Price comparison\n• Professional appraisal\n\n' +
+                  'Fee: $50 per item\nTurnaround: 24-48 hours');
+        }
+
+        // Initialize the buyer portal
+        window.buyerPortal = new BuyerPortal();
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DamageEx - Buyer Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            color: #666;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .currency-selector {
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: 2px solid #e1e5e9;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-type-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background:
