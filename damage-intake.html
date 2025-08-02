@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DamageEx - Damage Intake System</title>
+    <title>DamageEx - Damaged Goods Recovery Platform</title>
     <style>
         * {
             margin: 0;
@@ -15,19 +15,19 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 25px 35px;
+            padding: 20px 30px;
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
@@ -35,14 +35,13 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .header-left h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            color: #666;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #667eea;
         }
 
         .nav-buttons {
@@ -51,181 +50,106 @@
         }
 
         .nav-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 25px;
+            background: white;
+            color: #666;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
         }
 
-        .nav-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .nav-btn.secondary {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            border: 2px solid #e1e5e9;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .form-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .form-steps::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #e1e5e9;
-            z-index: 1;
-        }
-
-        .form-steps::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-            z-index: 2;
-        }
-
-        .form-steps.step-1::after { width: 25%; }
-        .form-steps.step-2::after { width: 50%; }
-        .form-steps.step-3::after { width: 75%; }
-        .form-steps.step-4::after { width: 100%; }
-
-        .step {
-            background: white;
-            border: 2px solid #e1e5e9;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            z-index: 3;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .step.active {
+        .nav-btn.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-color: #667eea;
         }
 
-        .step.completed {
-            background: #22c55e;
-            color: white;
-            border-color: #22c55e;
+        .nav-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
         }
 
-        .form-step {
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-height: 600px;
+        }
+
+        .section {
             display: none;
         }
 
-        .form-step.active {
+        .section.active {
             display: block;
-            animation: fadeIn 0.3s ease-in;
+            animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .form-group {
-            margin-bottom: 25px;
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .form-row {
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 30px;
+            margin-bottom: 30px;
         }
 
-        label {
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
             display: block;
-            margin-bottom: 8px;
             font-weight: 600;
             color: #333;
+            margin-bottom: 8px;
         }
 
-        .required {
-            color: #ef4444;
-        }
-
-        input, select, textarea {
+        .form-input, .form-select, .form-textarea {
             width: 100%;
-            padding: 15px 18px;
+            padding: 12px 15px;
             border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
         }
 
-        input:focus, select:focus, textarea:focus {
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        textarea {
-            min-height: 120px;
+        .form-textarea {
             resize: vertical;
+            min-height: 100px;
         }
 
         .file-upload {
             border: 2px dashed #e1e5e9;
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 30px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: #f8fafc;
         }
 
         .file-upload:hover {
@@ -233,109 +157,21 @@
             background: rgba(102, 126, 234, 0.05);
         }
 
-        .file-upload.dragover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .file-upload-icon {
-            font-size: 3rem;
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .uploaded-files {
-            margin-top: 15px;
-        }
-
-        .uploaded-file {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 15px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .remove-file {
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .grade-selector {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .grade-option {
-            padding: 20px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .grade-option:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-        }
-
-        .grade-option.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .grade-letter {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
-        }
-
-        .grade-desc {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .grade-value {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #333;
-            margin-top: 5px;
-        }
-
-        .step-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 1px solid #e1e5e9;
+        .file-upload.has-files {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.05);
         }
 
         .btn {
-            padding: 15px 30px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-primary {
@@ -343,216 +179,366 @@
             color: white;
         }
 
-        .btn-secondary {
-            background: #f8fafc;
-            color: #333;
-            border: 2px solid #e1e5e9;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .reports-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-height: 800px;
-            overflow-y: auto;
-        }
-
-        .reports-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .filter-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .search-box {
-            padding: 10px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            width: 200px;
-        }
-
-        .filter-select {
-            padding: 10px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-        }
-
-        .report-card {
-            background: white;
-            border-radius: 15px;
-            border-left: 5px solid #667eea;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .report-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .report-id {
-            font-weight: bold;
-            color: #667eea;
-            font-size: 1.1rem;
-        }
-
-        .report-status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-reported {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-surveying {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .status-assessed {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-auction-ready {
-            background: #fce7f3;
-            color: #be185d;
-        }
-
-        .report-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .detail-item {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .detail-label {
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .detail-value {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .report-actions {
-            display: flex;
-            gap: 10px;
-            padding-top: 15px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .action-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn.primary {
-            background: #667eea;
+        .btn-success {
+            background: #22c55e;
             color: white;
         }
 
-        .action-btn.secondary {
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-secondary {
             background: #f8fafc;
             color: #333;
             border: 1px solid #e1e5e9;
         }
 
-        .action-btn:hover {
-            transform: translateY(-1px);
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e1e5e9;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
         }
 
-        .stat-card {
-            background: white;
-            padding: 20px;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .status-card {
+            background: #f8fafc;
             border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
         }
 
-        .stat-number {
-            font-size: 2rem;
+        .status-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .status-details {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .service-card {
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .service-card.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .service-price {
+            font-size: 1.2rem;
             font-weight: bold;
             color: #667eea;
             margin-bottom: 5px;
         }
 
-        .stat-label {
+        .service-description {
+            font-size: 14px;
             color: #666;
-            font-size: 0.9rem;
+        }
+
+        .calculation-section {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid #0891b2;
+        }
+
+        .calculation-title {
             font-weight: 600;
+            color: #0891b2;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .calculation-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+
+        .calculation-row.total {
+            border-top: 2px solid #0891b2;
+            font-weight: bold;
+            color: #0891b2;
+            font-size: 1.1rem;
+        }
+
+        .workflow-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .workflow-line {
+            position: absolute;
+            top: 25px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background: #e1e5e9;
+            z-index: 1;
+        }
+
+        .workflow-progress {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .workflow-step {
+            background: white;
+            border: 3px solid #e1e5e9;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step.completed {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .workflow-step.active {
+            border-color: #667eea;
+            color: #667eea;
+            animation: pulse 2s infinite;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 60px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            color: #666;
+        }
+
+        .tracking-updates {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .tracking-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .tracking-item:last-child {
+            border-bottom: none;
+        }
+
+        .tracking-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .tracking-icon.success {
+            background: #22c55e;
+        }
+
+        .tracking-icon.warning {
+            background: #f59e0b;
+        }
+
+        .tracking-icon.info {
+            background: #667eea;
+        }
+
+        .tracking-icon.truck {
+            background: #0891b2;
+        }
+
+        .tracking-content {
+            flex: 1;
+        }
+
+        .tracking-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .tracking-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .tracking-time {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .alert-box {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            color: #166534;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            border: 1px solid #667eea;
+            color: #1e40af;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: flex-end;
         }
 
         @media (max-width: 768px) {
-            .main-content {
+            .form-grid {
                 grid-template-columns: 1fr;
             }
             
-            .form-row {
+            .services-grid {
                 grid-template-columns: 1fr;
             }
             
-            .grade-selector {
-                grid-template-columns: 1fr;
+            .workflow-steps {
+                flex-wrap: wrap;
+                gap: 20px;
             }
             
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .workflow-line {
+                display: none;
             }
         }
     </style>
@@ -560,864 +546,939 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="header-left">
-                <h1>🔧 Damage Intake System</h1>
-                <p>Report and assess damaged goods for auction processing</p>
+            <div class="logo">
+                <span>📦</span>
+                <span>DamageEx</span>
             </div>
             <div class="nav-buttons">
-                <a href="#" class="nav-btn secondary" onclick="goBack()">← Back to Dashboard</a>
-                <a href="#" class="nav-btn primary" onclick="showQuickReport()">Quick Report</a>
+                <button class="nav-btn active" onclick="showSection('intake')">📋 New Cargo</button>
+                <button class="nav-btn" onclick="showSection('services')">🚛 Services</button>
+                <button class="nav-btn" onclick="showSection('tracking')">📍 Tracking</button>
+                <button class="nav-btn" onclick="showSection('auction')">🏺 Auction</button>
+                <button class="nav-btn" onclick="showSection('scf')">💳 SCF</button>
             </div>
         </div>
 
         <div class="main-content">
-            <!-- Form Section -->
-            <div class="form-section">
+            <!-- Cargo Intake Section -->
+            <div class="section active" id="intake">
                 <div class="section-title">
-                    <span>📝</span> New Damage Report
-                </div>
-                
-                <div class="form-steps" id="formSteps">
-                    <div class="step active" data-step="1">1</div>
-                    <div class="step" data-step="2">2</div>
-                    <div class="step" data-step="3">3</div>
-                    <div class="step" data-step="4">4</div>
+                    <span>📋</span>
+                    Damaged Cargo Intake
                 </div>
 
-                <form id="damageReportForm">
-                    <!-- Step 1: Basic Information -->
-                    <div class="form-step active" data-step="1">
-                        <h3 style="margin-bottom: 20px; color: #333;">📋 Basic Information</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Container Number <span class="required">*</span></label>
-                                <input type="text" name="containerNumber" placeholder="e.g., TGHU1234567" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Bill of Lading <span class="required">*</span></label>
-                                <input type="text" name="billOfLading" placeholder="e.g., MAEU123456789" required>
-                            </div>
-                        </div>
+                <div class="workflow-steps">
+                    <div class="workflow-line">
+                        <div class="workflow-progress" style="width: 20%"></div>
+                    </div>
+                    <div class="workflow-step completed">
+                        <span>📋</span>
+                        <div class="step-label">Basic Info</div>
+                    </div>
+                    <div class="workflow-step active">
+                        <span>📸</span>
+                        <div class="step-label">Documentation</div>
+                    </div>
+                    <div class="workflow-step">
+                        <span>🔍</span>
+                        <div class="step-label">Assessment</div>
+                    </div>
+                    <div class="workflow-step">
+                        <span>💰</span>
+                        <div class="step-label">Valuation</div>
+                    </div>
+                    <div class="workflow-step">
+                        <span>✅</span>
+                        <div class="step-label">Complete</div>
+                    </div>
+                </div>
 
-                        <div class="form-row">
+                <form id="cargoForm">
+                    <div class="form-grid">
+                        <div>
                             <div class="form-group">
-                                <label>Vessel Name</label>
-                                <input type="text" name="vesselName" placeholder="e.g., MSC ISTANBUL">
+                                <label class="form-label">Container Number *</label>
+                                <input type="text" class="form-input" id="containerNumber" placeholder="TGHU1234567" required>
                             </div>
                             <div class="form-group">
-                                <label>Port of Origin</label>
-                                <select name="portOfOrigin">
-                                    <option value="">Select Port</option>
-                                    <option value="shanghai">Shanghai, China</option>
-                                    <option value="singapore">Singapore</option>
-                                    <option value="dubai">Dubai, UAE</option>
-                                    <option value="hamburg">Hamburg, Germany</option>
-                                    <option value="rotterdam">Rotterdam, Netherlands</option>
+                                <label class="form-label">Cargo Type *</label>
+                                <select class="form-select" id="cargoType" required>
+                                    <option value="">Select cargo type</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="textiles">Textiles</option>
+                                    <option value="machinery">Machinery</option>
+                                    <option value="automotive">Automotive Parts</option>
+                                    <option value="chemicals">Chemicals</option>
+                                    <option value="food">Food Products</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="form-row">
                             <div class="form-group">
-                                <label>Consignee Name <span class="required">*</span></label>
-                                <input type="text" name="consigneeName" placeholder="e.g., ABC Trading Company" required>
+                                <label class="form-label">Original Value (₹) *</label>
+                                <input type="number" class="form-input" id="originalValue" placeholder="500000" required>
                             </div>
                             <div class="form-group">
-                                <label>Importer Details</label>
-                                <input type="text" name="importerDetails" placeholder="Company registration details">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Goods Description <span class="required">*</span></label>
-                            <textarea name="goodsDescription" placeholder="Detailed description of the goods..." required></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Damage Assessment -->
-                    <div class="form-step" data-step="2">
-                        <h3 style="margin-bottom: 20px; color: #333;">🔍 Damage Assessment</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Damage Type <span class="required">*</span></label>
-                                <select name="damageType" required onchange="handleOtherOption(this, 'otherDamageGroup')">
+                                <label class="form-label">Damage Type *</label>
+                                <select class="form-select" id="damageType" required>
                                     <option value="">Select damage type</option>
-                                    <option value="physical">Physical Damage</option>
                                     <option value="water">Water Damage</option>
                                     <option value="fire">Fire Damage</option>
-                                    <option value="theft">Theft/Pilferage</option>
+                                    <option value="physical">Physical Damage</option>
                                     <option value="contamination">Contamination</option>
                                     <option value="packaging">Packaging Issues</option>
-                                    <option value="other">Other</option>
                                 </select>
                             </div>
-                            <div class="form-group" id="otherDamageGroup" style="display: none;">
-                                <label>Specify Damage Type <span class="required">*</span></label>
-                                <input type="text" name="otherDamageType" placeholder="Please specify...">
-                            </div>
                         </div>
-
-                        <div class="form-row">
+                        <div>
                             <div class="form-group">
-                                <label>Category <span class="required">*</span></label>
-                                <select name="category" required onchange="handleOtherOption(this, 'otherCategoryGroup')">
-                                    <option value="">Select category</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="textiles">Textiles & Garments</option>
-                                    <option value="machinery">Machinery & Equipment</option>
-                                    <option value="food">Food & Beverages</option>
-                                    <option value="chemicals">Chemicals</option>
-                                    <option value="automotive">Automotive Parts</option>
-                                    <option value="other">Other</option>
+                                <label class="form-label">Location *</label>
+                                <select class="form-select" id="location" required>
+                                    <option value="">Select location</option>
+                                    <option value="mumbai">Mumbai Port</option>
+                                    <option value="chennai">Chennai Port</option>
+                                    <option value="delhi">Delhi ICD</option>
+                                    <option value="bangalore">Bangalore Hub</option>
+                                    <option value="cochin">Cochin Port</option>
+                                    <option value="kolkata">Kolkata Port</option>
                                 </select>
                             </div>
-                            <div class="form-group" id="otherCategoryGroup" style="display: none;">
-                                <label>Specify Category <span class="required">*</span></label>
-                                <input type="text" name="otherCategory" placeholder="Please specify...">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Quality Grade <span class="required">*</span></label>
-                            <div class="grade-selector">
-                                <div class="grade-option" data-grade="A">
-                                    <div class="grade-letter">A</div>
-                                    <div class="grade-desc">Minor cosmetic</div>
-                                    <div class="grade-value">80-90%</div>
-                                </div>
-                                <div class="grade-option" data-grade="B">
-                                    <div class="grade-letter">B</div>
-                                    <div class="grade-desc">Functional issues</div>
-                                    <div class="grade-value">60-80%</div>
-                                </div>
-                                <div class="grade-option" data-grade="C">
-                                    <div class="grade-letter">C</div>
-                                    <div class="grade-desc">Major damage</div>
-                                    <div class="grade-value">40-60%</div>
-                                </div>
-                                <div class="grade-option" data-grade="D">
-                                    <div class="grade-letter">D</div>
-                                    <div class="grade-desc">Parts only</div>
-                                    <div class="grade-value">10-40%</div>
-                                </div>
-                                <div class="grade-option" data-grade="E">
-                                    <div class="grade-letter">E</div>
-                                    <div class="grade-desc">Scrap value</div>
-                                    <div class="grade-value">&lt;10%</div>
-                                </div>
-                            </div>
-                            <input type="hidden" name="qualityGrade" required>
-                        </div>
-
-                        <div class="form-row">
                             <div class="form-group">
-                                <label>Original Value (₹) <span class="required">*</span></label>
-                                <input type="number" name="originalValue" placeholder="e.g., 500000" required>
+                                <label class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-input" id="weight" placeholder="1000">
                             </div>
                             <div class="form-group">
-                                <label>Estimated Salvage Value (₹)</label>
-                                <input type="number" name="salvageValue" placeholder="Auto-calculated based on grade" readonly>
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-input" id="quantity" placeholder="100">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Damage Severity</label>
+                                <select class="form-select" id="severity">
+                                    <option value="minor">Minor (10-30% damage)</option>
+                                    <option value="moderate">Moderate (30-60% damage)</option>
+                                    <option value="major">Major (60%+ damage)</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 3: Documentation -->
-                    <div class="form-step" data-step="3">
-                        <h3 style="margin-bottom: 20px; color: #333;">📄 Documentation & Evidence</h3>
-                        
-                        <div class="form-group">
-                            <label>Damage Photos <span class="required">*</span></label>
-                            <div class="file-upload" onclick="document.getElementById('damagePhotos').click()">
-                                <div class="file-upload-icon">📸</div>
-                                <div>Click to upload damage photos or drag & drop</div>
-                                <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Supports: JPG, PNG, HEIC (Max 10MB each)</div>
-                            </div>
-                            <input type="file" id="damagePhotos" multiple accept="image/*" style="display: none;">
-                            <div class="uploaded-files" id="photosList"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Supporting Documents</label>
-                            <div class="file-upload" onclick="document.getElementById('documents').click()">
-                                <div class="file-upload-icon">📋</div>
-                                <div>Upload invoice, packing list, survey reports, etc.</div>
-                                <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Supports: PDF, DOC, XLS (Max 25MB each)</div>
-                            </div>
-                            <input type="file" id="documents" multiple accept=".pdf,.doc,.docx,.xls,.xlsx" style="display: none;">
-                            <div class="uploaded-files" id="documentsList"></div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Survey Required?</label>
-                                <select name="surveyRequired">
-                                    <option value="yes">Yes - Schedule surveyor</option>
-                                    <option value="no">No - Internal assessment only</option>
-                                    <option value="completed">Already completed</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Insurance Claim Number</label>
-                                <input type="text" name="insuranceClaim" placeholder="e.g., IC/2024/12345">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Detailed Damage Description <span class="required">*</span></label>
-                            <textarea name="damageDescription" placeholder="Provide detailed description of damage, cause, extent, and impact..." required style="min-height: 150px;"></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Damage Description</label>
+                        <textarea class="form-textarea" id="damageDescription" placeholder="Describe the nature and extent of damage..."></textarea>
                     </div>
 
-                    <!-- Step 4: Review & Submit -->
-                    <div class="form-step" data-step="4">
-                        <h3 style="margin-bottom: 20px; color: #333;">✅ Review & Submit</h3>
-                        
-                        <div style="background: #f8fafc; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
-                            <h4 style="margin-bottom: 15px; color: #333;">Report Summary</h4>
-                            <div id="reviewSummary">
-                                <!-- Summary will be populated here -->
+                    <div class="form-group">
+                        <label class="form-label">Upload Documents & Photos</label>
+                        <div class="file-upload" id="fileUpload">
+                            <div>📁 Drop files here or click to upload</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 8px;">
+                                Invoice, Bill of Lading, Photos (Max 10MB each)
                             </div>
+                            <input type="file" multiple hidden id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Priority Level</label>
-                                <select name="priority">
-                                    <option value="normal">Normal</option>
-                                    <option value="high">High - Perishable goods</option>
-                                    <option value="urgent">Urgent - Safety hazard</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Next Action</label>
-                                <select name="nextAction">
-                                    <option value="survey">Schedule survey</option>
-                                    <option value="auction">Proceed to auction</option>
-                                    <option value="disposal">Arrange disposal</option>
-                                    <option value="repair">Assess repair costs</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div style="background: #fef3c7; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                <span style="font-size: 1.5rem;">⚠️</span>
-                                <strong>Important Legal Notice</strong>
-                            </div>
-                            <p style="font-size: 0.9rem; line-height: 1.5;">
-                                By submitting this report, you confirm that all information provided is accurate to the best of your knowledge. 
-                                This report will be used for insurance claims, legal proceedings, and auction processes. 
-                                False or misleading information may result in legal consequences.
-                            </p>
-                            <label style="margin-top: 15px; display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" name="legalConfirmation" required>
-                                <span>I confirm the accuracy of the information provided</span>
-                            </label>
-                        </div>
+                        <div id="fileList"></div>
                     </div>
 
-                    <div class="step-buttons">
-                        <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>Previous</button>
-                        <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next</button>
-                        <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">Submit Report</button>
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-secondary">Save Draft</button>
+                        <button type="submit" class="btn btn-primary">Submit for Assessment</button>
                     </div>
                 </form>
             </div>
 
-            <!-- Reports Section -->
-            <div class="reports-section">
-                <div class="reports-header">
-                    <div class="section-title">
-                        <span>📊</span> Damage Reports
+            <!-- Services Section -->
+            <div class="section" id="services">
+                <div class="section-title">
+                    <span>🚛</span>
+                    Logistics & Services
+                </div>
+
+                <div class="status-card">
+                    <div class="status-title">Cargo: TGHU1234567 - Electronics Consignment</div>
+                    <div class="status-details">Location: Mumbai Port • Status: Ready for Service Selection</div>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card" onclick="selectService('inspection')">
+                        <div class="service-icon">🔍</div>
+                        <div class="service-title">Professional Inspection</div>
+                        <div class="service-price">₹15,000</div>
+                        <div class="service-description">Certified damage assessment and documentation</div>
                     </div>
-                    <div class="filter-controls">
-                        <input type="text" class="search-box" placeholder="Search reports..." id="searchBox">
-                        <select class="filter-select" id="statusFilter">
-                            <option value="">All Status</option>
-                            <option value="reported">Reported</option>
-                            <option value="surveying">Surveying</option>
-                            <option value="assessed">Assessed</option>
-                            <option value="auction-ready">Auction Ready</option>
-                        </select>
+
+                    <div class="service-card" onclick="selectService('warehousing')">
+                        <div class="service-icon">🏪</div>
+                        <div class="service-title">Secure Warehousing</div>
+                        <div class="service-price">₹500/day</div>
+                        <div class="service-description">Climate-controlled storage with insurance</div>
+                    </div>
+
+                    <div class="service-card" onclick="selectService('transportation')">
+                        <div class="service-icon">🚛</div>
+                        <div class="service-title">Transportation</div>
+                        <div class="service-price">₹25/km</div>
+                        <div class="service-description">GPS-tracked delivery to auction center</div>
+                    </div>
+
+                    <div class="service-card" onclick="selectService('sorting')">
+                        <div class="service-icon">📦</div>
+                        <div class="service-title">Sorting & Cataloging</div>
+                        <div class="service-price">₹5,000</div>
+                        <div class="service-description">Professional sorting and inventory creation</div>
+                    </div>
+
+                    <div class="service-card" onclick="selectService('photography')">
+                        <div class="service-icon">📸</div>
+                        <div class="service-title">Professional Photography</div>
+                        <div class="service-price">₹8,000</div>
+                        <div class="service-description">High-quality photos for auction listing</div>
+                    </div>
+
+                    <div class="service-card" onclick="selectService('refurbishment')">
+                        <div class="service-icon">🔧</div>
+                        <div class="service-title">Basic Refurbishment</div>
+                        <div class="service-price">₹20,000</div>
+                        <div class="service-description">Minor repairs to increase recovery value</div>
                     </div>
                 </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalReports">24</div>
-                        <div class="stat-label">Total Reports</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="pendingReports">8</div>
-                        <div class="stat-label">Pending Survey</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="readyAuction">12</div>
-                        <div class="stat-label">Auction Ready</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalValue">₹45.2L</div>
-                        <div class="stat-label">Total Value</div>
+                <div class="calculation-section" id="serviceCalculation" style="display: none;">
+                    <div class="calculation-title">Service Cost Breakdown</div>
+                    <div id="selectedServices"></div>
+                    <div class="calculation-row total">
+                        <span>Total Service Cost:</span>
+                        <span id="totalCost">₹0</span>
                     </div>
                 </div>
 
-                <div id="reportsList">
-                    <!-- Reports will be populated here -->
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="clearServices()">Clear Selection</button>
+                    <button type="button" class="btn btn-primary" onclick="bookServices()">Book Selected Services</button>
+                </div>
+            </div>
+
+            <!-- Tracking Section -->
+            <div class="section" id="tracking">
+                <div class="section-title">
+                    <span>📍</span>
+                    Live Tracking & Updates
+                </div>
+
+                <div class="status-card">
+                    <div class="status-title">Container: TGHU1234567</div>
+                    <div class="status-details">
+                        Current Status: <strong style="color: #0891b2;">In Transit to Warehouse</strong> • 
+                        ETA: <strong>Tomorrow 2:00 PM</strong>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%"></div>
+                </div>
+
+                <div class="tracking-updates">
+                    <div class="tracking-item">
+                        <div class="tracking-icon truck">🚛</div>
+                        <div class="tracking-content">
+                            <div class="tracking-title">En Route - Highway 48, Navi Mumbai</div>
+                            <div class="tracking-description">
+                                Driver: Rajesh Kumar • Vehicle: MH-01-AB-1234 • 
+                                Distance remaining: 45 km • ETA: 2:15 PM
+                            </div>
+                            <div class="tracking-time">Live Update - 2 minutes ago</div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-item">
+                        <div class="tracking-icon success">✅</div>
+                        <div class="tracking-content">
+                            <div class="tracking-title">Picked up from Mumbai Port</div>
+                            <div class="tracking-description">
+                                Container loaded successfully. All documentation verified.
+                                GPS tracking activated.
+                            </div>
+                            <div class="tracking-time">Today, 11:30 AM</div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-item">
+                        <div class="tracking-icon success">🔍</div>
+                        <div class="tracking-content">
+                            <div class="tracking-title">Professional Inspection Completed</div>
+                            <div class="tracking-description">
+                                Certified inspector assessed damage. Recovery value estimated at 65% of original value.
+                                Report generated and uploaded.
+                            </div>
+                            <div class="tracking-time">Today, 9:15 AM</div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-item">
+                        <div class="tracking-icon info">📋</div>
+                        <div class="tracking-content">
+                            <div class="tracking-title">Services Booked</div>
+                            <div class="tracking-description">
+                                Selected services: Inspection, Warehousing, Transportation, Photography
+                                Total cost: ₹48,500 • Payment confirmed
+                            </div>
+                            <div class="tracking-time">Yesterday, 4:45 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-item">
+                        <div class="tracking-icon info">📄</div>
+                        <div class="tracking-content">
+                            <div class="tracking-title">Documentation Verified</div>
+                            <div class="tracking-description">
+                                Bill of Lading, Commercial Invoice, and Damage Photos uploaded and verified.
+                                Legal consent letter generated.
+                            </div>
+                            <div class="tracking-time">Yesterday, 2:20 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-item">
+                        <div class="tracking-icon success">📦</div>
+                        <div class="tracking-content">
+                            <div class="tracking-title">Cargo Intake Completed</div>
+                            <div class="tracking-description">
+                                Container TGHU1234567 registered in system. Damage assessment initiated.
+                            </div>
+                            <div class="tracking-time">Yesterday, 10:00 AM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box alert-info">
+                    <span>📱</span>
+                    <div>
+                        <strong>Real-time Updates:</strong> You'll receive SMS and email notifications for all major updates.
+                        Track your cargo 24/7 with our mobile app.
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="downloadReport()">📄 Download Report</button>
+                    <button type="button" class="btn btn-primary" onclick="contactDriver()">📞 Contact Driver</button>
+                </div>
+            </div>
+
+            <!-- Auction Section -->
+            <div class="section" id="auction">
+                <div class="section-title">
+                    <span>🏺</span>
+                    Live Auction
+                </div>
+
+                <div class="status-card">
+                    <div class="status-title">Your Cargo is Now Live for Bidding!</div>
+                    <div class="status-details">
+                        Container: TGHU1234567 • Electronics - Water Damage • 
+                        <strong style="color: #22c55e;">Current Bid: ₹3.25L</strong>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div>
+                        <div class="calculation-section">
+                            <div class="calculation-title">Auction Performance</div>
+                            <div class="calculation-row">
+                                <span>Reserve Price:</span>
+                                <span>₹2.50L</span>
+                            </div>
+                            <div class="calculation-row">
+                                <span>Current Highest Bid:</span>
+                                <span>₹3.25L</span>
+                            </div>
+                            <div class="calculation-row">
+                                <span>Total Bidders:</span>
+                                <span>8 Active</span>
+                            </div>
+                            <div class="calculation-row">
+                                <span>Time Remaining:</span>
+                                <span id="auctionTimer">6h 24m 15s</span>
+                            </div>
+                            <div class="calculation-row total">
+                                <span>Your Recovery (After Fees):</span>
+                                <span>₹2.93L</span>
+                            </div>
+                        </div>
+
+                        <div class="alert-box alert-success">
+                            <span>🎉</span>
+                            <div>
+                                <strong>Great News!</strong> Your cargo is performing 30% above reserve price! 
+                                Strong interest from electronics dealers.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="background: white; border: 2px solid #e1e5e9; border-radius: 12px; padding: 20px;">
+                            <h3 style="margin-bottom: 15px; color: #333;">Recent Bidding Activity</h3>
+                            <div style="max-height: 200px; overflow-y: auto;">
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>ElectronicsDealer99</span>
+                                    <span style="font-weight: bold; color: #667eea;">₹3.25L</span>
+                                    <span style="font-size: 12px; color: #666;">2 min ago</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>TechBuyer2024</span>
+                                    <span style="font-weight: bold; color: #667eea;">₹3.15L</span>
+                                    <span style="font-size: 12px; color: #666;">8 min ago</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>MumbaiTrader</span>
+                                    <span style="font-weight: bold; color: #667eea;">₹3.05L</span>
+                                    <span style="font-size: 12px; color: #666;">15 min ago</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>RecoveryExpert</span>
+                                    <span style="font-weight: bold; color: #667eea;">₹2.95L</span>
+                                    <span style="font-size: 12px; color: #666;">22 min ago</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                    <span>ValueFinder</span>
+                                    <span style="font-weight: bold; color: #667eea;">₹2.80L</span>
+                                    <span style="font-size: 12px; color: #666;">35 min ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="viewFullAuction()">👀 View Full Auction</button>
+                    <button type="button" class="btn btn-warning" onclick="setReserveIncrease()">📈 Increase Reserve</button>
+                    <button type="button" class="btn btn-success" onclick="acceptCurrentBid()">✅ Accept Current Bid</button>
+                </div>
+            </div>
+
+            <!-- SCF Section -->
+            <div class="section" id="scf">
+                <div class="section-title">
+                    <span>💳</span>
+                    Supply Chain Finance
+                </div>
+
+                <div class="status-card">
+                    <div class="status-title">SCF Application Status: Pre-Approved</div>
+                    <div class="status-details">
+                        Credit Score: 720 (Good) • Available Financing: Up to 70% of recovery value
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">Expected Recovery Amount</label>
+                            <input type="text" class="form-input" value="₹2,93,000" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Requested SCF Amount</label>
+                            <input type="number" class="form-input" id="scfAmount" placeholder="200000" max="205100">
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                                Maximum: ₹2,05,100 (70% of expected recovery)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Repayment Period</label>
+                            <select class="form-select" id="repaymentPeriod">
+                                <option value="30">30 days (12% APR)</option>
+                                <option value="60">60 days (14% APR)</option>
+                                <option value="90">90 days (16% APR)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="calculation-section">
+                            <div class="calculation-title">SCF Calculation</div>
+                            <div class="calculation-row">
+                                <span>SCF Amount:</span>
+                                <span id="scfAmountDisplay">₹0</span>
+                            </div>
+                            <div class="calculation-row">
+                                <span>Interest (30 days @ 12%):</span>
+                                <span id="interestAmount">₹0</span>
+                            </div>
+                            <div class="calculation-row">
+                                <span>Processing Fee (1%):</span>
+                                <span id="processingFee">₹0</span>
+                            </div>
+                            <div class="calculation-row total">
+                                <span>Amount You Receive Today:</span>
+                                <span id="netAmount">₹0</span>
+                            </div>
+                            <div class="calculation-row">
+                                <span>Repayment Amount:</span>
+                                <span id="repaymentAmount">₹0</span>
+                            </div>
+                        </div>
+
+                        <div class="alert-box alert-info">
+                            <span>⚡</span>
+                            <div>
+                                <strong>Instant Approval:</strong> Based on your credit score and cargo value, 
+                                you're pre-approved for immediate funding.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="saveSCFDraft()">Save for Later</button>
+                    <button type="button" class="btn btn-primary" onclick="applySCF()">Apply for SCF</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-title" id="modalTitle">Modal Title</div>
+            <div id="modalBody">Modal content goes here</div>
+            <div class="action-buttons">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <button type="button" class="btn btn-primary" id="modalAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        class DamageIntakeSystem {
-            constructor() {
-                this.currentStep = 1;
-                this.maxSteps = 4;
-                this.reports = this.loadSampleReports();
-                this.uploadedFiles = {
-                    photos: [],
-                    documents: []
-                };
-                this.init();
-            }
+        // Global state
+        let selectedServices = [];
+        let cargoData = {};
+        let currentSection = 'intake';
 
-            init() {
-                this.bindEvents();
-                this.renderReports();
-                this.updateStepButtons();
-            }
+        // Section navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentSection = sectionName;
+        }
 
-            bindEvents() {
-                // File upload events
-                document.getElementById('damagePhotos').addEventListener('change', (e) => {
-                    this.handleFileUpload(e, 'photos');
-                });
+        // File upload functionality
+        document.getElementById('fileUpload').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const fileList = document.getElementById('fileList');
+            const uploadArea = document.getElementById('fileUpload');
+            
+            if (files.length > 0) {
+                uploadArea.classList.add('has-files');
+                uploadArea.innerHTML = `<div>✅ ${files.length} file(s) selected</div>`;
                 
-                document.getElementById('documents').addEventListener('change', (e) => {
-                    this.handleFileUpload(e, 'documents');
-                });
-
-                // Grade selection
-                document.querySelectorAll('.grade-option').forEach(option => {
-                    option.addEventListener('click', (e) => {
-                        this.selectGrade(e.currentTarget);
-                    });
-                });
-
-                // Form submission
-                document.getElementById('damageReportForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.submitReport();
-                });
-
-                // Search and filter
-                document.getElementById('searchBox').addEventListener('input', () => {
-                    this.filterReports();
-                });
-                
-                document.getElementById('statusFilter').addEventListener('change', () => {
-                    this.filterReports();
-                });
-
-                // Original value change for auto-calculation
-                document.querySelector('input[name="originalValue"]').addEventListener('input', () => {
-                    this.calculateSalvageValue();
-                });
-
-                // Drag and drop for file uploads
-                this.setupDragAndDrop();
-            }
-
-            setupDragAndDrop() {
-                const fileUploads = document.querySelectorAll('.file-upload');
-                fileUploads.forEach(upload => {
-                    upload.addEventListener('dragover', (e) => {
-                        e.preventDefault();
-                        upload.classList.add('dragover');
-                    });
-                    
-                    upload.addEventListener('dragleave', () => {
-                        upload.classList.remove('dragover');
-                    });
-                    
-                    upload.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        upload.classList.remove('dragover');
-                        const files = e.dataTransfer.files;
-                        const input = upload.nextElementSibling;
-                        input.files = files;
-                        
-                        if (input.id === 'damagePhotos') {
-                            this.handleFileUpload({ target: input }, 'photos');
-                        } else {
-                            this.handleFileUpload({ target: input }, 'documents');
-                        }
-                    });
-                });
-            }
-
-            handleFileUpload(event, type) {
-                const files = event.target.files;
-                const listContainer = type === 'photos' ? 'photosList' : 'documentsList';
-                
+                let fileListHTML = '<div style="margin-top: 15px;"><strong>Uploaded Files:</strong></div>';
                 for (let file of files) {
-                    this.uploadedFiles[type].push({
-                        name: file.name,
-                        size: file.size,
-                        type: file.type,
-                        file: file
-                    });
+                    fileListHTML += `<div style="padding: 5px 0; color: #666;">📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</div>`;
+                }
+                fileList.innerHTML = fileListHTML;
+            }
+        });
+
+        // Form submission
+        document.getElementById('cargoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            cargoData = {
+                containerNumber: document.getElementById('containerNumber').value,
+                cargoType: document.getElementById('cargoType').value,
+                originalValue: document.getElementById('originalValue').value,
+                damageType: document.getElementById('damageType').value,
+                location: document.getElementById('location').value,
+                weight: document.getElementById('weight').value,
+                quantity: document.getElementById('quantity').value,
+                severity: document.getElementById('severity').value,
+                description: document.getElementById('damageDescription').value
+            };
+            
+            // Simulate processing
+            showModal('Cargo Submitted Successfully!', `
+                <div class="alert-box alert-success">
+                    <span>✅</span>
+                    <div>
+                        <strong>Container ${cargoData.containerNumber} has been registered!</strong><br>
+                        Your cargo intake is complete and has been assigned for professional assessment.
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Next Steps:</strong><br>
+                    1. Professional inspection will be scheduled within 24 hours<br>
+                    2. You'll receive SMS/email updates on progress<br>
+                    3. Services selection will be available after inspection
+                </div>
+            `, 'Continue to Services', function() {
+                showSection('services');
+                closeModal();
+            });
+        });
+
+        // Service selection
+        function selectService(serviceId) {
+            const serviceCard = event.target.closest('.service-card');
+            
+            if (serviceCard.classList.contains('selected')) {
+                serviceCard.classList.remove('selected');
+                selectedServices = selectedServices.filter(s => s.id !== serviceId);
+            } else {
+                serviceCard.classList.add('selected');
+                
+                const serviceData = getServiceData(serviceId);
+                selectedServices.push(serviceData);
+            }
+            
+            updateServiceCalculation();
+        }
+
+        function getServiceData(serviceId) {
+            const services = {
+                inspection: { id: 'inspection', name: 'Professional Inspection', price: 15000 },
+                warehousing: { id: 'warehousing', name: 'Secure Warehousing', price: 500, unit: 'per day' },
+                transportation: { id: 'transportation', name: 'Transportation', price: 25, unit: 'per km' },
+                sorting: { id: 'sorting', name: 'Sorting & Cataloging', price: 5000 },
+                photography: { id: 'photography', name: 'Professional Photography', price: 8000 },
+                refurbishment: { id: 'refurbishment', name: 'Basic Refurbishment', price: 20000 }
+            };
+            return services[serviceId];
+        }
+
+        function updateServiceCalculation() {
+            const calculationSection = document.getElementById('serviceCalculation');
+            const selectedServicesDiv = document.getElementById('selectedServices');
+            const totalCostDiv = document.getElementById('totalCost');
+            
+            if (selectedServices.length === 0) {
+                calculationSection.style.display = 'none';
+                return;
+            }
+            
+            calculationSection.style.display = 'block';
+            
+            let html = '';
+            let totalCost = 0;
+            
+            selectedServices.forEach(service => {
+                let displayPrice = `₹${service.price.toLocaleString()}`;
+                if (service.unit) {
+                    displayPrice += ` ${service.unit}`;
                 }
                 
-                this.renderFileList(type, listContainer);
-            }
-
-            renderFileList(type, containerId) {
-                const container = document.getElementById(containerId);
-                const files = this.uploadedFiles[type];
+                html += `<div class="calculation-row">
+                    <span>${service.name}:</span>
+                    <span>${displayPrice}</span>
+                </div>`;
                 
-                container.innerHTML = files.map((file, index) => `
-                    <div class="uploaded-file">
-                        <div class="file-info">
-                            <span>${this.getFileIcon(file.type)}</span>
+                // For demo, assume standard quantities
+                if (service.id === 'warehousing') {
+                    totalCost += service.price * 30; // 30 days
+                } else if (service.id === 'transportation') {
+                    totalCost += service.price * 50; // 50 km
+                } else {
+                    totalCost += service.price;
+                }
+            });
+            
+            selectedServicesDiv.innerHTML = html;
+            totalCostDiv.textContent = `₹${totalCost.toLocaleString()}`;
+        }
+
+        function clearServices() {
+            selectedServices = [];
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            updateServiceCalculation();
+        }
+
+        function bookServices() {
+            if (selectedServices.length === 0) {
+                alert('Please select at least one service');
+                return;
+            }
+            
+            const totalCost = document.getElementById('totalCost').textContent;
+            showModal('Confirm Service Booking', `
+                <div class="alert-box alert-warning">
+                    <span>💳</span>
+                    <div>
+                        <strong>Total Cost: ${totalCost}</strong><br>
+                        Payment will be processed immediately upon confirmation.
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Selected Services:</strong><br>
+                    ${selectedServices.map(s => `• ${s.name}`).join('<br>')}
+                </div>
+            `, 'Confirm & Pay', function() {
+                // Simulate payment processing
+                setTimeout(() => {
+                    showModal('Services Booked Successfully!', `
+                        <div class="alert-box alert-success">
+                            <span>✅</span>
                             <div>
-                                <strong>${file.name}</strong>
-                                <div style="font-size: 0.8rem; color: #666;">${this.formatFileSize(file.size)}</div>
+                                <strong>Payment Confirmed!</strong><br>
+                                All selected services have been booked and will be executed as per schedule.
                             </div>
                         </div>
-                        <button type="button" class="remove-file" onclick="damageIntake.removeFile('${type}', ${index})">
-                            Remove
-                        </button>
-                    </div>
-                `).join('');
-            }
-
-            removeFile(type, index) {
-                this.uploadedFiles[type].splice(index, 1);
-                const containerId = type === 'photos' ? 'photosList' : 'documentsList';
-                this.renderFileList(type, containerId);
-            }
-
-            getFileIcon(type) {
-                if (type.startsWith('image/')) return '📸';
-                if (type.includes('pdf')) return '📄';
-                if (type.includes('word') || type.includes('doc')) return '📝';
-                if (type.includes('excel') || type.includes('sheet')) return '📊';
-                return '📋';
-            }
-
-            formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-            }
-
-            selectGrade(element) {
-                document.querySelectorAll('.grade-option').forEach(option => {
-                    option.classList.remove('selected');
-                });
-                element.classList.add('selected');
-                
-                const grade = element.dataset.grade;
-                document.querySelector('input[name="qualityGrade"]').value = grade;
-                
-                this.calculateSalvageValue();
-            }
-
-            calculateSalvageValue() {
-                const originalValue = parseFloat(document.querySelector('input[name="originalValue"]').value || 0);
-                const grade = document.querySelector('input[name="qualityGrade"]').value;
-                
-                let percentage = 0;
-                switch(grade) {
-                    case 'A': percentage = 0.85; break;
-                    case 'B': percentage = 0.70; break;
-                    case 'C': percentage = 0.50; break;
-                    case 'D': percentage = 0.25; break;
-                    case 'E': percentage = 0.05; break;
-                }
-                
-                const salvageValue = Math.round(originalValue * percentage);
-                document.querySelector('input[name="salvageValue"]').value = salvageValue;
-            }
-
-            nextStep() {
-                if (this.validateCurrentStep()) {
-                    if (this.currentStep < this.maxSteps) {
-                        this.currentStep++;
-                        this.updateSteps();
-                        if (this.currentStep === 4) {
-                            this.generateReviewSummary();
-                        }
-                    }
-                }
-            }
-
-            previousStep() {
-                if (this.currentStep > 1) {
-                    this.currentStep--;
-                    this.updateSteps();
-                }
-            }
-
-            updateSteps() {
-                // Update step indicators
-                document.querySelectorAll('.step').forEach((step, index) => {
-                    const stepNumber = index + 1;
-                    step.classList.remove('active', 'completed');
-                    
-                    if (stepNumber < this.currentStep) {
-                        step.classList.add('completed');
-                        step.innerHTML = '✓';
-                    } else if (stepNumber === this.currentStep) {
-                        step.classList.add('active');
-                        step.innerHTML = stepNumber;
-                    } else {
-                        step.innerHTML = stepNumber;
-                    }
-                });
-
-                // Update progress bar
-                const progressBar = document.getElementById('formSteps');
-                progressBar.className = `form-steps step-${this.currentStep}`;
-
-                // Show/hide form steps
-                document.querySelectorAll('.form-step').forEach((step, index) => {
-                    step.classList.remove('active');
-                    if (index + 1 === this.currentStep) {
-                        step.classList.add('active');
-                    }
-                });
-
-                this.updateStepButtons();
-            }
-
-            updateStepButtons() {
-                const prevBtn = document.getElementById('prevBtn');
-                const nextBtn = document.getElementById('nextBtn');
-                const submitBtn = document.getElementById('submitBtn');
-
-                prevBtn.disabled = this.currentStep === 1;
-                
-                if (this.currentStep === this.maxSteps) {
-                    nextBtn.style.display = 'none';
-                    submitBtn.style.display = 'block';
-                } else {
-                    nextBtn.style.display = 'block';
-                    submitBtn.style.display = 'none';
-                }
-            }
-
-            validateCurrentStep() {
-                const currentStepElement = document.querySelector(`.form-step[data-step="${this.currentStep}"]`);
-                const requiredFields = currentStepElement.querySelectorAll('[required]');
-                let isValid = true;
-
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        field.style.borderColor = '#ef4444';
-                        isValid = false;
-                    } else {
-                        field.style.borderColor = '#e1e5e9';
-                    }
-                });
-
-                if (!isValid) {
-                    alert('Please fill in all required fields before proceeding.');
-                }
-
-                return isValid;
-            }
-
-            generateReviewSummary() {
-                const formData = new FormData(document.getElementById('damageReportForm'));
-                const summary = document.getElementById('reviewSummary');
-                
-                const summaryHTML = `
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div>
-                            <strong>Container:</strong> ${formData.get('containerNumber')}<br>
-                            <strong>B/L:</strong> ${formData.get('billOfLading')}<br>
-                            <strong>Consignee:</strong> ${formData.get('consigneeName')}<br>
-                            <strong>Damage Type:</strong> ${formData.get('damageType')}<br>
+                        <div style="margin-top: 15px;">
+                            You can now track the progress of your cargo and services in real-time.
                         </div>
+                    `, 'View Tracking', function() {
+                        showSection('tracking');
+                        closeModal();
+                    });
+                }, 2000);
+                closeModal();
+            });
+        }
+
+        // SCF calculations
+        document.getElementById('scfAmount').addEventListener('input', calculateSCF);
+        document.getElementById('repaymentPeriod').addEventListener('change', calculateSCF);
+
+        function calculateSCF() {
+            const scfAmount = parseFloat(document.getElementById('scfAmount').value) || 0;
+            const period = parseInt(document.getElementById('repaymentPeriod').value);
+            
+            let interestRate;
+            switch(period) {
+                case 30: interestRate = 0.12; break;
+                case 60: interestRate = 0.14; break;
+                case 90: interestRate = 0.16; break;
+                default: interestRate = 0.12;
+            }
+            
+            const interest = (scfAmount * interestRate * period) / 365;
+            const processingFee = scfAmount * 0.01;
+            const netAmount = scfAmount - processingFee;
+            const repaymentAmount = scfAmount + interest;
+            
+            document.getElementById('scfAmountDisplay').textContent = `₹${scfAmount.toLocaleString()}`;
+            document.getElementById('interestAmount').textContent = `₹${Math.round(interest).toLocaleString()}`;
+            document.getElementById('processingFee').textContent = `₹${Math.round(processingFee).toLocaleString()}`;
+            document.getElementById('netAmount').textContent = `₹${Math.round(netAmount).toLocaleString()}`;
+            document.getElementById('repaymentAmount').textContent = `₹${Math.round(repaymentAmount).toLocaleString()}`;
+        }
+
+        function applySCF() {
+            const scfAmount = parseFloat(document.getElementById('scfAmount').value);
+            if (!scfAmount || scfAmount <= 0) {
+                alert('Please enter a valid SCF amount');
+                return;
+            }
+            
+            const netAmount = document.getElementById('netAmount').textContent;
+            const repaymentAmount = document.getElementById('repaymentAmount').textContent;
+            const period = document.getElementById('repaymentPeriod').value;
+            
+            showModal('SCF Application Submitted', `
+                <div class="alert-box alert-success">
+                    <span>⚡</span>
+                    <div>
+                        <strong>Instant Approval Confirmed!</strong><br>
+                        Your SCF application has been approved and funds will be transferred within 2 hours.
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Loan Details:</strong><br>
+                    • Amount Approved: ₹${scfAmount.toLocaleString()}<br>
+                    • You'll Receive: ${netAmount}<br>
+                    • Repayment in ${period} days: ${repaymentAmount}<br>
+                    • Repayment will be auto-deducted from auction proceeds
+                </div>
+            `, 'Continue', function() {
+                closeModal();
+            });
+        }
+
+        // Auction timer
+        function updateAuctionTimer() {
+            const timer = document.getElementById('auctionTimer');
+            if (!timer) return;
+            
+            // Simulate countdown
+            let timeLeft = 6 * 3600 + 24 * 60 + 15; // 6h 24m 15s in seconds
+            
+            setInterval(() => {
+                timeLeft--;
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                timer.textContent = `${hours}h ${minutes}m ${seconds}s`;
+                
+                if (timeLeft <= 0) {
+                    timer.textContent = 'Auction Ended';
+                }
+            }, 1000);
+        }
+
+        // Action functions
+        function viewFullAuction() {
+            showModal('Live Auction Details', `
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <h2 style="color: #667eea;">Container: TGHU1234567</h2>
+                    <div style="font-size: 1.2rem; margin: 10px 0;">Current Bid: <strong style="color: #22c55e;">₹3.25L</strong></div>
+                </div>
+                <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <strong>Cargo Details:</strong><br>
+                    • Electronics - Water Damage<br>
+                    • Original Value: ₹5.00L<br>
+                    • Recovery Grade: B (65%)<br>
+                    • Location: Secure Warehouse, Mumbai
+                </div>
+                <div style="background: #f0f9ff; padding: 15px; border-radius: 8px;">
+                    <strong>Bidding Activity:</strong><br>
+                    High interest from 8 verified buyers. Average bid increment: ₹10,000
+                </div>
+            `, 'Close', closeModal);
+        }
+
+        function acceptCurrentBid() {
+            showModal('Accept Current Bid', `
+                <div class="alert-box alert-warning">
+                    <span>⚠️</span>
+                    <div>
+                        <strong>End Auction Early?</strong><br>
+                        You're about to accept the current bid of ₹3.25L and end the auction immediately.
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Final Settlement:</strong><br>
+                    • Winning Bid: ₹3.25L<br>
+                    • Platform Fee (10%): ₹32,500<br>
+                    • Your Recovery: ₹2,92,500<br><br>
+                    This action cannot be undone.
+                </div>
+            `, 'Accept Bid', function() {
+                showModal('Auction Ended Successfully!', `
+                    <div class="alert-box alert-success">
+                        <span>🎉</span>
                         <div>
-                            <strong>Category:</strong> ${formData.get('category')}<br>
-                            <strong>Quality Grade:</strong> ${formData.get('qualityGrade')}<br>
-                            <strong>Original Value:</strong> ₹${parseInt(formData.get('originalValue')).toLocaleString()}<br>
-                            <strong>Salvage Value:</strong> ₹${parseInt(formData.get('salvageValue')).toLocaleString()}<br>
+                            <strong>Congratulations!</strong><br>
+                            Your cargo has been sold to ElectronicsDealer99 for ₹3.25L
                         </div>
                     </div>
                     <div style="margin-top: 15px;">
-                        <strong>Files Uploaded:</strong> ${this.uploadedFiles.photos.length} photos, ${this.uploadedFiles.documents.length} documents
+                        <strong>Next Steps:</strong><br>
+                        1. Buyer payment verification (within 24 hours)<br>
+                        2. Cargo transfer coordination<br>
+                        3. Your payment processing<br><br>
+                        Expected settlement: <strong>Within 48 hours</strong>
                     </div>
-                `;
-                
-                summary.innerHTML = summaryHTML;
-            }
-
-            submitReport() {
-                if (!this.validateCurrentStep()) return;
-                
-                const formData = new FormData(document.getElementById('damageReportForm'));
-                
-                // Generate report
-                const report = {
-                    id: `DGR-${Date.now()}`,
-                    containerNumber: formData.get('containerNumber'),
-                    billOfLading: formData.get('billOfLading'),
-                    consigneeName: formData.get('consigneeName'),
-                    damageType: formData.get('damageType'),
-                    category: formData.get('category'),
-                    qualityGrade: formData.get('qualityGrade'),
-                    originalValue: parseInt(formData.get('originalValue')),
-                    salvageValue: parseInt(formData.get('salvageValue')),
-                    status: 'reported',
-                    dateReported: new Date().toISOString(),
-                    reportedBy: 'Current User',
-                    priority: formData.get('priority'),
-                    nextAction: formData.get('nextAction'),
-                    photos: this.uploadedFiles.photos.length,
-                    documents: this.uploadedFiles.documents.length
-                };
-
-                // Add to reports
-                this.reports.unshift(report);
-                this.renderReports();
-                
-                // Reset form
-                this.resetForm();
-                
-                // Show success message
-                this.showSuccessMessage(report.id);
-            }
-
-            resetForm() {
-                document.getElementById('damageReportForm').reset();
-                this.currentStep = 1;
-                this.updateSteps();
-                this.uploadedFiles = { photos: [], documents: [] };
-                document.getElementById('photosList').innerHTML = '';
-                document.getElementById('documentsList').innerHTML = '';
-                document.querySelectorAll('.grade-option').forEach(option => {
-                    option.classList.remove('selected');
-                });
-            }
-
-            showSuccessMessage(reportId) {
-                const message = document.createElement('div');
-                message.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: linear-gradient(135deg, #22c55e, #16a34a);
-                    color: white;
-                    padding: 20px 30px;
-                    border-radius: 12px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-                    z-index: 1000;
-                    font-weight: 600;
-                `;
-                message.innerHTML = `✅ Report ${reportId} submitted successfully!`;
-                document.body.appendChild(message);
-                
-                setTimeout(() => {
-                    message.remove();
-                }, 5000);
-            }
-
-            loadSampleReports() {
-                return [
-                    {
-                        id: 'DGR-2024-001',
-                        containerNumber: 'TGHU1234567',
-                        billOfLading: 'MAEU123456789',
-                        consigneeName: 'ABC Trading Company',
-                        damageType: 'Water Damage',
-                        category: 'Electronics',
-                        qualityGrade: 'C',
-                        originalValue: 500000,
-                        salvageValue: 250000,
-                        status: 'surveying',
-                        dateReported: '2024-08-01T10:30:00Z',
-                        reportedBy: 'Mumbai CHA Services',
-                        priority: 'high',
-                        nextAction: 'survey',
-                        photos: 8,
-                        documents: 5
-                    },
-                    {
-                        id: 'DGR-2024-002',
-                        containerNumber: 'MSCU9876543',
-                        billOfLading: 'COSCO987654321',
-                        consigneeName: 'Delhi Imports Ltd',
-                        damageType: 'Physical Damage',
-                        category: 'Textiles',
-                        qualityGrade: 'B',
-                        originalValue: 300000,
-                        salvageValue: 210000,
-                        status: 'auction-ready',
-                        dateReported: '2024-07-30T14:15:00Z',
-                        reportedBy: 'Chennai CHA Services',
-                        priority: 'normal',
-                        nextAction: 'auction',
-                        photos: 12,
-                        documents: 3
-                    },
-                    {
-                        id: 'DGR-2024-003',
-                        containerNumber: 'OOLU5555555',
-                        billOfLading: 'OOCL555555555',
-                        consigneeName: 'Bangalore Tech Solutions',
-                        damageType: 'Packaging Issues',
-                        category: 'Machinery',
-                        qualityGrade: 'A',
-                        originalValue: 800000,
-                        salvageValue: 680000,
-                        status: 'assessed',
-                        dateReported: '2024-07-28T09:45:00Z',
-                        reportedBy: 'Kolkata Port Services',
-                        priority: 'normal',
-                        nextAction: 'auction',
-                        photos: 6,
-                        documents: 8
-                    }
-                ];
-            }
-
-            renderReports() {
-                const reportsList = document.getElementById('reportsList');
-                const filteredReports = this.getFilteredReports();
-                
-                if (filteredReports.length === 0) {
-                    reportsList.innerHTML = `
-                        <div style="text-align: center; padding: 40px; color: #666;">
-                            <div style="font-size: 3rem; margin-bottom: 15px;">📋</div>
-                            <div>No reports found matching your criteria</div>
-                        </div>
-                    `;
-                    return;
-                }
-
-                reportsList.innerHTML = filteredReports.map(report => `
-                    <div class="report-card">
-                        <div class="report-header">
-                            <div class="report-id">${report.id}</div>
-                            <div class="report-status status-${report.status}">${report.status.replace('-', ' ')}</div>
-                        </div>
-                        <div class="report-details">
-                            <div class="detail-item">
-                                <div class="detail-label">Container</div>
-                                <div class="detail-value">${report.containerNumber}</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Consignee</div>
-                                <div class="detail-value">${report.consigneeName}</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Damage Type</div>
-                                <div class="detail-value">${report.damageType}</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Grade / Value</div>
-                                <div class="detail-value">Grade ${report.qualityGrade} / ₹${report.salvageValue.toLocaleString()}</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Reported</div>
-                                <div class="detail-value">${new Date(report.dateReported).toLocaleDateString()}</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Files</div>
-                                <div class="detail-value">${report.photos} photos, ${report.documents} docs</div>
-                            </div>
-                        </div>
-                        <div class="report-actions">
-                            <button class="action-btn primary" onclick="viewReport('${report.id}')">View Details</button>
-                            <button class="action-btn secondary" onclick="editReport('${report.id}')">Edit</button>
-                            ${report.status === 'assessed' ? 
-                                '<button class="action-btn primary" onclick="createAuction(\'' + report.id + '\')">Create Auction</button>' : 
-                                '<button class="action-btn secondary" onclick="updateStatus(\'' + report.id + '\')">Update Status</button>'
-                            }
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            getFilteredReports() {
-                const searchTerm = document.getElementById('searchBox').value.toLowerCase();
-                const statusFilter = document.getElementById('statusFilter').value;
-                
-                return this.reports.filter(report => {
-                    const matchesSearch = !searchTerm || 
-                        report.id.toLowerCase().includes(searchTerm) ||
-                        report.containerNumber.toLowerCase().includes(searchTerm) ||
-                        report.consigneeName.toLowerCase().includes(searchTerm) ||
-                        report.damageType.toLowerCase().includes(searchTerm);
-                    
-                    const matchesStatus = !statusFilter || report.status === statusFilter;
-                    
-                    return matchesSearch && matchesStatus;
-                });
-            }
-
-            filterReports() {
-                this.renderReports();
-            }
+                `, 'Continue', closeModal);
+            });
         }
 
-        // Global functions
-        function handleOtherOption(select, groupId) {
-            const group = document.getElementById(groupId);
-            const input = group.querySelector('input');
+        function downloadReport() {
+            showModal('Download Tracking Report', `
+                <div class="alert-box alert-info">
+                    <span>📄</span>
+                    <div>
+                        <strong>Generate Comprehensive Report</strong><br>
+                        Get detailed tracking report with timestamps, GPS coordinates, and service updates.
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Report Includes:</strong><br>
+                    • Complete journey timeline<br>
+                    • Service execution details<br>
+                    • Financial breakdown<br>
+                    • Compliance certificates<br>
+                    • GPS tracking history
+                </div>
+            `, 'Download PDF', function() {
+                // Simulate download
+                alert('📄 Report downloaded successfully!');
+                closeModal();
+            });
+        }
+
+        function contactDriver() {
+            showModal('Contact Driver', `
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <div style="font-size: 3rem;">🚛</div>
+                    <h3>Driver: Rajesh Kumar</h3>
+                    <div style="color: #666;">Vehicle: MH-01-AB-1234</div>
+                </div>
+                <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <strong>Current Status:</strong><br>
+                    En route to warehouse • ETA: 2:15 PM<br>
+                    Location: Highway 48, Navi Mumbai
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="callDriver()">📞 Call</button>
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="messageDriver()">💬 Message</button>
+                </div>
+            `, 'Close', closeModal);
+        }
+
+        function callDriver() {
+            alert('📞 Calling driver...\n\nIn a real app, this would initiate a phone call to +91 98765 43210');
+        }
+
+        function messageDriver() {
+            alert('💬 Opening chat...\n\nIn a real app, this would open a messaging interface with the driver');
+        }
+
+        // Modal functions
+        function showModal(title, body, actionText, actionCallback) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = body;
             
-            if (select.value === 'other') {
-                group.style.display = 'block';
-                input.required = true;
-            } else {
-                group.style.display = 'none';
-                input.required = false;
-                input.value = '';
+            const actionBtn = document.getElementById('modalAction');
+            actionBtn.textContent = actionText || 'OK';
+            actionBtn.onclick = actionCallback || closeModal;
+            
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAuctionTimer();
+            calculateSCF();
+            
+            // Set default SCF amount
+            document.getElementById('scfAmount').value = '200000';
+            calculateSCF();
+        });
+
+        // Other action functions
+        function saveSCFDraft() {
+            alert('💾 SCF application saved as draft!\n\nYou can complete it later from your dashboard.');
+        }
+
+        function setReserveIncrease() {
+            alert('📈 Reserve price management is available to premium users.\n\nContact support to upgrade your account.');
+        }
+
+        // Simulate real-time updates (for demo)
+        setInterval(() => {
+            // Randomly update tracking or auction data
+            if (Math.random() < 0.1) { // 10% chance every interval
+                console.log('Simulating real-time update...');
+                // In a real app, this would fetch new data
             }
-        }
-
-        function nextStep() {
-            window.damageIntake.nextStep();
-        }
-
-        function previousStep() {
-            window.damageIntake.previousStep();
-        }
-
-        function viewReport(reportId) {
-            alert(`📋 View Report: ${reportId}\n\nThis will open the full report with all documentation, photos, and survey details.`);
-        }
-
-        function editReport(reportId) {
-            alert(`✏️ Edit Report: ${reportId}\n\nThis will open the report in edit mode with all current data pre-filled.`);
-        }
-
-        function createAuction(reportId) {
-            alert(`🏺 Create Auction: ${reportId}\n\nThis will redirect to the auction creation module with pre-filled damage assessment data.`);
-        }
-
-        function updateStatus(reportId) {
-            alert(`🔄 Update Status: ${reportId}\n\nThis will open the status update workflow with options for next actions.`);
-        }
-
-        function goBack() {
-            window.history.back();
-        }
-
-        function showQuickReport() {
-            alert('⚡ Quick Report Mode\n\nThis will open a simplified damage reporting form for urgent cases with minimal required fields.');
-        }
-
-        // Initialize the system
-        window.damageIntake = new DamageIntakeSystem();
+        }, 30000); // Every 30 seconds
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DamageEx - Global Admin Dashboard</title>
+    <title>DamageEx - Damaged Goods Recovery Platform</title>
     <style>
         * {
             margin: 0;
@@ -15,99 +15,155 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1800px;
-            margin: 0 auto;
         }
 
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px 35px;
-            margin-bottom: 30px;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 0 20px;
         }
 
-        .header-left h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            color: #666;
-        }
-
-        .header-controls {
+        .logo {
             display: flex;
-            gap: 15px;
             align-items: center;
-        }
-
-        .currency-selector {
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-            font-weight: 600;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
             color: #667eea;
         }
 
-        .time-range-selector {
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-            font-weight: 600;
-            color: #333;
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
-        .nav-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
+        .role-btn {
+            padding: 8px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 25px;
+            background: white;
+            color: #666;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
         }
 
-        .nav-btn.primary {
+        .role-btn.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .role-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-tracker {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1400px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 25px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background: #e1e5e9;
+            z-index: 1;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 60%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .step {
+            background: white;
+            border: 3px solid #e1e5e9;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .step.completed {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
             color: white;
         }
 
-        .nav-btn.secondary {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            border: 2px solid #e1e5e9;
+        .step.active {
+            border-color: #667eea;
+            background: white;
+            color: #667eea;
+            animation: pulse 2s infinite;
         }
 
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        .step-label {
+            position: absolute;
+            top: 60px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            color: #666;
         }
 
-        .kpi-grid {
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 20px;
             margin-bottom: 30px;
         }
 
-        .kpi-card {
+        .stat-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 15px;
@@ -115,74 +171,37 @@
             text-align: center;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .kpi-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-
-        .kpi-card:hover {
+        .stat-card:hover {
             transform: translateY(-3px);
         }
 
-        .kpi-icon {
+        .stat-icon {
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .kpi-number {
+        .stat-number {
             font-size: 2rem;
             font-weight: bold;
             color: #667eea;
             margin-bottom: 5px;
         }
 
-        .kpi-label {
+        .stat-label {
             color: #666;
             font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 8px;
         }
 
-        .kpi-change {
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 12px;
-        }
-
-        .kpi-change.positive {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .kpi-change.negative {
-            background: #fed7d7;
-            color: #c53030;
-        }
-
-        .main-grid {
+        .content-sections {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 30px;
-            margin-bottom: 30px;
         }
 
-        .charts-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .card {
+        .main-section {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -190,88 +209,22 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chart-container {
-            height: 350px;
-            background: #f8fafc;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 1.1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-placeholder {
-            text-align: center;
-        }
-
-        .mock-chart {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .chart-bars {
-            display: flex;
-            align-items: end;
-            gap: 8px;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-
-        .chart-bar {
-            width: 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 4px 4px 0 0;
-            transition: all 0.3s ease;
-        }
-
-        .chart-bar:hover {
-            background: linear-gradient(135deg, #5b6fd8, #6b43aa);
-        }
-
-        .chart-line {
-            width: 100%;
-            height: 200px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 150'%3E%3Cpath d='M0,100 Q50,50 100,75 T200,50 T300,80' stroke='%23667eea' stroke-width='3' fill='none'/%3E%3C/svg%3E") no-repeat center;
-            background-size: contain;
-            margin-bottom: 20px;
-        }
-
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
         }
 
         .sidebar-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
         }
 
-        .sidebar-title {
-            font-size: 1.3rem;
+        .section-title {
+            font-size: 1.5rem;
             font-weight: 700;
             color: #333;
             margin-bottom: 20px;
@@ -280,894 +233,675 @@
             gap: 10px;
         }
 
-        .region-list {
+        .cargo-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
 
-        .region-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .region-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .region-flag {
-            font-size: 1.5rem;
-        }
-
-        .region-details h4 {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 2px;
-        }
-
-        .region-details p {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .region-stats {
-            text-align: right;
-        }
-
-        .region-volume {
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 2px;
-        }
-
-        .region-growth {
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: 8px;
-        }
-
-        .growth-positive {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .growth-negative {
-            background: #fed7d7;
-            color: #c53030;
-        }
-
-        .alert-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .alert-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .alert-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            color: white;
-        }
-
-        .alert-icon.critical {
-            background: #ef4444;
-        }
-
-        .alert-icon.warning {
-            background: #f59e0b;
-        }
-
-        .alert-icon.info {
-            background: #3b82f6;
-        }
-
-        .alert-content {
-            flex: 1;
-        }
-
-        .alert-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 3px;
-        }
-
-        .alert-description {
-            font-size: 0.8rem;
-            color: #666;
-            line-height: 1.4;
-        }
-
-        .alert-time {
-            font-size: 0.7rem;
-            color: #999;
-            margin-top: 5px;
-        }
-
-        .user-management {
-            grid-column: 1 / -1;
-        }
-
-        .user-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .user-stat-card {
-            background: white;
+        .cargo-item {
+            border: 1px solid #e1e5e9;
             border-radius: 12px;
             padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            background: white;
         }
 
-        .user-stat-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
+        .cargo-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cargo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .cargo-id {
+            font-weight: bold;
             color: #667eea;
+            font-size: 1.1rem;
         }
 
-        .user-stat-number {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .user-stat-label {
-            color: #666;
-            font-size: 0.9rem;
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .recent-activities {
-            max-height: 400px;
-            overflow-y: auto;
-        }
+        .status-intake { background: #fef3c7; color: #92400e; }
+        .status-valuation { background: #dbeafe; color: #1e40af; }
+        .status-scf { background: #f3e8ff; color: #7c3aed; }
+        .status-auction { background: #dcfce7; color: #166534; }
+        .status-completed { background: #d1fae5; color: #065f46; }
 
-        .activity-item {
-            display: flex;
-            align-items: center;
+        .cargo-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 15px;
         }
 
-        .activity-item:last-child {
-            border-bottom: none;
+        .detail-item {
+            text-align: center;
         }
 
-        .activity-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+        .detail-value {
             font-weight: bold;
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-text {
-            font-weight: 600;
             color: #333;
             margin-bottom: 3px;
         }
 
-        .activity-details {
+        .detail-label {
             font-size: 0.8rem;
             color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
-        .activity-time {
-            font-size: 0.8rem;
-            color: #999;
-            text-align: right;
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .quick-action-btn {
-            padding: 20px;
+        .btn {
+            padding: 10px 20px;
             border: none;
-            border-radius: 15px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            font-size: 0.9rem;
         }
 
-        .quick-action-btn.primary {
+        .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
 
-        .quick-action-btn.success {
+        .btn-secondary {
+            background: #f8fafc;
+            color: #333;
+            border: 1px solid #e1e5e9;
+        }
+
+        .btn-success {
+            background: #22c55e;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .live-auctions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .auction-item {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid #0891b2;
+        }
+
+        .auction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .auction-id {
+            font-weight: bold;
+            color: #0891b2;
+        }
+
+        .countdown {
+            background: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .current-bid {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0891b2;
+            margin-bottom: 10px;
+        }
+
+        .bid-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e1e5e9;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .notifications {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .notification-icon {
+            font-size: 1.2rem;
+        }
+
+        .notification-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .role-content {
+            display: none;
+        }
+
+        .role-content.active {
+            display: block;
+        }
+
+        .next-step-bar {
             background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .quick-action-btn.warning {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+        .next-step-text {
+            font-weight: 600;
+        }
+
+        .next-step-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .quick-action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .action-icon {
-            font-size: 2rem;
-        }
-
-        .action-text {
-            font-size: 1rem;
-        }
-
-        @media (max-width: 1400px) {
-            .kpi-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .sidebar {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-            }
+        .next-step-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         @media (max-width: 768px) {
-            .kpi-grid {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
             }
             
-            .user-stats {
-                grid-template-columns: repeat(2, 1fr);
+            .content-sections {
+                grid-template-columns: 1fr;
             }
             
-            .quick-actions {
-                grid-template-columns: 1fr;
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            
+            .progress-line {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="header-left">
-                <h1>⚙️ Global Admin Dashboard</h1>
-                <p>Platform oversight, analytics, and system management</p>
+    <!-- Header with Logo and Role Selector -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span>📦</span>
+                <span>DamageEx</span>
             </div>
-            <div class="header-controls">
-                <select class="currency-selector" id="currencySelector">
-                    <option value="USD">🇺🇸 USD</option>
-                    <option value="INR" selected>🇮🇳 INR</option>
-                    <option value="EUR">🇪🇺 EUR</option>
-                    <option value="GBP">🇬🇧 GBP</option>
-                    <option value="AED">🇦🇪 AED</option>
-                    <option value="SGD">🇸🇬 SGD</option>
-                    <option value="CNY">🇨🇳 CNY</option>
-                    <option value="JPY">🇯🇵 JPY</option>
-                </select>
-                <select class="time-range-selector" id="timeRange">
-                    <option value="24h">Last 24 Hours</option>
-                    <option value="7d" selected>Last 7 Days</option>
-                    <option value="30d">Last 30 Days</option>
-                    <option value="90d">Last 90 Days</option>
-                    <option value="1y">Last Year</option>
-                </select>
-                <a href="#" class="nav-btn secondary" onclick="exportReports()">📊 Export Reports</a>
-                <a href="#" class="nav-btn primary" onclick="systemSettings()">⚙️ Settings</a>
+            <div class="role-selector">
+                <span style="margin-right: 10px; color: #666; font-weight: 600;">View as:</span>
+                <button class="role-btn active" data-role="exporter">🏭 Exporter</button>
+                <button class="role-btn" data-role="cha">🚢 CHA</button>
+                <button class="role-btn" data-role="buyer">🛒 Buyer</button>
+                <button class="role-btn" data-role="admin">⚙️ Admin</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+        <div class="progress-steps">
+            <div class="progress-line">
+                <div class="progress-line-fill"></div>
+            </div>
+            <div class="step completed">
+                <span>📋</span>
+                <div class="step-label">1. Intake</div>
+            </div>
+            <div class="step completed">
+                <span>💰</span>
+                <div class="step-label">2. Valuation</div>
+            </div>
+            <div class="step active">
+                <span>📄</span>
+                <div class="step-label">3. SCF</div>
+            </div>
+            <div class="step">
+                <span>🏺</span>
+                <div class="step-label">4. Auction</div>
+            </div>
+            <div class="step">
+                <span>✅</span>
+                <div class="step-label">5. Complete</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Dashboard Stats -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-number" id="totalCargo">24</div>
+                <div class="stat-label">Active Cargo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-number" id="totalValue">₹2.4Cr</div>
+                <div class="stat-label">Total Value</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏺</div>
+                <div class="stat-number" id="liveAuctions">8</div>
+                <div class="stat-label">Live Auctions</div>
             </div>
         </div>
 
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-icon">🏺</div>
-                <div class="kpi-number" id="totalAuctions">1,247</div>
-                <div class="kpi-label">Total Auctions</div>
-                <div class="kpi-change positive">+12.5%</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">👥</div>
-                <div class="kpi-number" id="activeUsers">8,543</div>
-                <div class="kpi-label">Active Users</div>
-                <div class="kpi-change positive">+8.3%</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">💰</div>
-                <div class="kpi-number" id="totalVolume">₹45.2Cr</div>
-                <div class="kpi-label">Transaction Volume</div>
-                <div class="kpi-change positive">+15.7%</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">💳</div>
-                <div class="kpi-number" id="scfLoans">₹12.8Cr</div>
-                <div class="kpi-label">SCF Disbursed</div>
-                <div class="kpi-change positive">+22.1%</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">📊</div>
-                <div class="kpi-number" id="defaultRate">2.3%</div>
-                <div class="kpi-label">Default Rate</div>
-                <div class="kpi-change negative">+0.2%</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">🌍</div>
-                <div class="kpi-number" id="countries">12</div>
-                <div class="kpi-label">Countries</div>
-                <div class="kpi-change positive">+2</div>
-            </div>
-        </div>
-
-        <div class="main-grid">
-            <div class="charts-panel">
-                <div class="card">
+        <div class="content-sections">
+            <div class="main-section">
+                <!-- Exporter View -->
+                <div class="role-content active" id="exporter-content">
                     <div class="section-title">
-                        <span>📈</span> Transaction Volume Trends
+                        <span>🏭</span> Your Damaged Cargo
                     </div>
-                    <div class="chart-container">
-                        <div class="mock-chart">
-                            <div class="chart-line"></div>
-                            <p>Revenue trending upward with 15.7% growth this month</p>
+                    
+                    <div class="cargo-list">
+                        <div class="cargo-item">
+                            <div class="cargo-header">
+                                <div class="cargo-id">DGX-2024-001</div>
+                                <div class="status-badge status-scf">SCF Ready</div>
+                            </div>
+                            <div style="font-weight: 600; margin-bottom: 10px;">Electronics - Water Damage</div>
+                            <div class="cargo-details">
+                                <div class="detail-item">
+                                    <div class="detail-value">₹8.5L</div>
+                                    <div class="detail-label">Est. Value</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">70%</div>
+                                    <div class="detail-label">SCF Available</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">Mumbai</div>
+                                    <div class="detail-label">Location</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="proceedToSCF('DGX-2024-001')">Accept SCF (₹5.95L)</button>
+                                <button class="btn btn-secondary" onclick="viewDocuments('DGX-2024-001')">📄 Documents</button>
+                                <button class="btn btn-warning" onclick="generateConsent('DGX-2024-001')">📋 Generate Consent</button>
+                            </div>
+                        </div>
+
+                        <div class="cargo-item">
+                            <div class="cargo-header">
+                                <div class="cargo-id">DGX-2024-002</div>
+                                <div class="status-badge status-auction">Live Auction</div>
+                            </div>
+                            <div style="font-weight: 600; margin-bottom: 10px;">Textiles - Fire Damage</div>
+                            <div class="cargo-details">
+                                <div class="detail-item">
+                                    <div class="detail-value">₹12.2L</div>
+                                    <div class="detail-label">Original Value</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">₹4.8L</div>
+                                    <div class="detail-label">Current Bid</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">2h 45m</div>
+                                    <div class="detail-label">Time Left</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-success" onclick="viewAuction('DGX-2024-002')">🏺 View Auction</button>
+                                <button class="btn btn-secondary" onclick="trackProgress('DGX-2024-002')">📊 Track Progress</button>
+                            </div>
+                        </div>
+
+                        <div class="cargo-item">
+                            <div class="cargo-header">
+                                <div class="cargo-id">DGX-2024-003</div>
+                                <div class="status-badge status-intake">New Intake</div>
+                            </div>
+                            <div style="font-weight: 600; margin-bottom: 10px;">Machinery - Physical Damage</div>
+                            <div class="cargo-details">
+                                <div class="detail-item">
+                                    <div class="detail-value">Pending</div>
+                                    <div class="detail-label">Valuation</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">Chennai</div>
+                                    <div class="detail-label">Location</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">Today</div>
+                                    <div class="detail-label">Reported</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="continueIntake('DGX-2024-003')">Continue Setup</button>
+                                <button class="btn btn-secondary" onclick="uploadDocs('DGX-2024-003')">📎 Upload Docs</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="next-step-bar">
+                        <div class="next-step-text">
+                            <strong>Next:</strong> Complete SCF application for DGX-2024-001 to unlock ₹5.95L financing
+                        </div>
+                        <button class="next-step-btn" onclick="proceedToSCF('DGX-2024-001')">Proceed →</button>
+                    </div>
+                </div>
+
+                <!-- CHA View -->
+                <div class="role-content" id="cha-content">
+                    <div class="section-title">
+                        <span>🚢</span> Cargo Under Management
+                    </div>
+                    <div class="cargo-list">
+                        <div class="cargo-item">
+                            <div class="cargo-header">
+                                <div class="cargo-id">DGX-2024-001</div>
+                                <div class="status-badge status-valuation">Valuation Pending</div>
+                            </div>
+                            <div style="font-weight: 600; margin-bottom: 10px;">Electronics Consignment - Client: TechCorp Ltd</div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary">Schedule Inspection</button>
+                                <button class="btn btn-secondary">Update Status</button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <!-- Buyer View -->
+                <div class="role-content" id="buyer-content">
                     <div class="section-title">
-                        <span>🏺</span> Auction Performance
+                        <span>🛒</span> Available Auctions
                     </div>
-                    <div class="chart-container">
-                        <div class="mock-chart">
-                            <div class="chart-bars">
-                                <div class="chart-bar" style="height: 60%;"></div>
-                                <div class="chart-bar" style="height: 80%;"></div>
-                                <div class="chart-bar" style="height: 45%;"></div>
-                                <div class="chart-bar" style="height: 90%;"></div>
-                                <div class="chart-bar" style="height: 70%;"></div>
-                                <div class="chart-bar" style="height: 85%;"></div>
-                                <div class="chart-bar" style="height: 95%;"></div>
+                    <div class="live-auctions">
+                        <div class="auction-item">
+                            <div class="auction-header">
+                                <div class="auction-id">DGX-2024-002</div>
+                                <div class="countdown">2h 45m left</div>
                             </div>
-                            <p>Average auction success rate: 87.3% (↑5.2%)</p>
+                            <div style="font-weight: 600; margin-bottom: 8px;">Textiles - Fire Damage</div>
+                            <div class="current-bid">Current Bid: ₹4.8L (12 bids)</div>
+                            <input type="number" class="bid-input" placeholder="Enter your bid (min: ₹4.9L)" value="490000">
+                            <button class="btn btn-primary" style="width: 100%;">Place Bid with SCF</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin View -->
+                <div class="role-content" id="admin-content">
+                    <div class="section-title">
+                        <span>⚙️</span> Platform Overview
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 12px;">
+                            <h3>System Health</h3>
+                            <p>All services operational</p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 12px;">
+                            <h3>Active Users</h3>
+                            <p>23 Exporters, 8 CHAs, 45 Buyers</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="sidebar">
+                <!-- Live Auctions -->
                 <div class="sidebar-card">
-                    <div class="sidebar-title">
-                        <span>🌍</span> Global Regions
+                    <div class="section-title" style="font-size: 1.2rem;">
+                        <span>🏺</span> Live Auctions
                     </div>
-                    
-                    <div class="region-list">
-                        <div class="region-item">
-                            <div class="region-info">
-                                <div class="region-flag">🇮🇳</div>
-                                <div class="region-details">
-                                    <h4>India</h4>
-                                    <p>Mumbai, Delhi, Chennai</p>
-                                </div>
+                    <div class="live-auctions">
+                        <div class="auction-item">
+                            <div class="auction-header">
+                                <div class="auction-id">DGX-2024-002</div>
+                                <div class="countdown">2h 45m</div>
                             </div>
-                            <div class="region-stats">
-                                <div class="region-volume">₹28.5Cr</div>
-                                <div class="region-growth growth-positive">+18.2%</div>
-                            </div>
+                            <div class="current-bid">₹4.8L</div>
+                            <button class="btn btn-secondary" style="width: 100%; font-size: 0.8rem;">View Details</button>
                         </div>
-                        <div class="region-item">
-                            <div class="region-info">
-                                <div class="region-flag">🇦🇪</div>
-                                <div class="region-details">
-                                    <h4>UAE</h4>
-                                    <p>Dubai, Abu Dhabi</p>
-                                </div>
+                        <div class="auction-item">
+                            <div class="auction-header">
+                                <div class="auction-id">DGX-2024-004</div>
+                                <div class="countdown">5h 12m</div>
                             </div>
-                            <div class="region-stats">
-                                <div class="region-volume">₹8.7Cr</div>
-                                <div class="region-growth growth-positive">+12.5%</div>
-                            </div>
-                        </div>
-                        <div class="region-item">
-                            <div class="region-info">
-                                <div class="region-flag">🇸🇬</div>
-                                <div class="region-details">
-                                    <h4>Singapore</h4>
-                                    <p>Port of Singapore</p>
-                                </div>
-                            </div>
-                            <div class="region-stats">
-                                <div class="region-volume">₹5.2Cr</div>
-                                <div class="region-growth growth-positive">+8.9%</div>
-                            </div>
-                        </div>
-                        <div class="region-item">
-                            <div class="region-info">
-                                <div class="region-flag">🇺🇸</div>
-                                <div class="region-details">
-                                    <h4>USA</h4>
-                                    <p>New York, Los Angeles</p>
-                                </div>
-                            </div>
-                            <div class="region-stats">
-                                <div class="region-volume">₹2.8Cr</div>
-                                <div class="region-growth growth-negative">-2.1%</div>
-                            </div>
+                            <div class="current-bid">₹2.1L</div>
+                            <button class="btn btn-secondary" style="width: 100%; font-size: 0.8rem;">View Details</button>
                         </div>
                     </div>
                 </div>
 
+                <!-- Recent Activity -->
                 <div class="sidebar-card">
-                    <div class="sidebar-title">
-                        <span>🚨</span> System Alerts
+                    <div class="section-title" style="font-size: 1.2rem;">
+                        <span>🔔</span> Recent Activity
                     </div>
-                    
-                    <div class="alert-list">
-                        <div class="alert-item">
-                            <div class="alert-icon critical">❗</div>
-                            <div class="alert-content">
-                                <div class="alert-title">High Default Rate - Mumbai</div>
-                                <div class="alert-description">SCF default rate increased to 4.2% in Mumbai region. Requires immediate attention.</div>
-                                <div class="alert-time">15 minutes ago</div>
+                    <div class="notifications">
+                        <div class="notification-item">
+                            <div class="notification-icon">📈</div>
+                            <div>
+                                <div class="notification-text">New bid on DGX-2024-002</div>
+                                <div class="notification-time">5 min ago</div>
                             </div>
                         </div>
-                        <div class="alert-item">
-                            <div class="alert-icon warning">⚠️</div>
-                            <div class="alert-content">
-                                <div class="alert-title">Server Load High</div>
-                                <div class="alert-description">Mumbai data center at 85% capacity. Consider scaling up resources.</div>
-                                <div class="alert-time">1 hour ago</div>
+                        <div class="notification-item">
+                            <div class="notification-icon">✅</div>
+                            <div>
+                                <div class="notification-text">SCF approved for DGX-2024-001</div>
+                                <div class="notification-time">1 hour ago</div>
                             </div>
                         </div>
-                        <div class="alert-item">
-                            <div class="alert-icon info">ℹ️</div>
-                            <div class="alert-content">
-                                <div class="alert-title">New Partner Integration</div>
-                                <div class="alert-description">FedEx logistics integration completed successfully. Now available in 3 regions.</div>
-                                <div class="alert-time">3 hours ago</div>
-                            </div>
-                        </div>
-                        <div class="alert-item">
-                            <div class="alert-icon warning">⚠️</div>
-                            <div class="alert-content">
-                                <div class="alert-title">Regulatory Update</div>
-                                <div class="alert-description">New RBI guidelines for digital lending effective next month. Review compliance.</div>
-                                <div class="alert-time">1 day ago</div>
+                        <div class="notification-item">
+                            <div class="notification-icon">📋</div>
+                            <div>
+                                <div class="notification-text">New cargo intake completed</div>
+                                <div class="notification-time">3 hours ago</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="card user-management">
-            <div class="section-title">
-                <span>👥</span> User Management & Activity
-            </div>
-            
-            <div class="quick-actions">
-                <button class="quick-action-btn primary" onclick="userManagement()">
-                    <div class="action-icon">👥</div>
-                    <div class="action-text">Manage Users</div>
-                </button>
-                <button class="quick-action-btn success" onclick="auditLogs()">
-                    <div class="action-icon">📋</div>
-                    <div class="action-text">Audit Logs</div>
-                </button>
-                <button class="quick-action-btn warning" onclick="systemHealth()">
-                    <div class="action-icon">❤️</div>
-                    <div class="action-text">System Health</div>
-                </button>
-            </div>
-            
-            <div class="user-stats">
-                <div class="user-stat-card">
-                    <div class="user-stat-icon">🏢</div>
-                    <div class="user-stat-number" id="chaUsers">1,245</div>
-                    <div class="user-stat-label">CHA Users</div>
-                </div>
-                <div class="user-stat-card">
-                    <div class="user-stat-icon">🛒</div>
-                    <div class="user-stat-number" id="buyerUsers">6,543</div>
-                    <div class="user-stat-label">Buyers</div>
-                </div>
-                <div class="user-stat-card">
-                    <div class="user-stat-icon">🤝</div>
-                    <div class="user-stat-number" id="thirdPartyUsers">156</div>
-                    <div class="user-stat-label">Third Parties</div>
-                </div>
-                <div class="user-stat-card">
-                    <div class="user-stat-icon">⚙️</div>
-                    <div class="user-stat-number" id="adminUsers">23</div>
-                    <div class="user-stat-label">Admins</div>
-                </div>
-            </div>
-            
-            <div class="section-title" style="font-size: 1.3rem; margin-top: 30px;">
-                <span>📊</span> Recent Platform Activity
-            </div>
-            
-            <div class="recent-activities" id="recentActivities">
-                <!-- Activities will be populated here -->
             </div>
         </div>
     </div>
 
     <script>
-        class AdminDashboard {
-            constructor() {
-                this.currentCurrency = 'INR';
-                this.timeRange = '7d';
-                this.exchangeRates = this.loadExchangeRates();
-                this.activities = this.loadRecentActivities();
-                this.init();
-            }
-
-            init() {
-                this.bindEvents();
-                this.renderActivities();
-                this.startRealTimeUpdates();
-                this.updateKPIs();
-            }
-
-            bindEvents() {
-                document.getElementById('currencySelector').addEventListener('change', (e) => {
-                    this.changeCurrency(e.target.value);
+        // Role switching functionality
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Hide all role content
+                document.querySelectorAll('.role-content').forEach(content => {
+                    content.classList.remove('active');
                 });
                 
-                document.getElementById('timeRange').addEventListener('change', (e) => {
-                    this.changeTimeRange(e.target.value);
+                // Show selected role content
+                const role = btn.getAttribute('data-role');
+                document.getElementById(role + '-content').classList.add('active');
+                
+                // Update stats based on role
+                updateStatsForRole(role);
+            });
+        });
+
+        // Update statistics based on selected role
+        function updateStatsForRole(role) {
+            const stats = {
+                exporter: { cargo: 3, value: '₹21.7L', auctions: 1 },
+                cha: { cargo: 12, value: '₹45.2L', auctions: 4 },
+                buyer: { cargo: 0, value: '₹0', auctions: 8 },
+                admin: { cargo: 24, value: '₹2.4Cr', auctions: 8 }
+            };
+            
+            document.getElementById('totalCargo').textContent = stats[role].cargo;
+            document.getElementById('totalValue').textContent = stats[role].value;
+            document.getElementById('liveAuctions').textContent = stats[role].auctions;
+        }
+
+        // Action functions
+        function proceedToSCF(cargoId) {
+            alert(`🏦 SCF Application for ${cargoId}\n\nProceeding to Supply Chain Finance application.\n\n✅ Pre-approved for 70% financing\n💰 Available amount: ₹5.95L\n📋 Documents verified\n⏱️ Funds available in 24-48 hours`);
+        }
+
+        function viewDocuments(cargoId) {
+            alert(`📄 Documents for ${cargoId}\n\n📋 Available Documents:\n• Invoice (PDF)\n• Bill of Lading (PDF)\n• Damage Assessment Report (PDF)\n• Insurance Claim (PDF)\n• Photos (8 images)\n\n✅ All documents verified and uploaded`);
+        }
+
+        function generateConsent(cargoId) {
+            alert(`📋 Consent Letter Generation\n\nGenerating legal consent letter for ${cargoId}:\n\n✅ Authorization for resale/auction\n✅ Terms and conditions included\n✅ Legal compliance verified\n\n📄 PDF will be generated and emailed to you within 5 minutes.`);
+        }
+
+        function viewAuction(cargoId) {
+            alert(`🏺 Live Auction: ${cargoId}\n\n📊 Current Status:\n• Current Bid: ₹4.8L\n• Total Bids: 12\n• Time Remaining: 2h 45m\n• Leading Bidder: TextileBuyer99\n\n💡 Bidding with SCF available up to 60% of bid amount!`);
+        }
+
+        function trackProgress(cargoId) {
+            alert(`📊 Progress Tracking: ${cargoId}\n\n✅ Completed Steps:\n• Initial intake and documentation\n• Professional valuation (₹12.2L → ₹8.5L recoverable)\n• SCF pre-approval (₹5.95L available)\n• Auction listing created\n\n🔄 Current: Live auction (2h 45m remaining)\n⏭️ Next: Settlement and payment processing`);
+        }
+
+        function continueIntake(cargoId) {
+            alert(`📋 Continue Intake: ${cargoId}\n\n⏭️ Next Steps Required:\n• Upload damage assessment photos\n• Provide detailed damage description\n• Submit insurance documents\n• Schedule professional valuation\n\n🕒 Estimated completion: 24-48 hours`);
+        }
+
+        function uploadDocs(cargoId) {
+            alert(`📎 Document Upload: ${cargoId}\n\n📋 Required Documents:\n• Commercial Invoice (PDF/Image)\n• Bill of Lading (PDF/Image)\n• Damage Assessment Report (PDF)\n• Insurance Correspondence (PDF)\n• Damage Photos (JPG/PNG - max 10 files)\n\n⚡ Drag & drop or click to upload. Max file size: 10MB per file.`);
+        }
+
+        // Simulate live countdown updates
+        function updateCountdowns() {
+            const countdowns = document.querySelectorAll('.countdown');
+            countdowns.forEach(countdown => {
+                if (countdown.textContent.includes('h') && countdown.textContent.includes('m')) {
+                    // Simulate countdown (in real app, this would be calculated from actual end time)
+                    const currentText = countdown.textContent;
+                    if (currentText === '2h 45m') {
+                        setTimeout(() => { countdown.textContent = '2h 44m'; }, 60000);
+                    }
+                }
+            });
+        }
+
+        // Start countdown simulation
+        updateCountdowns();
+
+        // Simulate real-time updates
+        setInterval(() => {
+            // Update bid counts occasionally
+            const bidElements = document.querySelectorAll('.current-bid');
+            // In real app, this would fetch from API
+        }, 30000);
+
+        // Document ready actions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial role statistics
+            updateStatsForRole('exporter');
+            
+            // Add some interactive hover effects
+            const cargoItems = document.querySelectorAll('.cargo-item');
+            cargoItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.borderColor = '#667eea';
                 });
-            }
+                item.addEventListener('mouseleave', function() {
+                    this.style.borderColor = '#e1e5e9';
+                });
+            });
+        });
 
-            loadExchangeRates() {
-                return {
-                    USD: 1.0,
-                    INR: 83.25,
-                    EUR: 0.85,
-                    GBP: 0.73,
-                    AED: 3.67,
-                    SGD: 1.35,
-                    CNY: 7.15,
-                    JPY: 150.0
-                };
-            }
-
-            getCurrencySymbol(currency) {
-                const symbols = {
-                    USD: ',
-                    INR: '₹',
-                    EUR: '€',
-                    GBP: '£',
-                    AED: 'د.إ',
-                    SGD: 'S,
-                    CNY: '¥',
-                    JPY: '¥'
-                };
-                return symbols[currency] || currency;
-            }
-
-            convertCurrency(amount, fromCurrency = 'USD', toCurrency = null) {
-                if (!toCurrency) toCurrency = this.currentCurrency;
-                if (fromCurrency === toCurrency) return amount;
-                
-                const usdAmount = amount / this.exchangeRates[fromCurrency];
-                return Math.round(usdAmount * this.exchangeRates[toCurrency]);
-            }
-
-            formatCurrency(amount, currency = null) {
-                if (!currency) currency = this.currentCurrency;
-                const symbol = this.getCurrencySymbol(currency);
-                const convertedAmount = this.convertCurrency(amount, 'USD', currency);
-                
-                if (currency === 'JPY') {
-                    return `${symbol}${convertedAmount.toLocaleString()}`;
-                } else if (currency === 'INR') {
-                    return `${symbol}${convertedAmount.toLocaleString('en-IN')}`;
+        // Progress tracker animation
+        function updateProgressStep(stepNumber) {
+            const steps = document.querySelectorAll('.step');
+            const progressFill = document.querySelector('.progress-line-fill');
+            
+            steps.forEach((step, index) => {
+                if (index < stepNumber - 1) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (index === stepNumber - 1) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
                 } else {
-                    return `${symbol}${convertedAmount.toLocaleString()}`;
+                    step.classList.remove('completed', 'active');
                 }
-            }
-
-            changeCurrency(newCurrency) {
-                this.currentCurrency = newCurrency;
-                this.updateKPIs();
-            }
-
-            changeTimeRange(newRange) {
-                this.timeRange = newRange;
-                this.updateKPIs();
-                this.renderActivities();
-            }
-
-            updateKPIs() {
-                // Update currency-dependent KPIs
-                document.getElementById('totalVolume').textContent = this.formatCurrency(5432000); // $5.43M base
-                document.getElementById('scfLoans').textContent = this.formatCurrency(1537000); // $1.54M base
-            }
-
-            loadRecentActivities() {
-                return [
-                    {
-                        id: 1,
-                        user: 'Mumbai CHA Services',
-                        avatar: 'MC',
-                        action: 'Created auction AUC-2024-157',
-                        details: 'Electronics lot worth ₹2.5L',
-                        time: new Date(Date.now() - 15 * 60 * 1000),
-                        type: 'auction'
-                    },
-                    {
-                        id: 2,
-                        user: 'TechBuyer Solutions',
-                        avatar: 'TB',
-                        action: 'Won auction AUC-2024-155',
-                        details: 'Bid amount: ₹18.5L with SCF financing',
-                        time: new Date(Date.now() - 32 * 60 * 1000),
-                        type: 'purchase'
-                    },
-                    {
-                        id: 3,
-                        user: 'Global Liquidation Partners',
-                        avatar: 'GL',
-                        action: 'Bulk purchase completed',
-                        details: '25 lots acquired for ₹45.2L',
-                        time: new Date(Date.now() - 58 * 60 * 1000),
-                        type: 'bulk'
-                    },
-                    {
-                        id: 4,
-                        user: 'Chennai Port Authority',
-                        avatar: 'CP',
-                        action: 'Damage report submitted',
-                        details: 'Container MSCU9876543 - Water damage',
-                        time: new Date(Date.now() - 75 * 60 * 1000),
-                        type: 'damage'
-                    },
-                    {
-                        id: 5,
-                        user: 'Delhi Import Co.',
-                        avatar: 'DI',
-                        action: 'SCF loan approved',
-                        details: 'Amount: ₹12.5L at 15% APR',
-                        time: new Date(Date.now() - 95 * 60 * 1000),
-                        type: 'finance'
-                    },
-                    {
-                        id: 6,
-                        user: 'Bangalore Logistics',
-                        avatar: 'BL',
-                        action: 'Shipment delivered',
-                        details: 'SHP-2024-089 delivered successfully',
-                        time: new Date(Date.now() - 125 * 60 * 1000),
-                        type: 'logistics'
-                    },
-                    {
-                        id: 7,
-                        user: 'UAE Trading Hub',
-                        avatar: 'UT',
-                        action: 'New user registration',
-                        details: 'Third-party service provider',
-                        time: new Date(Date.now() - 145 * 60 * 1000),
-                        type: 'user'
-                    },
-                    {
-                        id: 8,
-                        user: 'System Admin',
-                        avatar: 'SA',
-                        action: 'Platform maintenance completed',
-                        details: 'Mumbai data center upgrade',
-                        time: new Date(Date.now() - 180 * 60 * 1000),
-                        type: 'system'
-                    }
-                ];
-            }
-
-            renderActivities() {
-                const activitiesContainer = document.getElementById('recentActivities');
-                const filteredActivities = this.getFilteredActivities();
-
-                if (filteredActivities.length === 0) {
-                    activitiesContainer.innerHTML = `
-                        <div style="text-align: center; padding: 40px; color: #666;">
-                            <div style="font-size: 3rem; margin-bottom: 15px;">📊</div>
-                            <h3>No recent activities</h3>
-                            <p>Activity data will appear here as users interact with the platform</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                activitiesContainer.innerHTML = filteredActivities.map(activity => {
-                    return `
-                        <div class="activity-item">
-                            <div class="activity-avatar">${activity.avatar}</div>
-                            <div class="activity-content">
-                                <div class="activity-text">${activity.user}</div>
-                                <div class="activity-details">
-                                    <strong>${activity.action}</strong> • ${activity.details}
-                                </div>
-                            </div>
-                            <div class="activity-time">${this.getTimeAgo(activity.time)}</div>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            getFilteredActivities() {
-                const now = new Date();
-                const timeRanges = {
-                    '24h': 24 * 60 * 60 * 1000,
-                    '7d': 7 * 24 * 60 * 60 * 1000,
-                    '30d': 30 * 24 * 60 * 60 * 1000,
-                    '90d': 90 * 24 * 60 * 60 * 1000,
-                    '1y': 365 * 24 * 60 * 60 * 1000
-                };
-
-                const cutoffTime = now - timeRanges[this.timeRange];
-                return this.activities.filter(activity => activity.time >= cutoffTime);
-            }
-
-            getTimeAgo(date) {
-                const now = new Date();
-                const diff = now - date;
-                const minutes = Math.floor(diff / (1000 * 60));
-                
-                if (minutes < 1) return 'Just now';
-                if (minutes < 60) return `${minutes}m ago`;
-                
-                const hours = Math.floor(minutes / 60);
-                if (hours < 24) return `${hours}h ago`;
-                
-                const days = Math.floor(hours / 24);
-                if (days < 30) return `${days}d ago`;
-                
-                const months = Math.floor(days / 30);
-                return `${months}mo ago`;
-            }
-
-            startRealTimeUpdates() {
-                // Simulate real-time activity updates
-                setInterval(() => {
-                    this.addRandomActivity();
-                }, 60000); // Add new activity every minute
-
-                // Update KPIs every 30 seconds
-                setInterval(() => {
-                    this.updateRealTimeKPIs();
-                }, 30000);
-            }
-
-            addRandomActivity() {
-                const randomActivities = [
-                    {
-                        user: 'Auto Trader Inc',
-                        avatar: 'AT',
-                        action: 'Placed bid on AUC-' + Math.random().toString().substr(2, 6),
-                        details: 'Automotive parts lot',
-                        type: 'bid'
-                    },
-                    {
-                        user: 'Express Logistics',
-                        avatar: 'EL',
-                        action: 'Shipment status updated',
-                        details: 'In transit to destination',
-                        type: 'logistics'
-                    },
-                    {
-                        user: 'Smart Electronics',
-                        avatar: 'SE',
-                        action: 'SCF application submitted',
-                        details: 'Requesting financing',
-                        type: 'finance'
-                    }
-                ];
-
-                const randomActivity = randomActivities[Math.floor(Math.random() * randomActivities.length)];
-                const newActivity = {
-                    id: Date.now(),
-                    user: randomActivity.user,
-                    avatar: randomActivity.avatar,
-                    action: randomActivity.action,
-                    details: randomActivity.details,
-                    type: randomActivity.type,
-                    time: new Date()
-                };
-
-                this.activities.unshift(newActivity);
-                this.activities = this.activities.slice(0, 50); // Keep only last 50 activities
-                this.renderActivities();
-            }
-
-            updateRealTimeKPIs() {
-                // Simulate small changes in KPIs
-                const totalAuctions = document.getElementById('totalAuctions');
-                const activeUsers = document.getElementById('activeUsers');
-                
-                // Random small increments
-                if (Math.random() > 0.7) {
-                    totalAuctions.textContent = (parseInt(totalAuctions.textContent.replace(',', '')) + 1).toLocaleString();
-                }
-                
-                if (Math.random() > 0.8) {
-                    activeUsers.textContent = (parseInt(activeUsers.textContent.replace(',', '')) + Math.floor(Math.random() * 3)).toLocaleString();
-                }
-            }
+            });
+            
+            const progressPercentage = ((stepNumber - 1) / 4) * 100;
+            progressFill.style.width = progressPercentage + '%';
         }
 
-        // Global functions
-        function exportReports() {
-            alert('📊 Export Reports\n\nAvailable reports:\n\n• Transaction Volume Report\n• User Activity Analysis\n• SCF Performance Metrics\n• Regional Growth Analysis\n• Audit & Compliance Report\n• Financial Summary\n\nFormats: PDF, Excel, CSV\nScheduled reports: Daily, Weekly, Monthly\n\nSelect report type and format to continue...');
-        }
-
-        function systemSettings() {
-            alert('⚙️ System Settings\n\nConfiguration options:\n\n• Platform Settings\n  - Currency preferences\n  - Regional configurations\n  - Feature toggles\n\n• Security Settings\n  - Authentication policies\n  - Access controls\n  - Audit logging\n\n• Integration Settings\n  - API configurations\n  - Third-party services\n  - Webhook endpoints\n\n• Notification Settings\n  - Alert thresholds\n  - Email templates\n  - SMS configurations');
-        }
-
-        function userManagement() {
-            alert('👥 User Management\n\nUser administration panel:\n\n• Active Users: 8,543\n• Pending Approvals: 23\n• Suspended Accounts: 12\n• KYC Pending: 156\n\nActions available:\n• Approve/Reject registrations\n• Suspend/Reactivate users\n• Reset passwords\n• Update user roles\n• Export user data\n• Bulk operations\n\nAccess user profiles and detailed analytics...');
-        }
-
-        function auditLogs() {
-            alert('📋 Audit Logs\n\nSystem audit trail:\n\n• Login/Logout events\n• Transaction records\n• Data modifications\n• Admin actions\n• Security events\n• API access logs\n\nFilters available:\n• Date range\n• User type\n• Action type\n• Severity level\n\nExport logs for compliance reporting...');
-        }
-
-        function systemHealth() {
-            alert('❤️ System Health\n\nInfrastructure monitoring:\n\n🟢 API Services: Healthy\n🟢 Database: Optimal\n🟡 Mumbai DC: 85% load\n🟢 Payment Gateway: Operational\n🟢 SCF Engine: Running\n🟡 Backup Systems: Scheduled\n\nPerformance metrics:\n• Response time: 120ms avg\n• Uptime: 99.8%\n• Error rate: 0.02%\n• Throughput: 1.2K req/sec\n\nDetailed monitoring dashboard available...');
-        }
-
-        // Initialize the admin dashboard
-        window.adminDashboard = new AdminDashboard();
+        // Demo: Simulate progress updates
+        let currentStep = 3;
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressStep(currentStep);
+            
+            // Simulate step progression every 10 seconds for demo
+            setInterval(() => {
+                currentStep = currentStep >= 5 ? 1 : currentStep + 1;
+                updateProgressStep(currentStep);
+            }, 10000);
+        });
     </script>
 </body>
 </html>

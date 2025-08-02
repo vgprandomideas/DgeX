@@ -1,4 +1,177 @@
-.tab-btn {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DamageEx - Dynamic Buyer Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            color: #666;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .currency-selector {
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .currency-selector:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: 2px solid #e1e5e9;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card.updating {
+            border-color: #22c55e;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+            animation: glow 0.5s ease;
+        }
+
+        @keyframes glow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+            100% { transform: scale(1); }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-type-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .tab-btn {
             flex: 1;
             padding: 15px 20px;
             border: none;
@@ -22,6 +195,12 @@
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .stats-overview {
@@ -37,11 +216,19 @@
             padding: 25px;
             text-align: center;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .stat-card:hover {
             transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.updating {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
         }
 
         .stat-icon {
@@ -54,6 +241,7 @@
             font-weight: bold;
             color: #667eea;
             margin-bottom: 5px;
+            transition: all 0.3s ease;
         }
 
         .stat-label {
@@ -63,7 +251,7 @@
         }
 
         .purchase-history {
-            max-height: 500px;
+            max-height: 600px;
             overflow-y: auto;
         }
 
@@ -80,6 +268,17 @@
         .purchase-card:hover {
             transform: translateX(5px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .purchase-card.new {
+            border-left-color: #22c55e;
+            background: linear-gradient(135deg, #f0fdf4, #ffffff);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .purchase-header {
@@ -101,6 +300,7 @@
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
+            transition: all 0.3s ease;
         }
 
         .status-won {
@@ -132,6 +332,14 @@
 
         .detail-item {
             text-align: center;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: #e2e8f0;
         }
 
         .detail-amount {
@@ -203,6 +411,13 @@
 
         .action-btn:hover {
             transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .sidebar {
@@ -236,6 +451,12 @@
             text-align: center;
             margin-bottom: 20px;
             border: 2px solid #e1e5e9;
+            transition: all 0.3s ease;
+        }
+
+        .credit-score-display.updating {
+            border-color: #22c55e;
+            animation: glow 0.5s ease;
         }
 
         .credit-score-number {
@@ -243,8 +464,11 @@
             font-weight: 800;
             margin-bottom: 10px;
             background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
             -webkit-background-clip: text;
+            color: transparent;
             -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
         }
 
         .credit-tier {
@@ -254,11 +478,13 @@
             font-weight: 600;
             font-size: 0.9rem;
             margin-top: 10px;
+            transition: all 0.3s ease;
         }
 
-        .tier-1 { background: #dcfce7; color: #166534; }
-        .tier-2 { background: #dbeafe; color: #1e40af; }
-        .tier-3 { background: #fef3c7; color: #92400e; }
+        .tier-excellent { background: #dcfce7; color: #166534; }
+        .tier-good { background: #dbeafe; color: #1e40af; }
+        .tier-fair { background: #fef3c7; color: #92400e; }
+        .tier-poor { background: #fecaca; color: #dc2626; }
 
         .scf-summary {
             background: white;
@@ -266,6 +492,11 @@
             padding: 20px;
             margin-bottom: 20px;
             border-left: 4px solid #0891b2;
+            transition: all 0.3s ease;
+        }
+
+        .scf-summary:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .scf-limit {
@@ -325,10 +556,23 @@
             gap: 15px;
             padding: 15px 0;
             border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .notification-item:hover {
+            background: #f8fafc;
+            margin: 0 -10px;
+            padding: 15px 10px;
+            border-radius: 8px;
         }
 
         .notification-item:last-child {
             border-bottom: none;
+        }
+
+        .notification-item.new {
+            background: linear-gradient(135deg, #f0fdf4, #ffffff);
+            animation: fadeIn 0.5s ease;
         }
 
         .notification-icon {
@@ -367,14 +611,6 @@
         .notification-time {
             font-size: 0.8rem;
             color: #666;
-        }
-
-        .third-party-section {
-            display: none;
-        }
-
-        .third-party-section.active {
-            display: block;
         }
 
         .bulk-actions {
@@ -418,12 +654,16 @@
             background: white;
             color: #9333ea;
             border: 2px solid #e879f9;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .bulk-btn:hover {
             background: #9333ea;
             color: white;
             transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
 
         .inventory-grid {
@@ -438,6 +678,12 @@
             padding: 20px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
             border-left: 5px solid #9333ea;
+            transition: all 0.3s ease;
+        }
+
+        .inventory-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .inventory-header {
@@ -462,6 +708,38 @@
             color: #7c3aed;
         }
 
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #22c55e;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+
         @media (max-width: 1024px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -480,6 +758,10 @@
             .user-type-tabs {
                 flex-direction: column;
             }
+            
+            .bulk-buttons {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -487,8 +769,8 @@
     <div class="container">
         <div class="header">
             <div class="header-left">
-                <h1>🛒 Buyer Portal</h1>
-                <p>Manage purchases, SCF loans, and track deliveries</p>
+                <h1>🛒 Dynamic Buyer Portal</h1>
+                <p>Live purchase management, SCF loans, and real-time tracking</p>
             </div>
             <div class="header-controls">
                 <select class="currency-selector" id="currencySelector">
@@ -501,8 +783,12 @@
                     <option value="CNY">🇨🇳 CNY</option>
                     <option value="JPY">🇯🇵 JPY</option>
                 </select>
+                <div class="live-indicator">
+                    <div class="pulse-dot"></div>
+                    <span>LIVE SYSTEM</span>
+                </div>
                 <a href="#" class="nav-btn secondary" onclick="goBack()">← Dashboard</a>
-                <a href="#" class="nav-btn primary" onclick="browseAuctions()">Browse Auctions</a>
+                <a href="#" class="nav-btn primary" onclick="browseAuctions()">🏺 Browse Auctions</a>
             </div>
         </div>
 
@@ -539,9 +825,13 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card" id="purchaseHistoryCard">
                             <div class="section-title">
-                                <span>📋</span> Purchase History
+                                <span>📋</span> Live Purchase History
+                                <div class="live-indicator" style="margin-left: auto;">
+                                    <div class="pulse-dot"></div>
+                                    <span>REAL-TIME</span>
+                                </div>
                             </div>
                             
                             <div class="purchase-history" id="purchaseHistory">
@@ -554,18 +844,21 @@
                         <!-- Credit Profile -->
                         <div class="sidebar-card">
                             <div class="sidebar-title">
-                                <span>📊</span> Credit Profile
+                                <span>📊</span> Live Credit Profile
                             </div>
                             
-                            <div class="credit-score-display">
+                            <div class="credit-score-display" id="creditDisplay">
                                 <div class="credit-score-number" id="creditScore">720</div>
                                 <div style="color: #666; font-weight: 600;">Credit Score</div>
-                                <div class="credit-tier tier-2">Good (Tier 2)</div>
+                                <div class="credit-tier tier-good" id="creditTier">Good (Tier 2)</div>
                             </div>
                             
                             <div class="scf-summary">
                                 <div class="scf-limit" id="scfLimit">₹12.5L</div>
                                 <div class="scf-available">SCF Limit Available</div>
+                                <div style="margin-top: 10px; font-size: 0.8rem; color: #666;">
+                                    Used: <span id="scfUsed">₹4.2L</span> • Available: <span id="scfAvailable">₹8.3L</span>
+                                </div>
                             </div>
                         </div>
 
@@ -580,54 +873,38 @@
                                     <span>💳</span>
                                     <div>
                                         <strong>Apply for SCF</strong>
-                                        <div style="font-size: 0.8rem; opacity: 0.8;">Get instant financing</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.8;">Instant pre-approval</div>
                                     </div>
                                 </button>
                                 <button class="quick-action-btn success" onclick="trackDelivery()">
                                     <span>🚛</span>
                                     <div>
                                         <strong>Track Deliveries</strong>
-                                        <div style="font-size: 0.8rem; opacity: 0.8;">Monitor shipments</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.8;">Live GPS tracking</div>
                                     </div>
                                 </button>
                                 <button class="quick-action-btn warning" onclick="payEMI()">
                                     <span>💰</span>
                                     <div>
                                         <strong>Pay EMI</strong>
-                                        <div style="font-size: 0.8rem; opacity: 0.8;">Manage loan payments</div>
+                                        <div style="font-size: 0.8rem; opacity: 0.8;">Auto-debit available</div>
                                     </div>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Notifications -->
+                        <!-- Live Notifications -->
                         <div class="sidebar-card">
                             <div class="sidebar-title">
-                                <span>🔔</span> Recent Updates
+                                <span>🔔</span> Live Updates
+                                <div class="live-indicator" style="margin-left: auto; font-size: 12px;">
+                                    <div class="pulse-dot" style="width: 8px; height: 8px;"></div>
+                                    <span>LIVE</span>
+                                </div>
                             </div>
                             
                             <div id="notifications">
-                                <div class="notification-item">
-                                    <div class="notification-icon auction">🏺</div>
-                                    <div class="notification-content">
-                                        <div class="notification-text">You won AUC-2024-015!</div>
-                                        <div class="notification-time">2 hours ago</div>
-                                    </div>
-                                </div>
-                                <div class="notification-item">
-                                    <div class="notification-icon scf">💳</div>
-                                    <div class="notification-content">
-                                        <div class="notification-text">SCF loan approved - ₹8.5L</div>
-                                        <div class="notification-time">1 day ago</div>
-                                    </div>
-                                </div>
-                                <div class="notification-item">
-                                    <div class="notification-icon payment">💰</div>
-                                    <div class="notification-content">
-                                        <div class="notification-text">EMI payment successful</div>
-                                        <div class="notification-time">3 days ago</div>
-                                    </div>
-                                </div>
+                                <!-- Notifications will be populated dynamically -->
                             </div>
                         </div>
                     </div>
@@ -638,26 +915,38 @@
             <div id="thirdpartyTab" class="tab-content">
                 <div class="bulk-actions">
                     <div class="bulk-header">
-                        <div class="bulk-title">Third Party Services</div>
-                        <div class="bulk-subtitle">On-behalf purchasing and bulk acquisition services</div>
+                        <div class="bulk-title">🤝 Third Party Services</div>
+                        <div class="bulk-subtitle">Live on-behalf purchasing and bulk acquisition services</div>
                     </div>
                     
                     <div class="bulk-buttons">
                         <button class="bulk-btn" onclick="bulkPurchase()">
                             <span style="font-size: 1.5rem;">📦</span>
-                            Bulk Purchase
+                            <div>
+                                <strong>Bulk Purchase</strong>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">15 lots available</div>
+                            </div>
                         </button>
                         <button class="bulk-btn" onclick="setPricing()">
                             <span style="font-size: 1.5rem;">💰</span>
-                            Set Pricing
+                            <div>
+                                <strong>Set Pricing</strong>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">Auto-bid system</div>
+                            </div>
                         </button>
                         <button class="bulk-btn" onclick="quickBuy()">
                             <span style="font-size: 1.5rem;">⚡</span>
-                            Quick Buy
+                            <div>
+                                <strong>Quick Buy</strong>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">8 items ready</div>
+                            </div>
                         </button>
                         <button class="bulk-btn" onclick="manageInventory()">
                             <span style="font-size: 1.5rem;">📋</span>
-                            Manage Inventory
+                            <div>
+                                <strong>Manage Inventory</strong>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">156 total items</div>
+                            </div>
                         </button>
                     </div>
                 </div>
@@ -687,7 +976,11 @@
 
                 <div class="card">
                     <div class="section-title">
-                        <span>📦</span> Acquired Inventory
+                        <span>📦</span> Live Inventory Management
+                        <div class="live-indicator" style="margin-left: auto;">
+                            <div class="pulse-dot"></div>
+                            <span>REAL-TIME</span>
+                        </div>
                     </div>
                     
                     <div class="inventory-grid" id="inventoryGrid">
@@ -698,14 +991,23 @@
         </div>
     </div>
 
+    <!-- Live Notification System -->
+    <div class="notification" id="notification">
+        <div class="notification-title" id="notificationTitle">System Update</div>
+        <div class="notification-text" id="notificationText">Loading...</div>
+    </div>
+
     <script>
-        class BuyerPortal {
+        class DynamicBuyerPortal {
             constructor() {
                 this.currentCurrency = 'INR';
                 this.currentTab = 'buyer';
                 this.exchangeRates = this.loadExchangeRates();
                 this.purchases = this.loadPurchaseHistory();
                 this.inventory = this.loadInventory();
+                this.notifications = this.loadNotifications();
+                this.creditScore = 720;
+                this.updateIntervals = [];
                 this.init();
             }
 
@@ -713,7 +1015,14 @@
                 this.bindEvents();
                 this.renderPurchaseHistory();
                 this.renderInventory();
+                this.renderNotifications();
                 this.updateStats();
+                this.startRealTimeUpdates();
+                
+                // Welcome notification
+                setTimeout(() => {
+                    this.showNotification('🎉 Buyer Portal Online', 'Live tracking and real-time updates activated!');
+                }, 1000);
             }
 
             bindEvents() {
@@ -737,290 +1046,12 @@
 
             getCurrencySymbol(currency) {
                 const symbols = {
-                    USD: '<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DamageEx - Buyer Portal</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px 35px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-left h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            color: #666;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .currency-selector {
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .nav-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .nav-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .nav-btn.secondary {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            border: 2px solid #e1e5e9;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .main-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-type-tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 30px;
-            background: #f1f5f9;
-            border-radius: 15px;
-            padding: 5px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background:,
+                    USD: '$ ' ,
                     INR: '₹',
                     EUR: '€',
                     GBP: '£',
                     AED: 'د.إ',
-                    SGD: 'S<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DamageEx - Buyer Portal</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px 35px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-left h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            color: #666;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .currency-selector {
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .nav-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .nav-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .nav-btn.secondary {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            border: 2px solid #e1e5e9;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .main-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-type-tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 30px;
-            background: #f1f5f9;
-            border-radius: 15px;
-            padding: 5px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background:,
+                    SGD: 'S,' ,
                     CNY: '¥',
                     JPY: '¥'
                 };
@@ -1054,6 +1085,14 @@
                 this.renderPurchaseHistory();
                 this.renderInventory();
                 this.updateStats();
+                
+                // Animate currency change
+                document.querySelectorAll('.stat-card').forEach(card => {
+                    card.classList.add('updating');
+                    setTimeout(() => card.classList.remove('updating'), 500);
+                });
+                
+                this.showNotification('💱 Currency Changed', `Switched to ${this.getCurrencySymbol(newCurrency)} ${newCurrency}`);
             }
 
             loadPurchaseHistory() {
@@ -1070,7 +1109,9 @@
                         deliveryDate: '2024-07-30',
                         scfStatus: 'active',
                         emiPaid: 2,
-                        totalEMIs: 12
+                        totalEMIs: 12,
+                        trackingId: 'TRK-001',
+                        estimatedValue: 18000
                     },
                     {
                         id: 'PUR-2024-002',
@@ -1084,7 +1125,9 @@
                         deliveryDate: null,
                         scfStatus: 'pending',
                         emiPaid: 0,
-                        totalEMIs: 12
+                        totalEMIs: 12,
+                        trackingId: 'TRK-002',
+                        estimatedValue: 30000
                     },
                     {
                         id: 'PUR-2024-003',
@@ -1098,7 +1141,9 @@
                         deliveryDate: null,
                         scfStatus: 'approved',
                         emiPaid: 0,
-                        totalEMIs: 12
+                        totalEMIs: 12,
+                        trackingId: null,
+                        estimatedValue: 10000
                     }
                 ];
             }
@@ -1114,7 +1159,9 @@
                         acquisitionType: 'Bulk Purchase',
                         acquisitionDate: '2024-07-15',
                         status: 'available',
-                        category: 'electronics'
+                        category: 'electronics',
+                        location: 'Mumbai Warehouse',
+                        qualityGrade: 'B'
                     },
                     {
                         id: 'INV-2024-002',
@@ -1125,7 +1172,9 @@
                         acquisitionType: 'Quick Buy',
                         acquisitionDate: '2024-07-20',
                         status: 'partially-sold',
-                        category: 'textiles'
+                        category: 'textiles',
+                        location: 'Chennai Warehouse',
+                        qualityGrade: 'C'
                     },
                     {
                         id: 'INV-2024-003',
@@ -1136,7 +1185,41 @@
                         acquisitionType: 'On Behalf',
                         acquisitionDate: '2024-07-25',
                         status: 'reserved',
-                        category: 'machinery'
+                        category: 'machinery',
+                        location: 'Delhi ICD',
+                        qualityGrade: 'A'
+                    }
+                ];
+            }
+
+            loadNotifications() {
+                return [
+                    {
+                        id: 'notif-001',
+                        type: 'auction',
+                        icon: '🏺',
+                        title: 'You won AUC-2024-025!',
+                        description: 'Automotive parts auction completed successfully',
+                        time: new Date(Date.now() - 2 * 60 * 60 * 1000),
+                        isNew: true
+                    },
+                    {
+                        id: 'notif-002',
+                        type: 'scf',
+                        icon: '💳',
+                        title: 'SCF loan approved - ₹8.5L',
+                        description: 'Instant approval for purchase PUR-2024-003',
+                        time: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+                        isNew: false
+                    },
+                    {
+                        id: 'notif-003',
+                        type: 'payment',
+                        icon: '💰',
+                        title: 'EMI payment successful',
+                        description: 'Auto-debit completed for SCF-2024-001',
+                        time: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+                        isNew: false
                     }
                 ];
             }
@@ -1156,15 +1239,19 @@
                 }
 
                 container.innerHTML = this.purchases.map(purchase => {
-                    return '<div class="purchase-card">' +
+                    const profitLoss = purchase.estimatedValue - purchase.bidAmount;
+                    const profitPercent = ((profitLoss / purchase.bidAmount) * 100).toFixed(1);
+                    
+                    return '<div class="purchase-card ' + (purchase.isNew ? 'new' : '') + '">' +
                         '<div class="purchase-header">' +
                             '<div class="purchase-id">' + purchase.id + '</div>' +
-                            '<div class="purchase-status status-' + purchase.status + '">' + purchase.status + '</div>' +
+                            '<div class="purchase-status status-' + purchase.status + '">' + purchase.status.replace('-', ' ') + '</div>' +
                         '</div>' +
                         '<div style="margin-bottom: 15px;">' +
                             '<strong>' + purchase.title + '</strong>' +
                             '<div style="font-size: 0.9rem; color: #666; margin-top: 3px;">' +
                                 'Auction: ' + purchase.auctionId + ' • Purchased: ' + purchase.purchaseDate +
+                                (purchase.trackingId ? ' • Tracking: ' + purchase.trackingId : '') +
                             '</div>' +
                         '</div>' +
                         '<div class="purchase-details">' +
@@ -1177,8 +1264,10 @@
                                 '<div class="detail-label">Your Margin</div>' +
                             '</div>' +
                             '<div class="detail-item">' +
-                                '<div class="detail-amount">' + (purchase.deliveryDate || 'Pending') + '</div>' +
-                                '<div class="detail-label">Delivery Date</div>' +
+                                '<div class="detail-amount" style="color: ' + (profitLoss >= 0 ? '#22c55e' : '#ef4444') + '">' +
+                                    (profitPercent >= 0 ? '+' : '') + profitPercent + '%' +
+                                '</div>' +
+                                '<div class="detail-label">Est. Profit</div>' +
                             '</div>' +
                         '</div>' +
                         (purchase.scfAmount > 0 ? 
@@ -1186,23 +1275,48 @@
                                 '<div class="scf-amount">SCF Loan: ' + this.formatCurrency(purchase.scfAmount) + '</div>' +
                                 '<div class="scf-details">' +
                                     'EMIs: ' + purchase.emiPaid + '/' + purchase.totalEMIs + ' • Status: ' + purchase.scfStatus +
+                                    ' • Next Due: ' + this.getNextEMIDate(purchase) +
                                 '</div>' +
-                            '</div>' : ''
-                        ) +
+                            '</div>'
+                        : '') +
                         '<div class="action-buttons">' +
-                            (purchase.status === 'won' ? 
-                                '<button class="action-btn primary" onclick="makePayment(\'' + purchase.id + '\')">Make Payment</button>' :
-                                purchase.status === 'paid' ?
-                                '<button class="action-btn success" onclick="trackShipment(\'' + purchase.id + '\')">Track Shipment</button>' :
-                                '<button class="action-btn secondary" onclick="viewDetails(\'' + purchase.id + '\')">View Details</button>'
-                            ) +
-                            '<button class="action-btn secondary" onclick="downloadInvoice(\'' + purchase.id + '\')">Invoice</button>' +
-                            (purchase.scfStatus === 'active' ? 
-                                '<button class="action-btn primary" onclick="payEMI(\'' + purchase.id + '\')">Pay EMI</button>' : ''
-                            ) +
+                            this.getPurchaseActions(purchase) +
                         '</div>' +
                     '</div>';
                 }).join('');
+                
+                // Animate new purchases
+                setTimeout(() => {
+                    document.querySelectorAll('.purchase-card.new').forEach(card => {
+                        card.classList.remove('new');
+                    });
+                }, 500);
+            }
+
+            getPurchaseActions(purchase) {
+                let actions = '';
+                
+                if (purchase.status === 'won') {
+                    actions += `<button class="action-btn primary" onclick="makePayment('${purchase.id}')">💳 Make Payment</button>`;
+                } else if (purchase.status === 'paid') {
+                    actions += `<button class="action-btn success" onclick="trackShipment('${purchase.id}')">🚛 Track Live</button>`;
+                } else if (purchase.status === 'delivered') {
+                    actions += `<button class="action-btn secondary" onclick="viewDetails('${purchase.id}')">📋 View Details</button>`;
+                }
+                
+                actions += `<button class="action-btn secondary" onclick="downloadInvoice('${purchase.id}')">📄 Invoice</button>`;
+                
+                if (purchase.scfStatus === 'active') {
+                    actions += `<button class="action-btn warning" onclick="payEMI('${purchase.id}')">💰 Pay EMI</button>`;
+                }
+                
+                return actions;
+            }
+
+            getNextEMIDate(purchase) {
+                const date = new Date();
+                date.setMonth(date.getMonth() + 1);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
             }
 
             renderInventory() {
@@ -1223,54 +1337,276 @@
                     const profitLoss = item.currentValue - item.acquisitionPrice;
                     const profitPercent = ((profitLoss / item.acquisitionPrice) * 100).toFixed(1);
                     
-                    return '<div class="inventory-card">' +
-                        '<div class="inventory-header">' +
-                            '<div class="inventory-id">' + item.id + '</div>' +
-                            '<div class="acquisition-type">' + item.acquisitionType + '</div>' +
-                        '</div>' +
-                        '<div style="margin-bottom: 15px;">' +
-                            '<strong>' + item.title + '</strong>' +
-                            '<div style="font-size: 0.9rem; color: #666; margin-top: 3px;">' +
-                                item.quantity + ' units • ' + item.category +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="purchase-details">' +
-                            '<div class="detail-item">' +
-                                '<div class="detail-amount">' + this.formatCurrency(item.acquisitionPrice) + '</div>' +
-                                '<div class="detail-label">Acquisition Cost</div>' +
-                            '</div>' +
-                            '<div class="detail-item">' +
-                                '<div class="detail-amount">' + this.formatCurrency(item.currentValue) + '</div>' +
-                                '<div class="detail-label">Current Value</div>' +
-                            '</div>' +
-                            '<div class="detail-item">' +
-                                '<div class="detail-amount" style="color: ' + (profitLoss >= 0 ? '#22c55e' : '#ef4444') + '">' +
-                                    (profitPercent >= 0 ? '+' : '') + profitPercent + '%' +
-                                '</div>' +
-                                '<div class="detail-label">P&L</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="action-buttons">' +
-                            '<button class="action-btn primary" onclick="listForSale(\'' + item.id + '\')">List for Sale</button>' +
-                            '<button class="action-btn secondary" onclick="updateValuation(\'' + item.id + '\')">Update Value</button>' +
-                        '</div>' +
-                    '</div>';
+                    return `
+                        <div class="inventory-card">
+                            <div class="inventory-header">
+                                <div class="inventory-id">${item.id}</div>
+                                <div class="acquisition-type">${item.acquisitionType}</div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <strong>${item.title}</strong>
+                                <div style="font-size: 0.9rem; color: #666; margin-top: 3px;">
+                                    ${item.quantity} units • Grade ${item.qualityGrade} • ${item.location}
+                                </div>
+                            </div>
+                            <div class="purchase-details">
+                                <div class="detail-item">
+                                    <div class="detail-amount">${this.formatCurrency(item.acquisitionPrice)}</div>
+                                    <div class="detail-label">Acquisition Cost</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-amount">${this.formatCurrency(item.currentValue)}</div>
+                                    <div class="detail-label">Current Value</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-amount" style="color: ${profitLoss >= 0 ? '#22c55e' : '#ef4444'}">
+                                        ${profitPercent >= 0 ? '+' : ''}${profitPercent}%
+                                    </div>
+                                    <div class="detail-label">P&L</div>
+                                </div>
+                            </div>
+                            <div style="margin: 15px 0; padding: 10px; background: #f8fafc; border-radius: 8px; font-size: 0.9rem;">
+                                <strong>Status:</strong> ${item.status} • <strong>Category:</strong> ${item.category}
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn primary" onclick="listForSale('${item.id}')">🏪 List for Sale</button>
+                                <button class="action-btn secondary" onclick="updateValuation('${item.id}')">📊 Update Value</button>
+                                <button class="action-btn success" onclick="transferItem('${item.id}')">🚚 Transfer</button>
+                            </div>
+                        </div>
+                    `;
                 }).join('');
             }
 
+            renderNotifications() {
+                const container = document.getElementById('notifications');
+                
+                container.innerHTML = this.notifications.map(notif => 
+                    '<div class="notification-item ' + (notif.isNew ? 'new' : '') + '">' +
+                        '<div class="notification-icon ' + notif.type + '">' +
+                            notif.icon +
+                        '</div>' +
+                        '<div class="notification-content">' +
+                            '<div class="notification-text">' + notif.title + '</div>' +
+                            '<div style="font-size: 0.8rem; color: #666; margin-top: 2px;">' + notif.description + '</div>' +
+                            '<div class="notification-time">' + this.formatTimeAgo(notif.time) + '</div>' +
+                        '</div>' +
+                    '</div>'
+                ).join('');
+            }
+
+            formatTimeAgo(date) {
+                const now = new Date();
+                const diff = now - date;
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const days = Math.floor(hours / 24);
+                
+                if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+                if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+                return 'Just now';
+            }
+
             updateStats() {
+                // Calculate dynamic stats
+                const totalSpent = this.purchases.reduce((sum, p) => sum + p.bidAmount, 0);
+                const totalWins = this.purchases.length;
+                const activeSCF = this.purchases.filter(p => p.scfStatus === 'active').length;
+                const pendingDelivery = this.purchases.filter(p => p.status === 'paid').length;
+                
                 // Update buyer stats
-                document.getElementById('totalSpent').textContent = this.formatCurrency(
-                    this.purchases.reduce((sum, p) => sum + p.bidAmount, 0)
-                );
+                this.animateValue(document.getElementById('totalWins'), totalWins);
+                this.animateValue(document.getElementById('totalSpent'), this.formatCurrency(totalSpent));
+                this.animateValue(document.getElementById('activeSCF'), activeSCF);
+                this.animateValue(document.getElementById('pendingDelivery'), pendingDelivery);
                 
                 // Update third party stats
-                document.getElementById('portfolioValue').textContent = this.formatCurrency(
-                    this.inventory.reduce((sum, i) => sum + i.currentValue, 0)
-                );
+                const portfolioValue = this.inventory.reduce((sum, i) => sum + i.currentValue, 0);
+                const totalAcquisitions = this.inventory.length;
+                const avgMargin = this.inventory.reduce((sum, i) => {
+                    return sum + ((i.currentValue - i.acquisitionPrice) / i.acquisitionPrice * 100);
+                }, 0) / this.inventory.length;
                 
-                // Update SCF limit
-                document.getElementById('scfLimit').textContent = this.formatCurrency(150000); // Example SCF limit
+                this.animateValue(document.getElementById('totalAcquisitions'), totalAcquisitions);
+                this.animateValue(document.getElementById('portfolioValue'), this.formatCurrency(portfolioValue));
+                this.animateValue(document.getElementById('profitMargin'), avgMargin.toFixed(1) + '%');
+                
+                // Update SCF info
+                const scfLimit = 1250000; // Example SCF limit in USD
+                const scfUsed = this.purchases.reduce((sum, p) => sum + (p.scfAmount || 0), 0);
+                const scfAvailable = scfLimit - scfUsed;
+                
+                this.animateValue(document.getElementById('scfLimit'), this.formatCurrency(scfLimit));
+                this.animateValue(document.getElementById('scfUsed'), this.formatCurrency(scfUsed));
+                this.animateValue(document.getElementById('scfAvailable'), this.formatCurrency(scfAvailable));
+            }
+
+            animateValue(element, newValue) {
+                if (!element) return;
+                
+                const currentValue = element.textContent;
+                if (currentValue !== newValue.toString()) {
+                    element.style.color = '#22c55e';
+                    element.style.transform = 'scale(1.05)';
+                    element.textContent = newValue;
+                    
+                    setTimeout(() => {
+                        element.style.color = '';
+                        element.style.transform = 'scale(1)';
+                    }, 400);
+                }
+            }
+
+            startRealTimeUpdates() {
+                // Update credit score every 10 seconds
+                this.updateIntervals.push(setInterval(() => {
+                    this.updateCreditScore();
+                }, 10000));
+                
+                // Add new notifications every 15 seconds
+                this.updateIntervals.push(setInterval(() => {
+                    this.addRandomNotification();
+                }, 15000));
+                
+                // Update inventory values every 20 seconds
+                this.updateIntervals.push(setInterval(() => {
+                    this.updateInventoryValues();
+                }, 20000));
+                
+                // Update purchase statuses every 25 seconds
+                this.updateIntervals.push(setInterval(() => {
+                    this.updatePurchaseStatuses();
+                }, 25000));
+            }
+
+            updateCreditScore() {
+                const variation = Math.floor(Math.random() * 10) - 5; // -5 to +5
+                const newScore = Math.max(300, Math.min(850, this.creditScore + variation));
+                
+                if (newScore !== this.creditScore) {
+                    this.creditScore = newScore;
+                    
+                    const creditDisplay = document.getElementById('creditDisplay');
+                    const scoreElement = document.getElementById('creditScore');
+                    const tierElement = document.getElementById('creditTier');
+                    
+                    creditDisplay.classList.add('updating');
+                    this.animateValue(scoreElement, newScore);
+                    
+                    // Update tier
+                    let tier = 'tier-poor';
+                    let tierText = 'Poor (Tier 4)';
+                    
+                    if (newScore >= 750) {
+                        tier = 'tier-excellent';
+                        tierText = 'Excellent (Tier 1)';
+                    } else if (newScore >= 650) {
+                        tier = 'tier-good';
+                        tierText = 'Good (Tier 2)';
+                    } else if (newScore >= 550) {
+                        tier = 'tier-fair';
+                        tierText = 'Fair (Tier 3)';
+                    }
+                    
+                    tierElement.className = `credit-tier ${tier}`;
+                    tierElement.textContent = tierText;
+                    
+                    setTimeout(() => {
+                        creditDisplay.classList.remove('updating');
+                    }, 500);
+                    
+                    this.showNotification('📊 Credit Update', `Credit score updated to ${newScore} (${variation > 0 ? '+' : ''}${variation})`);
+                }
+            }
+
+            addRandomNotification() {
+                const notifications = [
+                    {
+                        type: 'auction',
+                        icon: '🏺',
+                        title: 'New auction alert!',
+                        description: 'Electronics lot matching your preferences',
+                        isNew: true
+                    },
+                    {
+                        type: 'scf',
+                        icon: '💳',
+                        title: 'SCF pre-approval updated',
+                        description: 'Your limit increased based on credit score',
+                        isNew: true
+                    },
+                    {
+                        type: 'payment',
+                        icon: '💰',
+                        title: 'Payment reminder',
+                        description: 'EMI due in 3 days for PUR-2024-001',
+                        isNew: true
+                    }
+                ];
+                
+                const randomNotif = notifications[Math.floor(Math.random() * notifications.length)];
+                randomNotif.id = 'notif-' + Date.now();
+                randomNotif.time = new Date();
+                
+                this.notifications.unshift(randomNotif);
+                if (this.notifications.length > 5) {
+                    this.notifications.pop();
+                }
+                
+                this.renderNotifications();
+                this.showNotification('🔔 New Update', randomNotif.title);
+            }
+
+            updateInventoryValues() {
+                this.inventory.forEach(item => {
+                    const variation = (Math.random() - 0.5) * 0.1; // ±5% variation
+                    item.currentValue = Math.round(item.currentValue * (1 + variation));
+                });
+                
+                if (this.currentTab === 'thirdparty') {
+                    this.renderInventory();
+                }
+                this.updateStats();
+            }
+
+            updatePurchaseStatuses() {
+                // Simulate status changes
+                this.purchases.forEach(purchase => {
+                    if (purchase.status === 'won' && Math.random() < 0.3) {
+                        purchase.status = 'paid';
+                        purchase.isNew = true;
+                        this.showNotification('💳 Payment Processed', `Payment completed for ${purchase.id}`);
+                    } else if (purchase.status === 'paid' && Math.random() < 0.2) {
+                        purchase.status = 'delivered';
+                        purchase.deliveryDate = new Date().toISOString().split('T')[0];
+                        purchase.isNew = true;
+                        this.showNotification('📦 Delivery Complete', `${purchase.id} has been delivered`);
+                    }
+                });
+                
+                if (this.currentTab === 'buyer') {
+                    this.renderPurchaseHistory();
+                }
+                this.updateStats();
+            }
+
+            showNotification(title, text) {
+                const notification = document.getElementById('notification');
+                const titleEl = document.getElementById('notificationTitle');
+                const textEl = document.getElementById('notificationText');
+                
+                titleEl.textContent = title;
+                textEl.textContent = text;
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 4000);
+            }
+
+            cleanup() {
+                this.updateIntervals.forEach(interval => clearInterval(interval));
+                this.updateIntervals = [];
             }
         }
 
@@ -1292,223 +1628,250 @@
         }
 
         function browseAuctions() {
-            alert('🏺 Browse Auctions\n\nRedirecting to auction marketplace where you can:\n• View live auctions\n• Place bids with SCF financing\n• Track your bidding activity\n• Set up watchlists');
+            window.buyerPortal.showNotification('🏺 Browse Auctions', 'Redirecting to live auction marketplace with SCF pre-approval ready!');
         }
 
         function applyForSCF() {
-            alert('💳 Apply for SCF\n\nSupply Chain Finance Application:\n\n• Instant pre-approval based on credit score\n• Up to 60% financing of bid amount\n• Competitive interest rates (12-24% APR)\n• Flexible repayment terms\n• Goods as collateral\n\nWould you like to proceed with the application?');
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 2000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 30px; max-width: 500px; width: 90%;">
+                    <h3 style="margin-bottom: 20px; color: #333;">💳 SCF Application</h3>
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <strong>Pre-Approval Status:</strong> ✅ Approved<br>
+                        <strong>Credit Score:</strong> ${window.buyerPortal.creditScore}<br>
+                        <strong>Available Limit:</strong> ${window.buyerPortal.formatCurrency(150000)}<br>
+                        <strong>Interest Rate:</strong> 12-18% APR (based on purchase)
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Requested Amount:</label>
+                        <input type="range" min="10000" max="150000" value="75000" id="scfAmountSlider" 
+                               style="width: 100%; margin-bottom: 10px;" oninput="updateSCFAmount(this.value)">
+                        <div style="text-align: center; font-weight: bold; color: #667eea;" id="scfAmountDisplay">₹75,000</div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="modal.remove()" style="flex: 1; padding: 12px; border: 1px solid #e1e5e9; border-radius: 8px; background: #f8fafc; cursor: pointer;">Cancel</button>
+                        <button onclick="processSCFApplication()" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; cursor: pointer;">Apply Now</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            window.updateSCFAmount = function(value) {
+                document.getElementById("scfAmountDisplay").textContent = window.buyerPortal.formatCurrency(parseInt(value));
+            };
+            
+            window.processSCFApplication = function() {
+                const amount = document.getElementById("scfAmountSlider").value;
+                modal.remove();
+                window.buyerPortal.showNotification("✅ SCF Approved!", "Instant approval for " + window.buyerPortal.formatCurrency(parseInt(amount)) + ". Funds available immediately!");
+            };
         }
 
         function trackDelivery() {
-            alert('🚛 Track Deliveries\n\nActive Shipments:\n\n📦 PUR-2024-002: In Transit\n  └ ETA: Tomorrow 2:00 PM\n  └ Location: Delhi Hub\n\n📦 PUR-2024-003: Pickup Scheduled\n  └ Pickup: Today 4:00 PM\n  └ Location: Mumbai Port\n\nReal-time tracking available via SMS/WhatsApp');
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 2000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 30px; max-width: 600px; width: 90%;">
+                    <h3 style="margin-bottom: 20px; color: #333;">🚛 Live Delivery Tracking</h3>
+                    <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #22c55e;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <strong>PUR-2024-002: Textile Machinery</strong>
+                            <span style="background: #22c55e; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">IN TRANSIT</span>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            📍 Current Location: <strong>Delhi Distribution Center</strong><br>
+                            🚛 Driver: Rajesh Kumar (+91 98765-43210)<br>
+                            ⏰ ETA: <strong>Tomorrow 2:30 PM</strong>
+                        </div>
+                        <div style="background: #e1e5e9; height: 6px; border-radius: 3px; margin: 10px 0;">
+                            <div style="background: #22c55e; height: 100%; width: 75%; border-radius: 3px;"></div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">Progress: 75% • 450km / 600km completed</div>
+                    </div>
+                    <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <strong>PUR-2024-003: Automotive Parts</strong><br>
+                        📦 Status: <strong>Pickup Scheduled</strong><br>
+                        📅 Pickup Date: Today 4:00 PM<br>
+                        📍 Location: Mumbai Port
+                    </div>
+                    <button onclick="modal.remove()" style="width: 100%; padding: 12px; border: none; border-radius: 8px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; cursor: pointer;">Close Tracking</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
         }
 
         function payEMI() {
-            alert('💰 Pay EMI\n\nActive Loans:\n\n💳 SCF-2024-001: ₹15,450 due\n  └ Due Date: Aug 15, 2024\n  └ Remaining: 10/12 EMIs\n\n💳 SCF-2024-003: ₹8,230 due\n  └ Due Date: Aug 20, 2024\n  └ Remaining: 11/12 EMIs\n\nSelect loan to pay EMI or set up auto-debit');
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 2000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 30px; max-width: 500px; width: 90%;">
+                    <h3 style="margin-bottom: 20px; color: #333;">💰 EMI Payment</h3>
+                    <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <strong>Active Loans:</strong><br><br>
+                        <div style="margin-bottom: 15px;">
+                            <strong>SCF-2024-001 (PUR-2024-001)</strong><br>
+                            Amount Due: <strong>${window.buyerPortal.formatCurrency(12500)}</strong><br>
+                            Due Date: <strong>Aug 15, 2024</strong><br>
+                            Remaining: <strong>10/12 EMIs</strong>
+                        </div>
+                        <div>
+                            <strong>SCF-2024-003 (PUR-2024-003)</strong><br>
+                            Amount Due: <strong>${window.buyerPortal.formatCurrency(8230)}</strong><br>
+                            Due Date: <strong>Aug 20, 2024</strong><br>
+                            Remaining: <strong>11/12 EMIs</strong>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="modal.remove()" style="flex: 1; padding: 12px; border: 1px solid #e1e5e9; border-radius: 8px; background: #f8fafc; cursor: pointer;">Cancel</button>
+                        <button onclick="processEMIPayment()" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; cursor: pointer;">Pay All EMIs</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            window.processEMIPayment = function() {
+                modal.remove();
+                window.buyerPortal.showNotification("💰 Payment Successful", "All EMI payments processed successfully. Auto-debit enabled for future payments.");
+            };
         }
 
         function makePayment(purchaseId) {
             const purchase = window.buyerPortal.purchases.find(p => p.id === purchaseId);
-            if (purchase) {
-                alert('💳 Payment Required\n\n' +
-                      'Purchase: ' + purchase.id + '\n' +
-                      'Amount: ' + window.buyerPortal.formatCurrency(purchase.bidAmount) + '\n' +
-                      'SCF Financing: ' + window.buyerPortal.formatCurrency(purchase.scfAmount) + '\n' +
-                      'Your Payment: ' + window.buyerPortal.formatCurrency(purchase.marginPaid) + '\n\n' +
-                      'Payment Methods:\n• UPI\n• Net Banking\n• Credit/Debit Card\n• Wire Transfer');
-            }
+            if (!purchase) return;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 2000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 30px; max-width: 500px; width: 90%;">
+                    <h3 style="margin-bottom: 20px; color: #333;">💳 Payment Required</h3>
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <strong>Purchase:</strong> ${purchase.id}<br>
+                        <strong>Item:</strong> ${purchase.title}<br>
+                        <strong>Total Amount:</strong> ${window.buyerPortal.formatCurrency(purchase.bidAmount)}<br>
+                        <strong>SCF Financing:</strong> ${window.buyerPortal.formatCurrency(purchase.scfAmount)}<br>
+                        <strong>Your Payment:</strong> <span style="color: #22c55e; font-weight: bold;">${window.buyerPortal.formatCurrency(purchase.marginPaid)}</span>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <strong>Payment Methods:</strong><br>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
+                            <button style="padding: 10px; border: 2px solid #667eea; border-radius: 8px; background: white; cursor: pointer;">💳 UPI</button>
+                            <button style="padding: 10px; border: 2px solid #667eea; border-radius: 8px; background: white; cursor: pointer;">🏦 Net Banking</button>
+                            <button style="padding: 10px; border: 2px solid #667eea; border-radius: 8px; background: white; cursor: pointer;">💳 Card</button>
+                            <button style="padding: 10px; border: 2px solid #667eea; border-radius: 8px; background: white; cursor: pointer;">💸 Wire Transfer</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="modal.remove()" style="flex: 1; padding: 12px; border: 1px solid #e1e5e9; border-radius: 8px; background: #f8fafc; cursor: pointer;">Cancel</button>
+                        <button onclick="processPayment('${purchaseId}')" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; cursor: pointer;">Pay Now</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            window.processPayment = function(id) {
+                modal.remove();
+                // Update purchase status
+                const purchase = window.buyerPortal.purchases.find(p => p.id === id);
+                if (purchase) {
+                    purchase.status = "paid";
+                    purchase.isNew = true;
+                    window.buyerPortal.renderPurchaseHistory();
+                    window.buyerPortal.updateStats();
+                }
+                window.buyerPortal.showNotification("💳 Payment Successful", "Payment processed for " + id + ". Shipment will be initiated within 24 hours.");
+            };
         }
 
         function trackShipment(purchaseId) {
-            alert('🚛 Shipment Tracking\n\n' +
-                  'Purchase: ' + purchaseId + '\n' +
-                  'Status: In Transit\n' +
-                  'Current Location: Delhi Distribution Center\n' +
-                  'ETA: Tomorrow 2:00 PM\n' +
-                  'Tracking ID: TRK-' + purchaseId + '\n\n' +
-                  'Updates will be sent via SMS/Email');
+            window.buyerPortal.showNotification('🚛 Live Tracking', `Real-time GPS tracking activated for ${purchaseId}. Current location: Delhi Distribution Center.`);
         }
 
         function downloadInvoice(purchaseId) {
-            alert('📄 Download Invoice\n\n' +
-                  'Invoice for ' + purchaseId + ' will be downloaded as PDF.\n\n' +
-                  'Includes:\n• Purchase details\n• Payment breakdown\n• SCF loan information\n• Tax calculations\n• Delivery information');
+            window.buyerPortal.showNotification('📄 Invoice Downloaded', `Invoice for ${purchaseId} downloaded as PDF with payment details and SCF information.`);
+        }
+
+        function viewDetails(purchaseId) {
+            const purchase = window.buyerPortal.purchases.find(p => p.id === purchaseId);
+            if (!purchase) return;
+            
+            window.buyerPortal.showNotification('📋 Purchase Details', `${purchase.title} • Delivered: ${purchase.deliveryDate} • Profit: ${((purchase.estimatedValue - purchase.bidAmount) / purchase.bidAmount * 100).toFixed(1)}%`);
         }
 
         function bulkPurchase() {
-            alert('📦 Bulk Purchase Service\n\nAcquire multiple lots at once:\n\n• Minimum 10 lots per purchase\n• Volume discounts available\n• Consolidated financing\n• Single delivery coordination\n• Risk diversification\n\nCurrent bulk opportunities: 15 lots available');
+            window.buyerPortal.showNotification('📦 Bulk Purchase', 'Bulk acquisition service: 15 lots available for immediate purchase with volume discounts up to 25%.');
         }
 
         function setPricing() {
-            alert('💰 Set Guaranteed Pricing\n\nOffer fixed prices for specific categories:\n\n• Electronics: 60-80% of reserve price\n• Textiles: 50-70% of reserve price\n• Machinery: 70-85% of reserve price\n\nCurrent pricing commitments: $2.4M available');
+            window.buyerPortal.showNotification('💰 Auto-Bid Setup', 'Configure automatic bidding with your price limits. Current commitments: $2.4M across all categories.');
         }
 
         function quickBuy() {
-            alert('⚡ Quick Buy Service\n\nImmediate purchase without auction:\n\n• Fixed price below market value\n• Instant acquisition\n• Immediate title transfer\n• No bidding competition\n\nAvailable for quick buy: 8 lots worth $450K');
+            window.buyerPortal.showNotification('⚡ Quick Buy', '8 items available for immediate purchase without auction. Fixed prices 10-20% below market value.');
         }
 
         function manageInventory() {
-            alert('📋 Inventory Management\n\nCurrent Portfolio:\n\n📦 156 total acquisitions\n💰 $2.4M total value\n📈 18.5% average margin\n🏪 Available for resale: 45 lots\n\nOptions:\n• List items for sale\n• Update valuations\n• Transfer ownership\n• Generate reports');
+            window.buyerPortal.showNotification('📋 Inventory Manager', 'Portfolio value: ₹2.4Cr across 156 items. 45 items ready for resale with 18.5% average margin.');
         }
 
         function listForSale(itemId) {
             const item = window.buyerPortal.inventory.find(i => i.id === itemId);
-            if (item) {
-                alert('🏪 List for Sale\n\n' +
-                      'Item: ' + item.title + '\n' +
-                      'Current Value: ' + window.buyerPortal.formatCurrency(item.currentValue) + '\n' +
-                      'Suggested Price: ' + window.buyerPortal.formatCurrency(item.currentValue * 1.1) + '\n\n' +
-                      'Listing Options:\n• Direct sale\n• Auction format\n• Bulk sale only\n• Gradual liquidation');
-            }
+            if (!item) return;
+            
+            window.buyerPortal.showNotification('🏪 List for Sale', `${item.title} ready for listing. Suggested price: ${window.buyerPortal.formatCurrency(item.currentValue * 1.1)} (10% markup).`);
         }
 
         function updateValuation(itemId) {
-            alert('📊 Update Valuation\n\n' +
-                  'Revaluation service includes:\n• Market analysis\n• Condition assessment\n• Price comparison\n• Professional appraisal\n\n' +
-                  'Fee: $50 per item\nTurnaround: 24-48 hours');
+            const item = window.buyerPortal.inventory.find(i => i.id === itemId);
+            if (!item) return;
+            
+            // Simulate valuation update
+            const oldValue = item.currentValue;
+            const variation = (Math.random() - 0.5) * 0.2; // ±10% variation
+            item.currentValue = Math.round(oldValue * (1 + variation));
+            
+            window.buyerPortal.renderInventory();
+            window.buyerPortal.updateStats();
+            window.buyerPortal.showNotification('📊 Valuation Updated', `${item.title} revalued: ${window.buyerPortal.formatCurrency(oldValue)} → ${window.buyerPortal.formatCurrency(item.currentValue)}`);
         }
 
-        // Initialize the buyer portal
-        window.buyerPortal = new BuyerPortal();
+        function transferItem(itemId) {
+            window.buyerPortal.showNotification('🚚 Transfer Initiated', `Item ${itemId} transfer request submitted. Estimated delivery: 3-5 business days.`);
+        }
+
+        // Initialize the dynamic buyer portal
+        window.buyerPortal = new DynamicBuyerPortal();
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (window.buyerPortal) {
+                window.buyerPortal.cleanup();
+            }
+        });
     </script>
 </body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DamageEx - Buyer Portal</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px 35px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-left h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            color: #666;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .currency-selector {
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .nav-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .nav-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .nav-btn.secondary {
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-            border: 2px solid #e1e5e9;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .main-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-type-tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 30px;
-            background: #f1f5f9;
-            border-radius: 15px;
-            padding: 5px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background:
+</html>

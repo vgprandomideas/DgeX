@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DamageEx - Auction Marketplace</title>
+    <title>DamageEx - Working Auction Platform</title>
     <style>
         * {
             margin: 0;
@@ -18,196 +18,156 @@
             padding: 20px;
         }
 
-        .container {
-            max-width: 1800px;
-            margin: 0 auto;
-        }
-
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 25px 35px;
+            padding: 20px 30px;
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 1400px;
+            margin: 0 auto 30px;
         }
 
-        .header-left h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            color: #666;
-        }
-
-        .header-controls {
+        .logo {
             display: flex;
-            gap: 15px;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 30px;
             align-items: center;
         }
 
-        .currency-selector, .filter-select {
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-            font-weight: 600;
+        .header-stat {
+            text-align: center;
+        }
+
+        .header-stat-number {
+            font-size: 1.2rem;
+            font-weight: bold;
             color: #667eea;
+            transition: all 0.3s ease;
         }
 
-        .search-box {
-            padding: 12px 20px;
+        .header-stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .currency-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .currency-btn {
+            padding: 6px 12px;
             border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            width: 300px;
-            font-size: 16px;
-        }
-
-        .nav-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
+            border-radius: 15px;
+            background: white;
+            color: #666;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            font-size: 12px;
         }
 
-        .nav-btn.primary {
+        .currency-btn.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .stat-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 3px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 600;
+            border-color: #667eea;
         }
 
         .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 2fr 1fr;
             gap: 30px;
         }
 
-        .auctions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px;
-        }
-
-        .auction-card {
+        .auctions-section {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            overflow: hidden;
+            padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .auction-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 20px;
+            background: white;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .auction-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
         }
 
-        .auction-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .auction-grid {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: #94a3b8;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .auction-card {
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            padding: 25px;
+            background: white;
+            transition: all 0.3s ease;
             position: relative;
         }
 
-        .auction-status {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
+        .auction-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .status-live {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            animation: pulse 2s infinite;
-        }
-
-        .status-upcoming {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-ending-soon {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            animation: blink 1s infinite;
-        }
-
-        .status-closed {
-            background: #e5e7eb;
-            color: #6b7280;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .auction-content {
-            padding: 25px;
+        .auction-card.ending-soon {
+            border-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
         }
 
         .auction-header {
@@ -220,39 +180,64 @@
         .auction-id {
             font-weight: bold;
             color: #667eea;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
-        .auction-grade {
-            padding: 4px 8px;
-            border-radius: 8px;
+        .auction-status {
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .grade-a { background: #dcfce7; color: #166534; }
-        .grade-b { background: #dbeafe; color: #1e40af; }
-        .grade-c { background: #fef3c7; color: #92400e; }
-        .grade-d { background: #fed7d7; color: #c53030; }
+        .status-live {
+            background: #dcfce7;
+            color: #166534;
+            animation: pulse 2s infinite;
+        }
+
+        .status-ending-soon {
+            background: #fecaca;
+            color: #991b1b;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
 
         .auction-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #333;
-            margin-bottom: 10px;
-            line-height: 1.3;
+            margin-bottom: 15px;
         }
 
         .auction-details {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 20px;
         }
 
         .detail-item {
-            display: flex;
-            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 3px;
         }
 
         .detail-label {
@@ -260,166 +245,65 @@
             color: #666;
             text-transform: uppercase;
             font-weight: 600;
-            margin-bottom: 3px;
         }
 
-        .detail-value {
-            font-weight: 600;
-            color: #333;
+        .bidding-section {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #0891b2;
+            margin-bottom: 15px;
         }
 
         .current-bid {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
             text-align: center;
-            border: 2px solid #0891b2;
+            margin-bottom: 15px;
         }
 
-        .bid-amount {
-            font-size: 1.8rem;
+        .current-bid-amount {
+            font-size: 2rem;
             font-weight: bold;
             color: #0891b2;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .bid-info {
-            font-size: 0.9rem;
             color: #0369a1;
+            font-size: 0.9rem;
         }
 
-        .time-remaining {
-            background: linear-gradient(135deg, #fef7ff, #f3e8ff);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
+        .countdown-section {
             text-align: center;
-            border: 2px solid #9333ea;
+            margin-bottom: 15px;
         }
 
-        .countdown {
+        .countdown-timer {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #9333ea;
-            margin-bottom: 3px;
+            color: #ef4444;
             font-family: 'Courier New', monospace;
+            margin-bottom: 5px;
         }
 
         .countdown-label {
+            color: #666;
             font-size: 0.9rem;
-            color: #7c3aed;
-        }
-
-        .auction-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-btn {
-            flex: 1;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .action-btn.success {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-        }
-
-        .action-btn.warning {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-        }
-
-        .action-btn.secondary {
-            background: #f8fafc;
-            color: #333;
-            border: 2px solid #e1e5e9;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .action-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .sidebar-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .bidding-interface {
-            display: none;
-        }
-
-        .bidding-interface.active {
-            display: block;
-        }
-
-        .current-auction {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 20px;
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border-radius: 12px;
-            border: 2px solid #0891b2;
-        }
-
-        .current-auction-title {
-            font-weight: 700;
-            color: #0891b2;
-            margin-bottom: 10px;
         }
 
         .bid-input-section {
-            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .bid-input {
-            width: 100%;
-            padding: 15px;
+            flex: 1;
+            padding: 12px 15px;
             border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 18px;
+            border-radius: 8px;
+            font-size: 1.1rem;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 10px;
         }
 
         .bid-input:focus {
@@ -429,26 +313,27 @@
         }
 
         .quick-bid-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
             gap: 8px;
             margin-bottom: 15px;
         }
 
         .quick-bid-btn {
-            padding: 10px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e1e5e9;
+            border-radius: 6px;
             background: white;
-            cursor: pointer;
+            color: #667eea;
             font-size: 0.9rem;
             font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .quick-bid-btn:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
+            background: #667eea;
+            color: white;
         }
 
         .place-bid-btn {
@@ -457,8 +342,8 @@
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -473,7 +358,40 @@
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
+        }
+
+        .scf-notice {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #92400e;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .bid-history {
@@ -485,12 +403,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding: 10px 0;
             border-bottom: 1px solid #f0f0f0;
+            animation: slideIn 0.3s ease;
         }
 
         .bid-item:last-child {
             border-bottom: none;
+        }
+
+        .bid-item.new {
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .bidder-info {
@@ -517,7 +448,7 @@
             color: #333;
         }
 
-        .bid-amount-small {
+        .bid-amount {
             font-weight: bold;
             color: #667eea;
         }
@@ -527,804 +458,638 @@
             color: #666;
         }
 
-        .watchlist-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #22c55e;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
         }
 
-        .watchlist-item:last-child {
-            border-bottom: none;
+        .notification.show {
+            transform: translateX(0);
         }
 
-        .watchlist-info {
-            flex: 1;
+        .notification.error {
+            border-left-color: #ef4444;
         }
 
-        .watchlist-title {
+        .notification-title {
             font-weight: 600;
             color: #333;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
-        .watchlist-price {
-            font-size: 0.9rem;
-            color: #667eea;
-            font-weight: 600;
+        .notification-text {
+            font-size: 14px;
+            color: #666;
         }
 
-        .remove-watchlist {
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        @media (max-width: 1024px) {
+        @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
             
-            .sidebar {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .auctions-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-bar {
+            .auction-details {
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .header-controls {
+            .header-stats {
                 flex-direction: column;
-                gap: 10px;
-            }
-            
-            .search-box {
-                width: 100%;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="header-left">
-                <h1>🏺 Auction Marketplace</h1>
-                <p>Real-time bidding on damaged goods with instant SCF approval</p>
+    <div class="header">
+        <div class="logo">
+            <span>🏺</span>
+            <span>DamageEx Auctions</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px;">
+            <div class="header-stats">
+                <div class="header-stat">
+                    <div class="header-stat-number" id="liveAuctions">8</div>
+                    <div class="header-stat-label">Live Auctions</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-number" id="activeBidders">156</div>
+                    <div class="header-stat-label">Active Bidders</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-number" id="totalValue">₹12.4Cr</div>
+                    <div class="header-stat-label">Total Value</div>
+                </div>
             </div>
-            <div class="header-controls">
-                <select class="currency-selector" id="currencySelector">
-                    <option value="USD">🇺🇸 USD</option>
-                    <option value="INR" selected>🇮🇳 INR</option>
-                    <option value="EUR">🇪🇺 EUR</option>
-                    <option value="GBP">🇬🇧 GBP</option>
-                    <option value="AED">🇦🇪 AED</option>
-                    <option value="SGD">🇸🇬 SGD</option>
-                    <option value="CNY">🇨🇳 CNY</option>
-                    <option value="JPY">🇯🇵 JPY</option>
-                </select>
-                <input type="text" class="search-box" placeholder="Search auctions..." id="searchBox">
-                <select class="filter-select" id="categoryFilter">
-                    <option value="">All Categories</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="textiles">Textiles</option>
-                    <option value="machinery">Machinery</option>
-                    <option value="automotive">Automotive</option>
-                    <option value="chemicals">Chemicals</option>
-                </select>
-                <select class="filter-select" id="statusFilter">
-                    <option value="">All Status</option>
-                    <option value="live">Live Now</option>
-                    <option value="upcoming">Upcoming</option>
-                    <option value="ending-soon">Ending Soon</option>
-                </select>
-                <a href="#" class="nav-btn primary" onclick="createAuction()">+ Create Auction</a>
+            <div class="currency-selector">
+                <button class="currency-btn active" data-currency="INR">₹ INR</button>
+                <button class="currency-btn" data-currency="USD">$ USD</button>
+                <button class="currency-btn" data-currency="EUR">€ EUR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="auctions-section">
+            <div class="section-title">
+                <span>🔥</span> Live Auctions
+            </div>
+
+            <div class="auction-filters">
+                <button class="filter-btn active" data-filter="all">All Auctions</button>
+                <button class="filter-btn" data-filter="electronics">📱 Electronics</button>
+                <button class="filter-btn" data-filter="textiles">👕 Textiles</button>
+                <button class="filter-btn" data-filter="machinery">⚙️ Machinery</button>
+                <button class="filter-btn" data-filter="ending-soon">⏰ Ending Soon</button>
+            </div>
+
+            <div class="auction-grid" id="auctionGrid">
+                <!-- Auctions will be populated by JavaScript -->
             </div>
         </div>
 
-        <div class="stats-bar">
-            <div class="stat-card">
-                <div class="stat-icon">🏺</div>
-                <div class="stat-number" id="liveAuctions">23</div>
-                <div class="stat-label">Live Auctions</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-number" id="activeBidders">156</div>
-                <div class="stat-label">Active Bidders</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-number" id="totalValue">₹12.4Cr</div>
-                <div class="stat-label">Total Value</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📈</div>
-                <div class="stat-number" id="avgBids">8.2</div>
-                <div class="stat-label">Avg Bids/Item</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⚡</div>
-                <div class="stat-number" id="scfApprovals">89%</div>
-                <div class="stat-label">SCF Approvals</div>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <div>
-                <div class="auctions-grid" id="auctionsGrid">
-                    <!-- Auctions will be populated here -->
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <div class="sidebar-title">
+                    <span>📈</span> Recent Bids
+                </div>
+                <div class="bid-history" id="bidHistory">
+                    <!-- Bid history will be populated -->
                 </div>
             </div>
 
-            <div class="sidebar">
-                <!-- Live Bidding Interface -->
-                <div class="sidebar-card">
-                    <div class="sidebar-title">
-                        <span>⚡</span> Live Bidding
-                    </div>
-                    
-                    <div id="biddingInterface" class="bidding-interface">
-                        <div class="current-auction">
-                            <div class="current-auction-title" id="currentAuctionTitle">Select an auction to start bidding</div>
-                            <div id="currentAuctionDetails"></div>
-                        </div>
-                        
-                        <div class="bid-input-section">
-                            <input type="number" class="bid-input" id="bidAmount" placeholder="Enter bid amount" disabled>
-                            
-                            <div style="background: #fef3c7; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem;">
-                                <strong>💳 SCF Available:</strong> Get instant financing up to 60% of bid amount based on your credit score!
-                            </div>
-                            
-                            <div id="quickBidButtons" class="quick-bid-buttons">
-                                <!-- Quick bid buttons will be populated here -->
-                            </div>
-                            
-                            <button class="place-bid-btn" id="placeBidBtn" onclick="placeBid()" disabled>
-                                Place Bid
-                            </button>
-                        </div>
-                    </div>
+            <div class="sidebar-card">
+                <div class="sidebar-title">
+                    <span>💳</span> SCF Information
                 </div>
-
-                <!-- Bid History -->
-                <div class="sidebar-card">
-                    <div class="sidebar-title">
-                        <span>📈</span> Recent Bids
-                    </div>
-                    
-                    <div class="bid-history" id="bidHistory">
-                        <!-- Bid history will be populated here -->
-                    </div>
-                </div>
-
-                <!-- Watchlist -->
-                <div class="sidebar-card">
-                    <div class="sidebar-title">
-                        <span>⭐</span> My Watchlist
-                    </div>
-                    
-                    <div id="watchlist">
-                        <!-- Watchlist items will be populated here -->
-                    </div>
+                <div style="background: #f0f9ff; padding: 15px; border-radius: 10px; border: 1px solid #0891b2;">
+                    <div style="font-weight: 600; color: #0891b2; margin-bottom: 10px;">Your SCF Eligibility</div>
+                    <div style="font-size: 0.9rem; color: #0369a1; margin-bottom: 8px;">Credit Score: <span id="creditScore">720</span> (Good)</div>
+                    <div style="font-size: 0.9rem; color: #0369a1; margin-bottom: 8px;">Max Financing: <span id="maxFinancing">60%</span> of bid</div>
+                    <div style="font-size: 0.9rem; color: #0369a1; margin-bottom: 12px;">Interest Rate: <span id="interestRate">14%</span> APR</div>
+                    <button style="width: 100%; padding: 8px; background: #0891b2; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                        Apply for Higher Limit
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="notification" id="notification">
+        <div class="notification-title" id="notificationTitle">System Update</div>
+        <div class="notification-text" id="notificationText">Loading...</div>
+    </div>
+
     <script>
-        class AuctionPlatform {
-            constructor() {
-                this.auctions = this.loadSampleAuctions();
-                this.currentAuction = null;
-                this.bidHistory = this.loadBidHistory();
-                this.watchlist = this.loadWatchlist();
-                this.userBids = new Map();
-                this.currentCurrency = "INR";
-                this.exchangeRates = this.loadExchangeRates();
-                this.init();
-            }
+        // Currency rates
+        const currencies = {
+            'INR': { symbol: '₹', rate: 1 },
+            'USD': { symbol: '$', rate: 0.012 },
+            'EUR': { symbol: '€', rate: 0.011 }
+        };
 
-            init() {
-                this.renderAuctions();
-                this.renderBidHistory();
-                this.renderWatchlist();
-                this.startCountdownTimers();
-                this.bindEvents();
-                this.updateQuickBidButtons();
-            }
+        let currentCurrency = 'INR';
 
-            bindEvents() {
-                document.getElementById("searchBox").addEventListener("input", () => this.filterAuctions());
-                document.getElementById("categoryFilter").addEventListener("change", () => this.filterAuctions());
-                document.getElementById("statusFilter").addEventListener("change", () => this.filterAuctions());
-                document.getElementById("currencySelector").addEventListener("change", (e) => this.changeCurrency(e.target.value));
-                
-                document.getElementById("bidAmount").addEventListener("input", (e) => {
-                    this.validateBidAmount(e.target.value);
+        // Auction data with real countdown and bidding
+        const auctions = {
+            'DGX-2024-002': {
+                title: 'Premium Textiles - Fire Damage (Grade C)',
+                category: 'textiles',
+                originalValue: 1220000, // ₹12.2L in INR
+                location: 'Chennai',
+                weight: '500kg',
+                container: 'MSCU9876',
+                currentBid: 485000,
+                minIncrement: 5000,
+                bidCount: 15,
+                leadingBidder: 'TextileBuyer99',
+                endTime: new Date(Date.now() + 2*60*60*1000 + 43*60*1000), // 2h 43m from now
+                status: 'ending-soon'
+            },
+            'DGX-2024-005': {
+                title: 'Consumer Electronics - Water Damage (Grade B)',
+                category: 'electronics',
+                originalValue: 850000, // ₹8.5L in INR
+                location: 'Mumbai',
+                weight: '150 units',
+                container: 'TGHU1234',
+                currentBid: 320000,
+                minIncrement: 5000,
+                bidCount: 8,
+                leadingBidder: 'ElectroDealer',
+                endTime: new Date(Date.now() + 6*60*60*1000 + 15*60*1000), // 6h 15m from now
+                status: 'live'
+            },
+            'DGX-2024-006': {
+                title: 'Industrial Machinery Parts - Physical Damage (Grade A)',
+                category: 'machinery',
+                originalValue: 2550000, // ₹25.5L in INR
+                location: 'Delhi',
+                weight: '2.5 tons',
+                container: 'OOLU5555',
+                currentBid: 1875000,
+                minIncrement: 25000,
+                bidCount: 22,
+                leadingBidder: 'IndustryPro',
+                endTime: new Date(Date.now() + 18*60*60*1000 + 32*60*1000), // 18h 32m from now
+                status: 'live'
+            }
+        };
+
+        // Bid history data
+        let bidHistory = [
+            { bidder: 'TextileBuyer99', amount: 485000, auction: 'DGX-2024-002', time: new Date(Date.now() - 2*60*1000) },
+            { bidder: 'IndustryPro', amount: 1875000, auction: 'DGX-2024-006', time: new Date(Date.now() - 5*60*1000) },
+            { bidder: 'ElectroDealer', amount: 320000, auction: 'DGX-2024-005', time: new Date(Date.now() - 8*60*1000) }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            renderAuctions();
+            renderBidHistory();
+            startCountdowns();
+            startLiveUpdates();
+        });
+
+        function setupEventListeners() {
+            // Currency selector
+            document.querySelectorAll('.currency-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentCurrency = e.target.dataset.currency;
+                    renderAuctions();
+                    renderBidHistory();
+                    updateHeaderStats();
                 });
-            }
+            });
 
-            loadExchangeRates() {
-                return {
-                    USD: 1.0,
-                    INR: 83.25,
-                    EUR: 0.85,
-                    GBP: 0.73,
-                    AED: 3.67,
-                    SGD: 1.35,
-                    CNY: 7.15,
-                    JPY: 150.0
-                };
-            }
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    const filter = e.target.dataset.filter;
+                    filterAuctions(filter);
+                });
+            });
+        }
 
-            getCurrencySymbol(currency) {
-                const symbols = {
-                    USD: "$",
-                    INR: "₹",
-                    EUR: "€",
-                    GBP: "£",
-                    AED: "د.إ",
-                    SGD: "S$",
-                    CNY: "¥",
-                    JPY: "¥"
-                };
-                return symbols[currency] || currency;
-            }
+        function renderAuctions() {
+            const grid = document.getElementById('auctionGrid');
+            grid.innerHTML = '';
 
-            convertCurrency(amount, fromCurrency, toCurrency) {
-                if (!fromCurrency) fromCurrency = "USD";
-                if (!toCurrency) toCurrency = this.currentCurrency;
-                if (fromCurrency === toCurrency) return amount;
+            Object.entries(auctions).forEach(([id, auction]) => {
+                const rate = currencies[currentCurrency].rate;
+                const symbol = currencies[currentCurrency].symbol;
                 
-                const usdAmount = amount / this.exchangeRates[fromCurrency];
-                return Math.round(usdAmount * this.exchangeRates[toCurrency]);
-            }
+                const card = document.createElement('div');
+                card.className = `auction-card ${auction.status === 'ending-soon' ? 'ending-soon' : ''}`;
+                card.dataset.category = auction.category;
+                card.dataset.auctionId = id;
 
-            formatCurrency(amount, currency) {
-                if (!currency) currency = this.currentCurrency;
-                const symbol = this.getCurrencySymbol(currency);
-                const convertedAmount = this.convertCurrency(amount, "USD", currency);
-                
-                if (currency === "JPY") {
-                    return symbol + convertedAmount.toLocaleString();
-                } else if (currency === "INR") {
-                    return symbol + convertedAmount.toLocaleString("en-IN");
-                } else {
-                    return symbol + convertedAmount.toLocaleString();
-                }
-            }
-
-            changeCurrency(newCurrency) {
-                this.currentCurrency = newCurrency;
-                this.renderAuctions();
-                this.renderBidHistory();
-                this.renderWatchlist();
-                this.updateQuickBidButtons();
-                
-                if (this.currentAuction) {
-                    this.updateBiddingInterface();
-                }
-            }
-
-            updateQuickBidButtons() {
-                const container = document.getElementById("quickBidButtons");
-                const increments = this.getQuickBidIncrements();
-                
-                container.innerHTML = increments.slice(0, 6).map(increment => 
-                    '<button class="quick-bid-btn" onclick="quickBid(' + increment + ')">+' + this.formatCurrency(increment).replace(/[^0-9,]/g, "") + '</button>'
-                ).join("");
-            }
-
-            getQuickBidIncrements() {
-                const increments = {
-                    USD: [100, 500, 1000, 2500, 5000, 10000],
-                    INR: [1000, 5000, 10000, 25000, 50000, 100000],
-                    EUR: [100, 250, 500, 1000, 2500, 5000],
-                    GBP: [50, 200, 500, 1000, 2000, 5000],
-                    AED: [200, 500, 1000, 2500, 5000, 10000],
-                    SGD: [100, 300, 700, 1500, 3000, 7000],
-                    CNY: [500, 1000, 2000, 5000, 10000, 20000],
-                    JPY: [10000, 25000, 50000, 100000, 250000, 500000]
-                };
-                return increments[this.currentCurrency] || [100, 500, 1000, 2500, 5000, 10000];
-            }
-
-            loadSampleAuctions() {
-                return [
-                    {
-                        id: "AUC-2024-001",
-                        title: "Samsung Galaxy S24 Ultra (50 units) - Water Damage",
-                        category: "electronics",
-                        grade: "B",
-                        damageType: "Water Damage",
-                        originalValue: 30000,
-                        reservePrice: 14400,
-                        currentBid: 17400,
-                        bidCount: 12,
-                        status: "live",
-                        endTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
-                        location: "Mumbai Port",
-                        containerNumber: "TGHU1234567",
-                        photos: 8,
-                        leadingBidder: "IndustryExpert",
-                        scfAvailable: true
-                    },
-                    {
-                        id: "AUC-2024-004",
-                        title: "Automotive Spare Parts - Packaging Issues",
-                        category: "automotive",
-                        grade: "B",
-                        damageType: "Packaging Issues",
-                        originalValue: 14400,
-                        reservePrice: 10080,
-                        currentBid: 11040,
-                        bidCount: 15,
-                        status: "live",
-                        endTime: new Date(Date.now() + 4 * 60 * 60 * 1000),
-                        location: "Bangalore Hub",
-                        containerNumber: "COSCO7777777",
-                        photos: 6,
-                        leadingBidder: "AutoDealer99",
-                        scfAvailable: true
-                    },
-                    {
-                        id: "AUC-2024-005",
-                        title: "Chemical Products - Contamination",
-                        category: "chemicals",
-                        grade: "D",
-                        damageType: "Contamination",
-                        originalValue: 7200,
-                        reservePrice: 2160,
-                        currentBid: 2460,
-                        bidCount: 3,
-                        status: "closed",
-                        endTime: new Date(Date.now() - 60 * 60 * 1000),
-                        location: "Cochin Port",
-                        containerNumber: "EVERGREEN123",
-                        photos: 10,
-                        leadingBidder: "ChemTrader",
-                        winner: "ChemTrader",
-                        scfAvailable: false
-                    }
-                ];
-            }
-
-            loadBidHistory() {
-                return [
-                    { auctionId: "AUC-2024-001", bidder: "TechBuyer123", amount: 17400, time: new Date(Date.now() - 5 * 60 * 1000) },
-                    { auctionId: "AUC-2024-001", bidder: "ElectronicsDealer", amount: 17040, time: new Date(Date.now() - 12 * 60 * 1000) },
-                    { auctionId: "AUC-2024-003", bidder: "IndustryExpert", amount: 46200, time: new Date(Date.now() - 8 * 60 * 1000) },
-                    { auctionId: "AUC-2024-004", bidder: "AutoDealer99", amount: 11040, time: new Date(Date.now() - 3 * 60 * 1000) },
-                    { auctionId: "AUC-2024-003", bidder: "MachineShop", amount: 45600, time: new Date(Date.now() - 15 * 60 * 1000) }
-                ];
-            }
-
-            loadWatchlist() {
-                return [
-                    { auctionId: "AUC-2024-001", addedTime: new Date(Date.now() - 60 * 60 * 1000) },
-                    { auctionId: "AUC-2024-002", addedTime: new Date(Date.now() - 30 * 60 * 1000) }
-                ];
-            }
-
-            renderAuctions() {
-                const auctionsGrid = document.getElementById("auctionsGrid");
-                const filteredAuctions = this.getFilteredAuctions();
-                
-                if (filteredAuctions.length === 0) {
-                    auctionsGrid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: #666;"><div style="font-size: 4rem; margin-bottom: 20px;">🏺</div><h3>No auctions found</h3><p>Try adjusting your search criteria or check back later</p></div>';
-                    return;
-                }
-
-                auctionsGrid.innerHTML = filteredAuctions.map(auction => {
-                    const timeRemaining = this.getTimeRemaining(auction.endTime);
-                    const isWatched = this.watchlist.some(w => w.auctionId === auction.id);
+                card.innerHTML = `
+                    <div class="auction-header">
+                        <div class="auction-id">${id}</div>
+                        <div class="auction-status status-${auction.status === 'ending-soon' ? 'ending-soon' : 'live'}">
+                            ${auction.status === 'ending-soon' ? 'Ending Soon' : 'Live Now'}
+                        </div>
+                    </div>
+                    <div class="auction-title">${auction.title}</div>
                     
-                    return '<div class="auction-card">' +
-                        '<div class="auction-image">' +
-                            this.getCategoryIcon(auction.category) +
-                            '<div class="auction-status status-' + auction.status + '">' +
-                                auction.status.replace("-", " ") +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="auction-content">' +
-                            '<div class="auction-header">' +
-                                '<div class="auction-id">' + auction.id + '</div>' +
-                                '<div class="auction-grade grade-' + auction.grade.toLowerCase() + '">Grade ' + auction.grade + '</div>' +
-                            '</div>' +
-                            '<div class="auction-title">' + auction.title + '</div>' +
-                            '<div class="auction-details">' +
-                                '<div class="detail-item"><div class="detail-label">Category</div><div class="detail-value">' + auction.category + '</div></div>' +
-                                '<div class="detail-item"><div class="detail-label">Damage Type</div><div class="detail-value">' + auction.damageType + '</div></div>' +
-                                '<div class="detail-item"><div class="detail-label">Location</div><div class="detail-value">' + auction.location + '</div></div>' +
-                                '<div class="detail-item"><div class="detail-label">Photos</div><div class="detail-value">' + auction.photos + ' images</div></div>' +
-                            '</div>' +
-                            (auction.currentBid > 0 ? 
-                                '<div class="current-bid"><div class="bid-amount">' + this.formatCurrency(auction.currentBid) + '</div><div class="bid-info">' + auction.bidCount + ' bids • Leading: ' + auction.leadingBidder + '</div></div>' :
-                                '<div class="current-bid"><div class="bid-amount">' + this.formatCurrency(auction.reservePrice) + '</div><div class="bid-info">Reserve Price • No bids yet</div></div>'
-                            ) +
-                            '<div class="time-remaining"><div class="countdown" data-auction-id="' + auction.id + '">' + timeRemaining.display + '</div><div class="countdown-label">' + timeRemaining.label + '</div></div>' +
-                            '<div class="auction-actions">' +
-                                (auction.status === "live" || auction.status === "ending-soon" ? 
-                                    '<button class="action-btn primary" onclick="startBidding(\'' + auction.id + '\')">' + (auction.scfAvailable ? '💳 Bid with SCF' : 'Place Bid') + '</button>' :
-                                    auction.status === "upcoming" ?
-                                    '<button class="action-btn warning" onclick="setReminder(\'' + auction.id + '\')">Set Reminder</button>' :
-                                    '<button class="action-btn secondary" disabled>Auction Closed</button>'
-                                ) +
-                                '<button class="action-btn secondary" onclick="viewDetails(\'' + auction.id + '\')">Details</button>' +
-                                '<button class="action-btn ' + (isWatched ? 'success' : 'secondary') + '" onclick="toggleWatchlist(\'' + auction.id + '\')">' + (isWatched ? '⭐' : '☆') + '</button>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>';
-                }).join("");
-            }
+                    <div class="auction-details">
+                        <div class="detail-item">
+                            <div class="detail-value">${symbol}${Math.round(auction.originalValue * rate).toLocaleString()}</div>
+                            <div class="detail-label">Original Value</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-value">${auction.location}</div>
+                            <div class="detail-label">Location</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-value">${auction.weight}</div>
+                            <div class="detail-label">Weight</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-value">${auction.container}</div>
+                            <div class="detail-label">Container</div>
+                        </div>
+                    </div>
 
-            getCategoryIcon(category) {
-                const icons = {
-                    electronics: "📱",
-                    textiles: "👕",
-                    machinery: "⚙️",
-                    automotive: "🚗",
-                    chemicals: "🧪",
-                    food: "🍎",
-                    furniture: "🪑"
-                };
-                return icons[category] || "📦";
-            }
+                    <div class="bidding-section">
+                        <div class="current-bid">
+                            <div class="current-bid-amount">${symbol}${Math.round(auction.currentBid * rate).toLocaleString()}</div>
+                            <div class="bid-info">Leading: ${auction.leadingBidder} • ${auction.bidCount} bids</div>
+                        </div>
+                        
+                        <div class="countdown-section">
+                            <div class="countdown-timer" id="countdown-${id}">--:--:--</div>
+                            <div class="countdown-label">Time Remaining</div>
+                        </div>
 
-            getTimeRemaining(endTime) {
+                        <div class="bid-input-section">
+                            <input type="number" class="bid-input" id="bid-${id}" 
+                                   value="${auction.currentBid + auction.minIncrement}" 
+                                   min="${auction.currentBid + auction.minIncrement}">
+                        </div>
+
+                        <div class="quick-bid-buttons">
+                            <button class="quick-bid-btn" onclick="quickBid('${id}', ${auction.minIncrement})">+${symbol}${Math.round(auction.minIncrement * rate).toLocaleString()}</button>
+                            <button class="quick-bid-btn" onclick="quickBid('${id}', ${auction.minIncrement * 2})">+${symbol}${Math.round(auction.minIncrement * 2 * rate).toLocaleString()}</button>
+                            <button class="quick-bid-btn" onclick="quickBid('${id}', ${auction.minIncrement * 5})">+${symbol}${Math.round(auction.minIncrement * 5 * rate).toLocaleString()}</button>
+                            <button class="quick-bid-btn" onclick="quickBid('${id}', ${auction.minIncrement * 10})">+${symbol}${Math.round(auction.minIncrement * 10 * rate).toLocaleString()}</button>
+                        </div>
+
+                        <button class="place-bid-btn" onclick="placeBid('${id}')">
+                            🏺 Place Bid - ${symbol}${Math.round((auction.currentBid + auction.minIncrement) * rate).toLocaleString()}
+                        </button>
+
+                        <div class="scf-notice">
+                            💳 <strong>SCF Available:</strong> Get instant financing up to 60% of bid amount based on your credit score!
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+
+                // Add input event listener for bid amount updates
+                const bidInput = card.querySelector(`#bid-${id}`);
+                const bidButton = card.querySelector('.place-bid-btn');
+                bidInput.addEventListener('input', function() {
+                    const amount = parseInt(this.value) || 0;
+                    const rate = currencies[currentCurrency].rate;
+                    const symbol = currencies[currentCurrency].symbol;
+                    bidButton.textContent = `🏺 Place Bid - ${symbol}${Math.round(amount * rate).toLocaleString()}`;
+                });
+            });
+        }
+
+        function renderBidHistory() {
+            const historyEl = document.getElementById('bidHistory');
+            const rate = currencies[currentCurrency].rate;
+            const symbol = currencies[currentCurrency].symbol;
+            
+            historyEl.innerHTML = bidHistory.slice(0, 10).map(bid => `
+                <div class="bid-item">
+                    <div class="bidder-info">
+                        <div class="bidder-avatar">${bid.bidder.charAt(0)}</div>
+                        <div>
+                            <div class="bidder-name">${bid.bidder}</div>
+                            <div class="bid-time">${getTimeAgo(bid.time)}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bid-amount">${symbol}${Math.round(bid.amount * rate).toLocaleString()}</div>
+                        <div style="font-size: 0.8rem; color: #666;">${bid.auction}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function startCountdowns() {
+            setInterval(updateCountdowns, 1000);
+            updateCountdowns(); // Initial call
+        }
+
+        function updateCountdowns() {
+            Object.entries(auctions).forEach(([id, auction]) => {
                 const now = new Date();
-                const timeDiff = endTime - now;
+                const timeLeft = auction.endTime - now;
+                const countdownEl = document.getElementById(`countdown-${id}`);
                 
-                if (timeDiff <= 0) {
-                    return { display: "ENDED", label: "Auction Closed" };
-                }
-                
-                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                
-                if (hours > 0) {
-                    return { display: hours + "h " + minutes + "m", label: "Time Remaining" };
-                } else if (minutes > 0) {
-                    return { display: minutes + "m " + seconds + "s", label: "Time Remaining" };
-                } else {
-                    return { display: seconds + "s", label: "Ending Soon!" };
-                }
-            }
-
-            startCountdownTimers() {
-                setInterval(() => {
-                    document.querySelectorAll(".countdown").forEach(element => {
-                        const auctionId = element.dataset.auctionId;
-                        const auction = this.auctions.find(a => a.id === auctionId);
-                        if (auction) {
-                            const timeRemaining = this.getTimeRemaining(auction.endTime);
-                            element.textContent = timeRemaining.display;
-                            
-                            if (timeRemaining.display === "ENDED" && auction.status !== "closed") {
-                                auction.status = "closed";
-                                this.renderAuctions();
+                if (timeLeft > 0) {
+                    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    
+                    if (countdownEl) {
+                        if (hours > 0) {
+                            countdownEl.textContent = `${hours}h ${minutes}m ${seconds}s`;
+                        } else {
+                            countdownEl.textContent = `${minutes}m ${seconds}s`;
+                        }
+                        
+                        // Update status for last 30 minutes
+                        if (timeLeft < 30 * 60 * 1000) {
+                            auction.status = 'ending-soon';
+                            const card = document.querySelector(`[data-auction-id="${id}"]`);
+                            if (card) {
+                                card.classList.add('ending-soon');
+                                const status = card.querySelector('.auction-status');
+                                status.textContent = 'Ending Soon';
+                                status.className = 'auction-status status-ending-soon';
                             }
                         }
-                    });
+                    }
+                } else {
+                    if (countdownEl) {
+                        countdownEl.textContent = 'ENDED';
+                        countdownEl.style.color = '#666';
+                        
+                        // Disable bidding
+                        const card = document.querySelector(`[data-auction-id="${id}"]`);
+                        if (card) {
+                            const bidButton = card.querySelector('.place-bid-btn');
+                            bidButton.disabled = true;
+                            bidButton.textContent = '🏺 Auction Ended';
+                        }
+                    }
+                }
+            });
+        }
+
+        function quickBid(auctionId, increment) {
+            const bidInput = document.getElementById(`bid-${auctionId}`);
+            const currentValue = parseInt(bidInput.value) || auctions[auctionId].currentBid;
+            const newValue = currentValue + increment;
+            bidInput.value = newValue;
+            
+            // Update button text
+            const rate = currencies[currentCurrency].rate;
+            const symbol = currencies[currentCurrency].symbol;
+            const bidButton = document.querySelector(`[data-auction-id="${auctionId}"] .place-bid-btn`);
+            bidButton.textContent = `🏺 Place Bid - ${symbol}${Math.round(newValue * rate).toLocaleString()}`;
+        }
+
+        function placeBid(auctionId) {
+            const auction = auctions[auctionId];
+            const bidInput = document.getElementById(`bid-${auctionId}`);
+            const bidAmount = parseInt(bidInput.value);
+            
+            // Validation
+            if (!bidAmount || bidAmount <= auction.currentBid) {
+                showNotification('❌ Invalid Bid', `Your bid must be higher than ${currencies[currentCurrency].symbol}${Math.round(auction.currentBid * currencies[currentCurrency].rate).toLocaleString()}`, true);
+                return;
+            }
+
+            if (bidAmount < auction.currentBid + auction.minIncrement) {
+                showNotification('❌ Bid Too Low', `Minimum increment is ${currencies[currentCurrency].symbol}${Math.round(auction.minIncrement * currencies[currentCurrency].rate).toLocaleString()}`, true);
+                return;
+            }
+
+            // Calculate SCF details
+            const scfAmount = Math.floor(bidAmount * 0.6);
+            const userAmount = bidAmount - scfAmount;
+            const rate = currencies[currentCurrency].rate;
+            const symbol = currencies[currentCurrency].symbol;
+            
+            const confirmMessage = `🏺 Confirm Your Bid\n\n` +
+                                 `Auction: ${auctionId}\n` +
+                                 `Your Bid: ${symbol}${Math.round(bidAmount * rate).toLocaleString()}\n\n` +
+                                 `💳 SCF Financing Available:\n` +
+                                 `• SCF Amount: ${symbol}${Math.round(scfAmount * rate).toLocaleString()} (60%)\n` +
+                                 `• Your Payment: ${symbol}${Math.round(userAmount * rate).toLocaleString()} (40%)\n` +
+                                 `• Interest Rate: 14% APR\n\n` +
+                                 `Proceed with bid?`;
+
+            if (confirm(confirmMessage)) {
+                // Update auction data
+                auction.currentBid = bidAmount;
+                auction.bidCount++;
+                auction.leadingBidder = 'You';
+                
+                // Update UI
+                const card = document.querySelector(`[data-auction-id="${auctionId}"]`);
+                const currentBidAmount = card.querySelector('.current-bid-amount');
+                const bidInfo = card.querySelector('.bid-info');
+                
+                currentBidAmount.textContent = `${symbol}${Math.round(bidAmount * rate).toLocaleString()}`;
+                bidInfo.textContent = `Leading: You • ${auction.bidCount} bids`;
+                
+                // Update minimum bid for next bidder
+                bidInput.value = bidAmount + auction.minIncrement;
+                bidInput.setAttribute('min', bidAmount + auction.minIncrement);
+                
+                // Add to bid history
+                addToBidHistory('You', bidAmount, auctionId);
+                
+                // Show success notification
+                showNotification('🎉 Bid Placed Successfully!', `You are now leading ${auctionId} with ${symbol}${Math.round(bidAmount * rate).toLocaleString()}`);
+                
+                // Update header stats
+                updateHeaderStats();
+            }
+        }
+
+        function addToBidHistory(bidder, amount, auctionId) {
+            const newBid = {
+                bidder: bidder,
+                amount: amount,
+                auction: auctionId,
+                time: new Date()
+            };
+            
+            bidHistory.unshift(newBid);
+            renderBidHistory();
+            
+            // Highlight new bid
+            const historyEl = document.getElementById('bidHistory');
+            const firstItem = historyEl.firstElementChild;
+            if (firstItem) {
+                firstItem.classList.add('new');
+                setTimeout(() => firstItem.classList.remove('new'), 3000);
+            }
+        }
+
+        function filterAuctions(filter) {
+            const cards = document.querySelectorAll('.auction-card');
+            
+            cards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                } else if (filter === 'ending-soon') {
+                    card.style.display = card.classList.contains('ending-soon') ? 'block' : 'none';
+                } else {
+                    card.style.display = card.dataset.category === filter ? 'block' : 'none';
+                }
+            });
+        }
+
+        function startLiveUpdates() {
+            // Simulate other bidders placing bids
+            setInterval(() => {
+                if (Math.random() < 0.3) { // 30% chance every interval
+                    simulateAutoBid();
+                }
+            }, 15000); // Every 15 seconds
+
+            // Update header stats
+            setInterval(updateHeaderStats, 10000); // Every 10 seconds
+        }
+
+        function simulateAutoBid() {
+            const auctionIds = Object.keys(auctions);
+            const randomAuctionId = auctionIds[Math.floor(Math.random() * auctionIds.length)];
+            const auction = auctions[randomAuctionId];
+            
+            // Don't bid on ended auctions
+            if (auction.endTime <= new Date()) return;
+            
+            // Don't outbid yourself
+            if (auction.leadingBidder === 'You') return;
+            
+            const bidders = ['TechBuyer99', 'ElectroDealer', 'IndustryPro', 'MachineBuyer', 'TextilePro', 'GlobalTrader'];
+            const randomBidder = bidders[Math.floor(Math.random() * bidders.length)];
+            
+            // Calculate bid increment (1x to 5x minimum increment)
+            const increment = auction.minIncrement * (Math.floor(Math.random() * 5) + 1);
+            const newBid = auction.currentBid + increment;
+            
+            // Update auction
+            auction.currentBid = newBid;
+            auction.bidCount++;
+            auction.leadingBidder = randomBidder;
+            
+            // Update UI
+            const rate = currencies[currentCurrency].rate;
+            const symbol = currencies[currentCurrency].symbol;
+            const card = document.querySelector(`[data-auction-id="${randomAuctionId}"]`);
+            
+            if (card) {
+                const currentBidAmount = card.querySelector('.current-bid-amount');
+                const bidInfo = card.querySelector('.bid-info');
+                const bidInput = card.querySelector('.bid-input');
+                
+                currentBidAmount.textContent = `${symbol}${Math.round(newBid * rate).toLocaleString()}`;
+                bidInfo.textContent = `Leading: ${randomBidder} • ${auction.bidCount} bids`;
+                
+                // Update minimum bid input
+                bidInput.value = newBid + auction.minIncrement;
+                bidInput.setAttribute('min', newBid + auction.minIncrement);
+                
+                // Flash the bid amount
+                currentBidAmount.style.color = '#ef4444';
+                setTimeout(() => {
+                    currentBidAmount.style.color = '#0891b2';
                 }, 1000);
             }
-
-            getFilteredAuctions() {
-                const searchTerm = document.getElementById("searchBox").value.toLowerCase();
-                const categoryFilter = document.getElementById("categoryFilter").value;
-                const statusFilter = document.getElementById("statusFilter").value;
-                
-                return this.auctions.filter(auction => {
-                    const matchesSearch = !searchTerm || 
-                        auction.title.toLowerCase().includes(searchTerm) ||
-                        auction.id.toLowerCase().includes(searchTerm) ||
-                        auction.category.toLowerCase().includes(searchTerm);
-                    
-                    const matchesCategory = !categoryFilter || auction.category === categoryFilter;
-                    const matchesStatus = !statusFilter || auction.status === statusFilter;
-                    
-                    return matchesSearch && matchesCategory && matchesStatus;
-                });
+            
+            // Add to bid history
+            addToBidHistory(randomBidder, newBid, randomAuctionId);
+            
+            // Show notification if significant bid
+            if (increment > auction.minIncrement * 3) {
+                showNotification('🔥 High Bid Alert!', `${randomBidder} placed a ${symbol}${Math.round(newBid * rate).toLocaleString()} bid on ${randomAuctionId}`);
             }
+            
+            updateHeaderStats();
+        }
 
-            filterAuctions() {
-                this.renderAuctions();
-            }
+        function updateHeaderStats() {
+            // Calculate live stats
+            const totalBidders = new Set(bidHistory.map(bid => bid.bidder)).size;
+            const totalValue = Object.values(auctions).reduce((sum, auction) => sum + auction.currentBid, 0);
+            const liveAuctionCount = Object.values(auctions).filter(auction => auction.endTime > new Date()).length;
+            
+            const rate = currencies[currentCurrency].rate;
+            const symbol = currencies[currentCurrency].symbol;
+            
+            // Animate updates
+            animateStatUpdate('liveAuctions', liveAuctionCount);
+            animateStatUpdate('activeBidders', totalBidders);
+            animateStatUpdate('totalValue', `${symbol}${(totalValue * rate / 10000000).toFixed(1)}Cr`);
+        }
 
-            startBidding(auctionId) {
-                const auction = this.auctions.find(a => a.id === auctionId);
-                if (!auction) return;
-                
-                this.currentAuction = auction;
-                document.getElementById("biddingInterface").classList.add("active");
-                
-                document.getElementById("currentAuctionTitle").textContent = auction.title;
-                document.getElementById("currentAuctionDetails").innerHTML = '<div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Current Bid: ' + this.formatCurrency(auction.currentBid) + ' | ' + auction.bidCount + ' bids</div>';
-                
-                const minBid = auction.currentBid > 0 ? 
-                    this.convertCurrency(auction.currentBid + 1000, "USD") : 
-                    this.convertCurrency(auction.reservePrice, "USD");
-                
-                document.getElementById("bidAmount").value = minBid;
-                document.getElementById("bidAmount").disabled = false;
-                document.getElementById("placeBidBtn").disabled = false;
-                
-                this.validateBidAmount(minBid);
-                
-                document.getElementById("biddingInterface").scrollIntoView({ behavior: "smooth" });
-            }
-
-            updateBiddingInterface() {
-                if (!this.currentAuction) return;
-                
-                const auction = this.currentAuction;
-                document.getElementById("currentAuctionDetails").innerHTML = '<div style="font-size: 0.9rem; color: #666; margin-top: 5px;">Current Bid: ' + this.formatCurrency(auction.currentBid) + ' | ' + auction.bidCount + ' bids</div>';
-                
-                const minBid = auction.currentBid > 0 ? 
-                    this.convertCurrency(auction.currentBid + 1000, "USD") : 
-                    this.convertCurrency(auction.reservePrice, "USD");
-                
-                document.getElementById("bidAmount").value = minBid;
-                this.validateBidAmount(minBid);
-            }
-
-            quickBid(increment) {
-                if (!this.currentAuction) return;
-                
-                const currentBidInput = document.getElementById("bidAmount");
-                const currentValue = parseInt(currentBidInput.value) || 0;
-                const newValue = currentValue + increment;
-                
-                currentBidInput.value = newValue;
-                this.validateBidAmount(newValue);
-            }
-
-            validateBidAmount(amount) {
-                if (!this.currentAuction) return;
-                
-                const numAmount = parseInt(amount);
-                const minBid = this.currentAuction.currentBid > 0 ? 
-                    this.convertCurrency(this.currentAuction.currentBid + 1000, "USD") : 
-                    this.convertCurrency(this.currentAuction.reservePrice, "USD");
-                
-                const placeBidBtn = document.getElementById("placeBidBtn");
-                const bidInput = document.getElementById("bidAmount");
-                
-                if (numAmount >= minBid) {
-                    placeBidBtn.disabled = false;
-                    bidInput.style.borderColor = "#22c55e";
-                    placeBidBtn.textContent = "Place Bid - " + this.formatCurrency(numAmount);
-                } else {
-                    placeBidBtn.disabled = true;
-                    bidInput.style.borderColor = "#ef4444";
-                    placeBidBtn.textContent = "Minimum: " + this.formatCurrency(minBid);
-                }
-            }
-
-            placeBid() {
-                if (!this.currentAuction) return;
-                
-                const bidAmount = parseInt(document.getElementById("bidAmount").value);
-                const auction = this.currentAuction;
-                
-                const newBid = {
-                    auctionId: auction.id,
-                    bidder: "You",
-                    amount: bidAmount,
-                    time: new Date()
-                };
-                
-                auction.currentBid = this.convertCurrency(bidAmount, this.currentCurrency, "USD");
-                auction.bidCount++;
-                auction.leadingBidder = "You";
-                
-                this.bidHistory.unshift(newBid);
-                this.userBids.set(auction.id, bidAmount);
-                
-                this.renderAuctions();
-                this.renderBidHistory();
-                
-                this.showBidConfirmation(auction.id, bidAmount);
-                
-                document.getElementById("currentAuctionDetails").innerHTML = '<div style="font-size: 0.9rem; color: #22c55e; margin-top: 5px;">✅ Your bid: ' + this.formatCurrency(bidAmount) + ' (Leading!)</div>';
-                
-                const newMinBid = bidAmount + this.getMinimumIncrement();
-                document.getElementById("bidAmount").value = newMinBid;
-                this.validateBidAmount(newMinBid);
-            }
-
-            getMinimumIncrement() {
-                const increments = {
-                    USD: 100,
-                    INR: 1000,
-                    EUR: 100,
-                    GBP: 50,
-                    AED: 200,
-                    SGD: 100,
-                    CNY: 500,
-                    JPY: 10000
-                };
-                return increments[this.currentCurrency] || 100;
-            }
-
-            showBidConfirmation(auctionId, amount) {
-                const message = document.createElement("div");
-                message.style.cssText = "position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 20px 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; font-weight: 600;";
-                message.innerHTML = "🎉 Bid Placed Successfully!<br><strong>" + this.formatCurrency(amount) + "</strong> on " + auctionId + "<br><small>SCF pre-approval: " + this.formatCurrency(Math.round(amount * 0.6)) + "</small>";
-                document.body.appendChild(message);
+        function animateStatUpdate(elementId, newValue) {
+            const element = document.getElementById(elementId);
+            const currentValue = element.textContent;
+            
+            if (currentValue !== newValue.toString()) {
+                element.style.color = '#22c55e';
+                element.style.transform = 'scale(1.1)';
+                element.textContent = newValue;
                 
                 setTimeout(() => {
-                    message.remove();
-                }, 5000);
-            }
-
-            renderBidHistory() {
-                const bidHistoryContainer = document.getElementById("bidHistory");
-                const recentBids = this.bidHistory.slice(0, 10);
-                
-                if (recentBids.length === 0) {
-                    bidHistoryContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;"><div style="font-size: 2rem; margin-bottom: 10px;">📈</div><div>No recent bids</div></div>';
-                    return;
-                }
-                
-                bidHistoryContainer.innerHTML = recentBids.map(bid => {
-                    const timeAgo = this.getTimeAgo(bid.time);
-                    
-                    return '<div class="bid-item">' +
-                        '<div class="bidder-info">' +
-                            '<div class="bidder-avatar">' + bid.bidder.charAt(0) + '</div>' +
-                            '<div>' +
-                                '<div class="bidder-name">' + bid.bidder + '</div>' +
-                                '<div class="bid-time">' + timeAgo + '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div>' +
-                            '<div class="bid-amount-small">' + this.formatCurrency(bid.amount) + '</div>' +
-                            '<div style="font-size: 0.8rem; color: #666;">' + bid.auctionId + '</div>' +
-                        '</div>' +
-                    '</div>';
-                }).join("");
-            }
-
-            renderWatchlist() {
-                const watchlistContainer = document.getElementById("watchlist");
-                
-                if (this.watchlist.length === 0) {
-                    watchlistContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;"><div style="font-size: 2rem; margin-bottom: 10px;">⭐</div><div>No items in watchlist</div><div style="font-size: 0.9rem; margin-top: 5px;">Click ☆ to add auctions</div></div>';
-                    return;
-                }
-                
-                watchlistContainer.innerHTML = this.watchlist.map(item => {
-                    const auction = this.auctions.find(a => a.id === item.auctionId);
-                    if (!auction) return "";
-                    
-                    return '<div class="watchlist-item">' +
-                        '<div class="watchlist-info">' +
-                            '<div class="watchlist-title">' + auction.title.substring(0, 30) + '...</div>' +
-                            '<div class="watchlist-price">' + this.formatCurrency(auction.currentBid) + '</div>' +
-                        '</div>' +
-                        '<button class="remove-watchlist" onclick="toggleWatchlist(\'' + auction.id + '\')">Remove</button>' +
-                    '</div>';
-                }).join("");
-            }
-
-            toggleWatchlist(auctionId) {
-                const existingIndex = this.watchlist.findIndex(w => w.auctionId === auctionId);
-                
-                if (existingIndex >= 0) {
-                    this.watchlist.splice(existingIndex, 1);
-                } else {
-                    this.watchlist.push({
-                        auctionId: auctionId,
-                        addedTime: new Date()
-                    });
-                }
-                
-                this.renderAuctions();
-                this.renderWatchlist();
-            }
-
-            getTimeAgo(date) {
-                const now = new Date();
-                const diff = now - date;
-                const minutes = Math.floor(diff / (1000 * 60));
-                
-                if (minutes < 1) return "Just now";
-                if (minutes < 60) return minutes + "m ago";
-                
-                const hours = Math.floor(minutes / 60);
-                if (hours < 24) return hours + "h ago";
-                
-                const days = Math.floor(hours / 24);
-                return days + "d ago";
+                    element.style.color = '#667eea';
+                    element.style.transform = 'scale(1)';
+                }, 1000);
             }
         }
 
-        // Global functions
-        function startBidding(auctionId) {
-            window.auctionPlatform.startBidding(auctionId);
-        }
-
-        function quickBid(increment) {
-            window.auctionPlatform.quickBid(increment);
-        }
-
-        function placeBid() {
-            window.auctionPlatform.placeBid();
-        }
-
-        function toggleWatchlist(auctionId) {
-            window.auctionPlatform.toggleWatchlist(auctionId);
-        }
-
-        function viewDetails(auctionId) {
-            const auction = window.auctionPlatform.auctions.find(a => a.id === auctionId);
-            if (auction) {
-                alert("📋 Auction Details - " + auction.id + "\n\nTitle: " + auction.title + "\nCategory: " + auction.category + "\nGrade: " + auction.grade + "\nOriginal Value: " + window.auctionPlatform.formatCurrency(auction.originalValue) + "\nReserve Price: " + window.auctionPlatform.formatCurrency(auction.reservePrice) + "\nCurrent Bid: " + window.auctionPlatform.formatCurrency(auction.currentBid) + "\nDamage Type: " + auction.damageType + "\nLocation: " + auction.location + "\nContainer: " + auction.containerNumber + "\nPhotos: " + auction.photos + " available\nBids: " + auction.bidCount + "\nStatus: " + auction.status + "\n\nSCF Available: " + (auction.scfAvailable ? "Yes" : "No"));
+        function showNotification(title, text, isError = false) {
+            const notification = document.getElementById('notification');
+            const titleEl = document.getElementById('notificationTitle');
+            const textEl = document.getElementById('notificationText');
+            
+            titleEl.textContent = title;
+            textEl.textContent = text;
+            
+            if (isError) {
+                notification.classList.add('error');
+            } else {
+                notification.classList.remove('error');
             }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
         }
 
-        function setReminder(auctionId) {
-            alert("⏰ Reminder Set!\n\nYou'll receive notifications:\n• 1 hour before auction starts\n• 15 minutes before auction starts\n• When auction goes live\n\nAuction: " + auctionId);
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) return 'Just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+            return `${Math.floor(diffInSeconds / 86400)}d ago`;
         }
 
-        function createAuction() {
-            alert("🏺 Create New Auction\n\nThis will redirect to the auction creation module where you can:\n• Upload damage assessment details\n• Set reserve prices\n• Schedule auction timing\n• Add photos and documentation\n• Configure SCF eligibility");
-        }
-
-        // Initialize the auction platform
-        window.auctionPlatform = new AuctionPlatform();
+        // Welcome notification
+        setTimeout(() => {
+            showNotification('🎉 Welcome to Live Auctions!', 'All auctions are live with real bidding. Place your bids now!');
+        }, 1000);
     </script>
 </body>
-</html>Bidder: "TechBuyer123",
-                        scfAvailable: true
-                    },
-                    {
-                        id: "AUC-2024-002",
-                        title: "Designer Clothing Lot - Fire Damage",
-                        category: "textiles",
-                        grade: "C",
-                        damageType: "Fire Damage",
-                        originalValue: 9600,
-                        reservePrice: 3840,
-                        currentBid: 0,
-                        bidCount: 0,
-                        status: "upcoming",
-                        endTime: new Date(Date.now() + 6 * 60 * 60 * 1000),
-                        location: "Chennai Port",
-                        containerNumber: "MSCU9876543",
-                        photos: 15,
-                        leadingBidder: null,
-                        scfAvailable: true
-                    },
-                    {
-                        id: "AUC-2024-003",
-                        title: "Industrial Machinery Parts - Physical Damage",
-                        category: "machinery",
-                        grade: "A",
-                        damageType: "Physical Damage",
-                        originalValue: 60000,
-                        reservePrice: 42000,
-                        currentBid: 46200,
-                        bidCount: 8,
-                        status: "ending-soon",
-                        endTime: new Date(Date.now() + 15 * 60 * 1000),
-                        location: "Delhi ICD",
-                        containerNumber: "OOLU5555555",
-                        photos: 12,
-                        leading
+</html>
